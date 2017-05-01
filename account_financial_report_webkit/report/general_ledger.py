@@ -87,10 +87,13 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         start_date = self._get_form_param('date_from', data)
         stop_date = self._get_form_param('date_to', data)
         do_centralize = self._get_form_param('centralize', data)
+        remove_zero_lines = self._get_form_param('remove_null_lines', data)
         start_period = self.get_start_period_br(data)
         stop_period = self.get_end_period_br(data)
         fiscalyear = self.get_fiscalyear_br(data)
         chart_account = self._get_chart_account_id_br(data)
+
+        self.localcontext.update({'remove_zero_lines': remove_zero_lines, })
 
         if main_filter == 'filter_no':
             start_period = self.get_first_fiscalyear_period(fiscalyear)
@@ -225,6 +228,9 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         return res
 
     def _get_ledger_lines(self, move_line_ids, account_id):
+
+        remove_zero_lines = self.localcontext.get('remove_zero_lines', False)
+
         if not move_line_ids:
             return []
         res = self._get_move_line_datas(move_line_ids)
@@ -234,8 +240,19 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         counter_parts = self._get_moves_counterparts(move_ids, account_id)
         for line in res:
             line['counterparts'] = counter_parts.get(line.get('move_id'), '')
-        return res
 
+        if remove_zero_lines:
+            new_res = []
+            for line in res:
+                debit = line.get('debit', 0.0)
+                credit = line.get('credit', 0.0)
+
+                if debit != 0.0 or credit != 0.0:
+                    new_res.append(line)
+
+            return new_res
+        else:
+            return res
 
 HeaderFooterTextWebKitParser(
     'report.account.account_report_general_ledger_webkit',
