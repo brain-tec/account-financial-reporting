@@ -32,6 +32,8 @@ from openerp.tools.translate import _
 
 _column_sizes = [
     ('date', 12),
+    ('start_date', 12),
+    ('end_date', 12),
     ('period', 12),
     ('move', 20),
     ('journal', 12),
@@ -159,6 +161,8 @@ class general_ledger_xls(report_xls):
 
         c_specs = [
             ('date', 1, 0, 'text', _('Date'), None, c_hdr_cell_style),
+            ('start_date', 1, 0, 'text', _('Startdate'), None, c_hdr_cell_style),
+            ('end_date', 1, 0, 'text', _('Enddate'), None, c_hdr_cell_style),
             ('period', 1, 0, 'text', _('Period'), None, c_hdr_cell_style),
             ('move', 1, 0, 'text', _('Entry'), None, c_hdr_cell_style),
             ('journal', 1, 0, 'text', _('Journal'), None, c_hdr_cell_style),
@@ -273,6 +277,26 @@ class general_ledger_xls(report_xls):
                     else:
                         c_specs = [
                             ('ldate', 1, 0, 'text', None),
+                        ]
+                    if line.get('sdate'):
+                        c_specs += [
+                            ('sdate', 1, 0, 'date', datetime.strptime(
+                                line['sdate'], '%Y-%m-%d'), None,
+                             ll_cell_style_date),
+                        ]
+                    else:
+                        c_specs += [
+                            ('sdate', 1, 0, 'text', None),
+                        ]
+                    if line.get('edate'):
+                        c_specs += [
+                            ('edate', 1, 0, 'date', datetime.strptime(
+                                line['edate'], '%Y-%m-%d'), None,
+                             ll_cell_style_date),
+                        ]
+                    else:
+                        c_specs += [
+                            ('edate', 1, 0, 'text', None),
                         ]
                     c_specs += [
                         ('period', 1, 0, 'text',

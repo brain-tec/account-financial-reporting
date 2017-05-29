@@ -513,6 +513,8 @@ class CommonReportHeaderWebkit(common_report_header):
         monster = """
 SELECT l.id AS id,
             l.date AS ldate,
+            l.start_date AS sdate,
+            l.end_date AS edate,
             j.code AS jcode ,
             j.type AS jtype,
             l.currency_id,
