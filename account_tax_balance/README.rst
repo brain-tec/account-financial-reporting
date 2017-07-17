@@ -2,21 +2,25 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=============================
-account_financial_report_qweb
-=============================
+============
+Tax Balances
+============
 
-This module adds a set of financial reports. They are accessible under
-Accounting / Reporting / OCA Reports.
+This module allows to compute tax balances within a certain date range.
+It depends on date_range module and exposes 'compute' methods that can be called by other modules (like localization ones)
 
-- General ledger
-- Trial Balance
-- Open Items
-- Aged Partner Balance
+Usage
+=====
+
+Accounting --> Reporting --> Taxes Balance
+
+Select the company, the date range, the target moves and 'open taxes'
+
+.. figure:: /account_tax_balance/static/description/tax_balance.png
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/91/9.0
+   :target: https://runbot.odoo-community.org/runbot/91/10.0
 
 Bug Tracker
 ===========
@@ -37,23 +41,8 @@ Images
 Contributors
 ------------
 
-* Jordi Ballestrer <jordi.ballestrer@eficient.com>
-* Yannick Vaucher <yannick.vaucher@camptocamp.com>
-* Simone Orsi <simone.orsi@abstract.com>
-* Leonardo Pistone <leonardo.pistone@camptocamp.com>
-* Damien Crier <damien.crier@camptocamp.com>
-* Andrea Stirpe <a.stirpe@onestein.nl>
-* Thomas Rehn <thomas.rehn@initos.com>
-* Andrea Gallina <4everamd@gmail.com>
-* Robert Rottermann <robert@redcor.ch>
-* Ciro Urselli <c.urselli@apuliasoftware.it>
-* Francesco Apruzzese <opencode@e-ware.org>
 * Lorenzo Battistini <lorenzo.battistini@agilebg.com>
-* Julien Coux <julien.coux@camptocamp.com>
-* Akim Juillerat <akim.juillerat@camptocamp.com>
-
-Much of the work in this module was done at a sprint in Sorrento, Italy in
-April 2016.
+* Giovanni Capalbo <giovanni@therp.nl>
 
 Maintainer
 ----------

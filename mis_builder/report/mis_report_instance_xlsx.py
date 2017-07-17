@@ -42,7 +42,7 @@ class MisBuilderXlsx(ReportXlsx):
         style_obj = self.env['mis.report.style']
 
         # create worksheet
-        report_name = '{} - {}'.format(
+        report_name = u'{} - {}'.format(
             objects[0].name, objects[0].company_id.name)
         sheet = workbook.add_worksheet(report_name[:31])
         row_pos = 0
@@ -114,7 +114,8 @@ class MisBuilderXlsx(ReportXlsx):
                     # TODO col/subcol format
                     sheet.write(row_pos, col_pos, '', row_format)
                     continue
-                cell_xlsx_style = style_obj.to_xlsx_style(cell.style_props)
+                cell_xlsx_style = style_obj.to_xlsx_style(
+                    cell.style_props, no_indent=True)
                 cell_xlsx_style['align'] = 'right'
                 cell_format = workbook.add_format(cell_xlsx_style)
                 if isinstance(cell.val, DataError):
