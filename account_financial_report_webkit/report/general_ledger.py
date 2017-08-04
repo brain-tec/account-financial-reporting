@@ -153,10 +153,11 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             init_balance[account.id] = init_balance_memoizer.get(account.id, {})
             ### HACK by BT-mgerecke
             # Budget is monthly. Select budgets with touch the selected time frame.
-            self.cr.execute("SELECT SUM(planned_amount) FROM crossovered_budget_lines WHERE analytic_account_id=%s"
+            self.cr.execute("SELECT SUM(planned_amount) FROM crossovered_budget_lines"
+                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE code = %s)"
                             " AND ((date_from between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))"
                             " OR (date_to between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')))",
-                            (account.id, date_lower, date_upper, date_lower, date_upper, ))
+                            (account['code'], date_lower, date_upper, date_lower, date_upper, ))
             one = self.cr.fetchone()
             if one != None:
                 budgets[account.id] = one[0]
