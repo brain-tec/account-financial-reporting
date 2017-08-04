@@ -255,7 +255,7 @@
                                 <div class="act_as_cell amount" style="width: 30px; text-align: right;"></div>
                               %endif
                           </div>
-                          ## By BT-mgerecke
+                    ## By BT-mgerecke
                     ## Two new lines for budget and increas
                     <div class="act_as_row labels" style="font-weight: bold;padding-top: 15px; padding-bottom: 15px;">
                           <div class="act_as_cell first_column" style="width: 615px;">${_("Budget")}</div>
@@ -271,7 +271,7 @@
                           </div>
                       </div>
                           <div class="act_as_row labels" style="font-weight: bold;">
-                              <div class="act_as_cell first_column" style="width: 615px;">${_("Difference")}</div>
+                              <div class="act_as_cell first_column" style="width: 615px;">${_("Remaining budget")}</div>
                               <div class="act_as_cell" style="width: 75px; padding-right: 1px;"></div>
                               <div class="act_as_cell" style="width: 75px; padding-right: 1px;"></div>
                               <div class="act_as_cell amount" style="width: 75px; padding-right: 1px;">
