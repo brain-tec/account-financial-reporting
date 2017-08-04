@@ -130,6 +130,18 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
 
         init_balance = {}
         ledger_lines = {}
+        budgets = {}
+
+        ### HACK by BT-mgerecke
+        # If a period is given, get the earliest and latest dates.
+        if main_filter != 'filter_date':
+            date_lower = start.date_start
+            date_upper = stop.date_stop
+        else:
+            date_lower = start
+            date_upper = stop
+        ### End HACK
+
         for account in objects:
             if do_centralize and account.centralized \
                     and ledger_lines_memoizer.get(account.id):
@@ -138,8 +150,19 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             else:
                 ledger_lines[account.id] = ledger_lines_memoizer.get(
                     account.id, [])
-            init_balance[account.id] = init_balance_memoizer.get(account.id,
-                                                                 {})
+            init_balance[account.id] = init_balance_memoizer.get(account.id, {})
+            ### HACK by BT-mgerecke
+            # Budget is monthly. Select budgets with touch the selected time frame.
+            self.cr.execute("SELECT SUM(planned_amount) FROM crossovered_budget_lines WHERE analytic_account_id=%s"
+                            " AND ((date_from between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))"
+                            " OR (date_to between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')))",
+                            (account.id, date_lower, date_upper, date_lower, date_upper, ))
+            one = self.cr.fetchone()
+            if one != None:
+                budgets[account.id] = one[0]
+            else:
+                budgets[account.id] = None
+            ### End HACK
 
         self.localcontext.update({
             'fiscalyear': fiscalyear,
@@ -148,6 +171,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             'start_period': start_period,
             'stop_period': stop_period,
             'chart_account': chart_account,
+            'budget': budgets,
             'initial_balance_mode': initial_balance_mode,
             'init_balance': init_balance,
             'ledger_lines': ledger_lines,
