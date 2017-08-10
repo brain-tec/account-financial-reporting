@@ -271,22 +271,34 @@
                           </div>
                       </div>
                           <div class="act_as_row labels" style="font-weight: bold;">
-                              <div class="act_as_cell first_column" style="width: 615px;">${_("Remaining budget")}</div>
+                              <div class="act_as_cell first_column" style="width: 615px;">${_("Budget deviation")}</div>
                               <div class="act_as_cell" style="width: 75px; padding-right: 1px;"></div>
                               <div class="act_as_cell" style="width: 75px; padding-right: 1px;"></div>
                               <div class="act_as_cell amount" style="width: 75px; padding-right: 1px;">
                                   %if budget[account.id]:
-                                      ### Abweichung vom Budgetziel in %
-                                      ${ formatLang((100.0 * (budget[account.id] - cumul_balance) / budget[account.id])) | amount }%
-                                      ### Budgetverbrauch in %
-                                      ### ${ formatLang(1.0 - (100.0 * (cumul_balance / budget[account.id])) )| amount }%
+                                      %if account.negative_notation:
+                                        ### Abweichung vom Budgetziel in %
+                                        ${ formatLang((100.0 * (cumul_balance - budget[account.id]) / budget[account.id])) | amount }%
+                                        ### Budgetverbrauch in %
+                                        ## ${ formatLang(1.0 - (100.0 * (cumul_balance / budget[account.id])) )| amount }%
+                                      %else:
+                                        ### Abweichung vom Budgetziel in %
+                                        ${ formatLang((100.0 * (cumul_balance - budget[account.id]) / budget[account.id])) | amount }%
+                                        ### Budgetverbrauch in %
+                                        ## ${ formatLang(1.0 - (100.0 * (cumul_balance / budget[account.id])) )| amount }%
+                                      %endif
                                   %else:
                                       0.0%
                                   %endif
                               </div>
                               <div class="act_as_cell amount" style="width: 75px; padding-right: 1px;">
                                   %if budget[account.id]:
-                                      ${ formatLang(budget[account.id] - cumul_balance) | amount }
+                                      %if account.negative_notation:
+                                          ## Is identical to -1.0 * (cumul_balance - budget[account.id])
+                                        ${ formatLang(budget[account.id] - cumul_balance) | amount }
+                                      %else:
+                                        ${ formatLang(cumul_balance - budget[account.id]) | amount }
+                                      %endif
                                   %else:
                                       0.0
                                   %endif

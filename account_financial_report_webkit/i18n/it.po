@@ -1374,5 +1374,5 @@ msgstr ""
 
 #. module: account_financial_report_webkit
 #: report:addons/account_financial_report_webkit/report/templates/account_report_general_ledger.mako:274
-msgid "Remaining budget"
-msgstr "Restante budget"
+msgid "Budget deviation"
+msgstr "Budget deviation"
