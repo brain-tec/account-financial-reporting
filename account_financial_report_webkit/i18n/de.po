@@ -621,6 +621,11 @@ msgid "Centralized"
 msgstr "Abstimmung"
 
 #. module: account_financial_report_webkit
+#: field:account.account,negative_notation:0
+msgid "Negative notation"
+msgstr "Negative Notierung"
+
+#. module: account_financial_report_webkit
 #: field:general.ledger.webkit,display_account:0
 msgid "Display accounts"
 msgstr "Konten anzeigen"

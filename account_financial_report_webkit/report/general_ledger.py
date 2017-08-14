@@ -153,7 +153,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             init_balance[account.id] = init_balance_memoizer.get(account.id, {})
             ### HACK by BT-mgerecke
             # Budgets are monthly but may be any timespan.
-            # Get first and maybe party budget of periode
+            # Get first and maybe partly budget of periode
             self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
                             " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE code = %s)"
                             " AND (to_date(%s,'yyyy-mm-dd') between date_from AND date_to)",

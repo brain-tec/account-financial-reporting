@@ -7,8 +7,10 @@
             <field name="inherit_id" ref="account.view_account_form"/>
             <field name="arch" type="xml">
                 <data>
+                    <!-- NEW FIELDS -->
                     <field name="active" position="after">
                         <field name="centralized" groups="account.group_account_manager"/>
+                        <field name="negative_notation" groups="account.group_account_manager"/>
                     </field>
                 </data>
             </field>
