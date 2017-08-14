@@ -1381,4 +1381,4 @@ msgstr "Am Ende von"
 #. module: account_financial_report_webkit
 #: report:addons/account_financial_report_webkit/report/templates/account_report_general_ledger.mako:274
 msgid "Budget deviation"
-msgstr "Abweichung vom Budget"
+msgstr "Abweichung zum Budget"
