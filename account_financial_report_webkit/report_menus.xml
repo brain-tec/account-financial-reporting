@@ -30,6 +30,9 @@
             parent="account.menu_journals_report" action="action_account_print_journal_menu_webkit"
             groups="account.group_account_manager,account.group_account_user" id="account.menu_account_print_journal"/>
 
+        <menuitem icon="STOCK_PRINT" name="ER Detail"
+            parent="account.final_accounting_reports" action="action_account_er_detail_menu_webkit"
+            groups="account.group_account_manager,account.group_account_user" id="account.menu_er_detail_report"/>
         <!--
         Hide Sale / Purchase Journals menu, replaced by a unique
         "Journals" menu

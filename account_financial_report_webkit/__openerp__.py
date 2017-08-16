@@ -192,6 +192,7 @@ wkhtmltopdf. The texts are defined inside the report classes.
              'wizard/open_invoices_wizard_view.xml',
              'wizard/aged_partner_balance_wizard.xml',
              'wizard/print_journal_view.xml',
+             'wizard/er_detail_wizard_view.xml',
              'report_menus.xml',
              ],
     # tests order matter
