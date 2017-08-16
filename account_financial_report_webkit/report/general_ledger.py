@@ -153,9 +153,10 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             init_balance[account.id] = init_balance_memoizer.get(account.id, {})
             ### HACK by BT-mgerecke
             # Budgets are monthly but may be any timespan.
+            # Attention! For Valaiscom the account code is stored in column name not in column code.
             # Get first and maybe partly budget of periode
             self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
-                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE code = %s)"
+                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE name = %s)"
                             " AND (to_date(%s,'yyyy-mm-dd') between date_from AND date_to)",
                             (account['code'], date_lower, ))
             bgt_first = self.cr.fetchone()
@@ -166,7 +167,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
 
             # Get all intermediate and complete budgets
             self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
-                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE code = %s)"
+                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE name = %s)"
                             " AND date_from > to_date(%s,'yyyy-mm-dd') AND date_to < to_date(%s,'yyyy-mm-dd')"
                             " ORDER BY date_from",
                             (account['code'], date_lower, date_upper, ))
@@ -174,7 +175,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
 
             # Get last and maybe partly budget of periode
             self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
-                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE code = %s)"
+                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE name = %s)"
                             " AND (to_date(%s,'yyyy-mm-dd') between date_from AND date_to)",
                             (account['code'], date_upper, ))
             bgt_last = self.cr.fetchone()
