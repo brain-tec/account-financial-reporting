@@ -621,6 +621,11 @@ msgid "Centralized"
 msgstr "Abstimmung"
 
 #. module: account_financial_report_webkit
+#: field:account.account,negative_notation:0
+msgid "Negative notation"
+msgstr "Negative Notierung"
+
+#. module: account_financial_report_webkit
 #: field:general.ledger.webkit,display_account:0
 msgid "Display accounts"
 msgstr "Konten anzeigen"
@@ -1372,3 +1377,8 @@ msgstr "Vergleich nach"
 #: view:account.aged.trial.balance.webkit:account_financial_report_webkit.account_aged_trial_balance_webkit
 msgid "At the end of"
 msgstr "Am Ende von"
+
+#. module: account_financial_report_webkit
+#: report:addons/account_financial_report_webkit/report/templates/account_report_general_ledger.mako:274
+msgid "Budget deviation"
+msgstr "Abweichung zum Budget"

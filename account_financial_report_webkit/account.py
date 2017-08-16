@@ -40,8 +40,14 @@ class AccountAccount(orm.Model):
             help="If flagged, no details will be displayed in "
                  "the General Ledger report (the webkit one only), "
                  "only centralized amounts per period."),
+        'negative_notation': fields.boolean(
+            'Negative notation',
+            help="Indicates if this account is noted with negative values.\n"
+                 "That may change the behavior of some reports to indicate "
+                 "budget results correctly."),
     }
 
     _defaults = {
         'centralized': False,
+        'negative_notation': False,
     }

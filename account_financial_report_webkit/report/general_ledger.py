@@ -130,6 +130,18 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
 
         init_balance = {}
         ledger_lines = {}
+        budgets = {}
+
+        ### HACK by BT-mgerecke
+        # If a period is given, get the earliest and latest dates.
+        if main_filter != 'filter_date':
+            date_lower = start.date_start
+            date_upper = stop.date_stop
+        else:
+            date_lower = start
+            date_upper = stop
+        ### End HACK
+
         for account in objects:
             if do_centralize and account.centralized \
                     and ledger_lines_memoizer.get(account.id):
@@ -138,8 +150,64 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             else:
                 ledger_lines[account.id] = ledger_lines_memoizer.get(
                     account.id, [])
-            init_balance[account.id] = init_balance_memoizer.get(account.id,
-                                                                 {})
+            init_balance[account.id] = init_balance_memoizer.get(account.id, {})
+            ### HACK by BT-mgerecke
+            # Budgets are monthly but may be any timespan.
+            # Get first and maybe partly budget of periode
+            self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
+                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE code = %s)"
+                            " AND (to_date(%s,'yyyy-mm-dd') between date_from AND date_to)",
+                            (account['code'], date_lower, ))
+            bgt_first = self.cr.fetchone()
+            # Jump to next iteration if no budget was found.
+            if not bgt_first:
+                budgets[account.id] = None
+                continue
+
+            # Get all intermediate and complete budgets
+            self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
+                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE code = %s)"
+                            " AND date_from > to_date(%s,'yyyy-mm-dd') AND date_to < to_date(%s,'yyyy-mm-dd')"
+                            " ORDER BY date_from",
+                            (account['code'], date_lower, date_upper, ))
+            bgt_inter = self.cr.fetchall()
+
+            # Get last and maybe partly budget of periode
+            self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
+                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE code = %s)"
+                            " AND (to_date(%s,'yyyy-mm-dd') between date_from AND date_to)",
+                            (account['code'], date_upper, ))
+            bgt_last = self.cr.fetchone()
+
+            date_format = "%Y-%m-%d"
+            datetime_bgt_f_lower = datetime.strptime(bgt_first[1], date_format)
+            datetime_bgt_f_upper = datetime.strptime(bgt_first[2], date_format)
+            datetime_lower = datetime.strptime(date_lower, date_format)
+            datetime_upper = datetime.strptime(date_upper, date_format)
+            datetime_bgt_l_lower = datetime.strptime(bgt_last[1], date_format)
+            datetime_bgt_l_upper = datetime.strptime(bgt_last[2], date_format)
+            bgt_f_days = (datetime_bgt_f_upper - datetime_bgt_f_lower).days + 1.0
+            bgt_l_days = (datetime_bgt_l_upper - datetime_bgt_l_lower).days + 1.0
+
+            # Check if budget ids are identical, this indicates that selected period only touches one single budget.
+            if bgt_first[3] == bgt_last[3]:
+                bgt_first_part = (datetime_upper - datetime_lower).days / bgt_f_days
+                bgt_last_part = 0.0
+            else:
+                bgt_first_part = (datetime_lower - datetime_bgt_f_lower).days / bgt_f_days
+                bgt_last_part = (datetime_bgt_l_upper - datetime_upper).days / bgt_l_days
+
+            sum_budget = bgt_first[0] * bgt_first_part
+            sum_budget += bgt_last[0] * bgt_last_part
+            if bgt_inter != None:
+                for bgt_i in bgt_inter:
+                    sum_budget += bgt_i[0]
+
+            if account.negative_notation:
+                budgets[account.id] = -1.0 * sum_budget
+            else:
+                budgets[account.id] = sum_budget
+            ### End HACK
 
         self.localcontext.update({
             'fiscalyear': fiscalyear,
@@ -148,6 +216,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             'start_period': start_period,
             'stop_period': stop_period,
             'chart_account': chart_account,
+            'budget': budgets,
             'initial_balance_mode': initial_balance_mode,
             'init_balance': init_balance,
             'ledger_lines': ledger_lines,
