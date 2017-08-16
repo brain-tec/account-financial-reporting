@@ -142,6 +142,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             date_upper = stop
         ### End HACK
 
+        date_format = "%Y-%m-%d"
         for account in objects:
             if do_centralize and account.centralized \
                     and ledger_lines_memoizer.get(account.id):
@@ -160,18 +161,15 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                             " AND (to_date(%s,'yyyy-mm-dd') between date_from AND date_to)",
                             (account['code'], date_lower, ))
             bgt_first = self.cr.fetchone()
-            # Jump to next iteration if no budget was found.
-            if not bgt_first:
-                budgets[account.id] = None
-                continue
 
-            # Get all intermediate and complete budgets
-            self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
+            # Get sum of all intermediate and complete budgets
+            self.cr.execute("SELECT SUM(planned_amount) FROM crossovered_budget_lines"
                             " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE name = %s)"
-                            " AND date_from > to_date(%s,'yyyy-mm-dd') AND date_to < to_date(%s,'yyyy-mm-dd')"
-                            " ORDER BY date_from",
+                            " AND date_from > to_date(%s,'yyyy-mm-dd') AND date_to < to_date(%s,'yyyy-mm-dd')",
                             (account['code'], date_lower, date_upper, ))
-            bgt_inter = self.cr.fetchall()
+            bgt_inter = self.cr.fetchone()
+            if isinstance(bgt_inter, tuple):
+                bgt_inter = bgt_inter[0]
 
             # Get last and maybe partly budget of periode
             self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
@@ -180,29 +178,41 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                             (account['code'], date_upper, ))
             bgt_last = self.cr.fetchone()
 
-            date_format = "%Y-%m-%d"
-            datetime_bgt_f_lower = datetime.strptime(bgt_first[1], date_format)
-            datetime_bgt_f_upper = datetime.strptime(bgt_first[2], date_format)
-            datetime_lower = datetime.strptime(date_lower, date_format)
-            datetime_upper = datetime.strptime(date_upper, date_format)
-            datetime_bgt_l_lower = datetime.strptime(bgt_last[1], date_format)
-            datetime_bgt_l_upper = datetime.strptime(bgt_last[2], date_format)
-            bgt_f_days = (datetime_bgt_f_upper - datetime_bgt_f_lower).days + 1.0
-            bgt_l_days = (datetime_bgt_l_upper - datetime_bgt_l_lower).days + 1.0
+            # Jump to next iteration if no budget was found.
+            if (not bgt_first) and (not bgt_inter) and (not bgt_last):
+                budgets[account.id] = None
+                continue
+
+            # Get budget from first/last budget if it was found
+            if bgt_first:
+                datetime_bgt_f_lower = datetime.strptime(bgt_first[1], date_format)
+                datetime_bgt_f_upper = datetime.strptime(bgt_first[2], date_format)
+                bgt_f_days = (datetime_bgt_f_upper - datetime_bgt_f_lower).days + 1.0
+
+            if bgt_last:
+                datetime_bgt_l_lower = datetime.strptime(bgt_last[1], date_format)
+                datetime_bgt_l_upper = datetime.strptime(bgt_last[2], date_format)
+                bgt_l_days = (datetime_bgt_l_upper - datetime_bgt_l_lower).days + 1.0
 
             # Check if budget ids are identical, this indicates that selected period only touches one single budget.
-            if bgt_first[3] == bgt_last[3]:
-                bgt_first_part = (datetime_upper - datetime_lower).days / bgt_f_days
-                bgt_last_part = 0.0
-            else:
-                bgt_first_part = (datetime_lower - datetime_bgt_f_lower).days / bgt_f_days
-                bgt_last_part = (datetime_bgt_l_upper - datetime_upper).days / bgt_l_days
+            bgt_first_part = 0.0
+            bgt_last_part = 0.0
+            if bgt_first and bgt_last:
+                datetime_lower = datetime.strptime(date_lower, date_format)
+                datetime_upper = datetime.strptime(date_upper, date_format)
+                if bgt_first[3] == bgt_last[3]:
+                    bgt_first_part = (datetime_upper - datetime_lower).days / bgt_f_days
+                else:
+                    bgt_first_part = (datetime_lower - datetime_bgt_f_lower).days / bgt_f_days
+                    bgt_last_part = (datetime_bgt_l_upper - datetime_upper).days / bgt_l_days
 
-            sum_budget = bgt_first[0] * bgt_first_part
-            sum_budget += bgt_last[0] * bgt_last_part
-            if bgt_inter != None:
-                for bgt_i in bgt_inter:
-                    sum_budget += bgt_i[0]
+            sum_budget = 0.0
+            if bgt_first:
+                sum_budget += bgt_first[0] * bgt_first_part
+            if bgt_inter:
+                sum_budget += bgt_inter
+            if bgt_last:
+                sum_budget += bgt_last[0] * bgt_last_part
 
             if account.negative_notation:
                 budgets[account.id] = -1.0 * sum_budget
