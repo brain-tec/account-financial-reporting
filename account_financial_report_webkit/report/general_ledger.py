@@ -201,10 +201,10 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                 datetime_lower = datetime.strptime(date_lower, date_format)
                 datetime_upper = datetime.strptime(date_upper, date_format)
                 if bgt_first[3] == bgt_last[3]:
-                    bgt_first_part = (datetime_upper - datetime_lower).days / bgt_f_days
+                    bgt_first_part = ((datetime_upper - datetime_lower).days + 1) / bgt_f_days
                 else:
-                    bgt_first_part = (datetime_lower - datetime_bgt_f_lower).days / bgt_f_days
-                    bgt_last_part = (datetime_bgt_l_upper - datetime_upper).days / bgt_l_days
+                    bgt_first_part = ((datetime_bgt_f_upper - datetime_lower).days + 1) / bgt_f_days
+                    bgt_last_part = ((datetime_upper - datetime_bgt_l_lower).days + 1) / bgt_l_days
 
             sum_budget = 0.0
             if bgt_first:
