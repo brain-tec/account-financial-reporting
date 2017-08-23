@@ -195,13 +195,15 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                 bgt_l_days = (datetime_bgt_l_upper - datetime_bgt_l_lower).days + 1.0
 
             # Check if budget ids are identical, this indicates that selected period only touches one single budget.
-            bgt_first_part = 0.0
-            bgt_last_part = 0.0
+            bgt_first_part = 1.0
+            bgt_last_part = 1.0
             if bgt_first and bgt_last:
                 datetime_lower = datetime.strptime(date_lower, date_format)
                 datetime_upper = datetime.strptime(date_upper, date_format)
                 if bgt_first[3] == bgt_last[3]:
                     bgt_first_part = ((datetime_upper - datetime_lower).days + 1) / bgt_f_days
+                    # Second budget needs to be ignored because it is the same budget.
+                    bgt_last_part = 0.0
                 else:
                     bgt_first_part = ((datetime_bgt_f_upper - datetime_lower).days + 1) / bgt_f_days
                     bgt_last_part = ((datetime_upper - datetime_bgt_l_lower).days + 1) / bgt_l_days
