@@ -155,7 +155,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             ### HACK by BT-mgerecke
             # Budgets are monthly but may be any timespan.
             # Attention! For Valaiscom the account code is stored in column name not in column code.
-            # Get first and maybe partly budget of periode
+            # Get all touched budgets of periode
             self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
                             " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE name = %s)"
                             " AND ((date_from between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))"
@@ -176,19 +176,25 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             datetime_lower = datetime.strptime(date_lower, date_format)
             datetime_upper = datetime.strptime(date_upper, date_format)
             sum_budget = 0.0
+            # Check each budget if it can be fully or partly added.
             for bgt in budgets_raw:
                 datetime_bgt_lower = datetime.strptime(bgt[1], date_format)
                 datetime_bgt_upper = datetime.strptime(bgt[2], date_format)
+                # Calculate timespan of budget in days
                 bgt_days = (datetime_bgt_upper - datetime_bgt_lower).days + 1.0
                 bgt_days_real = bgt_days
+                # Calculate how many days of the budget are outside the choosen timespan.
                 bgt_days_l_diff = (datetime_bgt_lower - datetime_lower).days
                 bgt_days_u_diff = (datetime_upper - datetime_bgt_upper).days
+                # Remove budget days outside of choosen timespan (before and after).
                 for days_remove in (bgt_days_l_diff, bgt_days_u_diff):
                     if days_remove < 0:
                         bgt_days_real += days_remove
+                # Calculate budget part based on the remaining days and sum it up.
                 bgt_real = bgt[0] * (bgt_days_real / bgt_days)
                 sum_budget += bgt_real
 
+            # Invert algebraic sign of budget if flag is set for this account.
             if account.negative_notation:
                 budgets[account.id] = -1.0 * sum_budget
             else:
