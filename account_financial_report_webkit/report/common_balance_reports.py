@@ -21,7 +21,7 @@
 ##############################################################################
 
 from operator import add
-import datetime
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from openerp.tools import ustr
 from .common_reports import CommonReportHeaderWebkit
@@ -99,7 +99,6 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             context=ctx)
 
         accounts_by_id = {}
-        child_ids = []
         for account in accounts:
             child_ids = account_obj._get_children_and_consol(
                 self.cursor, self.uid, account['id'], ctx)
@@ -120,48 +119,82 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             if from_er_detail:
                 # TODO: 07.08.17 14:10: jool1: only do this when called from ER Detail wizard
                 planned_months = {}
-                print '(jool) ctx: ', ctx
-                print '(jool) start: ', start
-                print '(jool) stop: ', stop
-                # print '(jool) period_ids: ', period_ids
-                # print '(jool) fiscalyear.period_ids: ', fiscalyear.period_ids
-                # print '(jool) fiscalyear.period_ids.ids: ', fiscalyear.period_ids.ids
                 budget_period_ids = []
                 if fiscalyear:
                     budget_period_ids = self.exclude_opening_periods(fiscalyear.period_ids.ids)
-                    print '(jool) budget_period_ids: ', budget_period_ids
                 planned_amounts = 0
+
                 for period in period_obj.browse(self.cr, self.uid, budget_period_ids):
-                    print '(jool) period: ', period
-                    # self.cr.execute('select sum(planned_amount) as sum_planned_amount from crossovered_budget_lines where general_budget_id in (select id from account_budget_post where code = %s) and date_from <= %s and date_to >= %s', (account['code'], period.date_start, period.date_stop))
-                    # planned_amount = float(self.cr.fetchone()[0] or 0)
-                    # print '(jool) planned_amount: ', planned_amount
-                    # planned_amounts += planned_amount
-                    # planned_months[int(period.code[0:2])] = planned_amount
+                    child_ids_objs = self.pool.get('account.account').browse(
+                        self.cursor,
+                        self.uid,
+                        child_ids,
+                        context=self.localcontext)
+                    child_ids_codes = tuple([child_obj.code for child_obj in child_ids_objs])
 
+                    date_format = "%Y-%m-%d"
+                    date_lower = period.date_start
+                    date_upper = period.date_stop
 
-                    for child in child_ids:
-                        child_obj = self.pool.get('account.account').browse(
-                            self.cursor,
-                            self.uid,
-                            child,
-                            context=self.localcontext)
-                        self.cr.execute(
-                            'select sum(planned_amount) as sum_planned_amount from crossovered_budget_lines where general_budget_id in (select id from account_budget_post where name = %s) and date_from <= %s and date_to >= %s',
-                            (child_obj[0].code, period.date_start, period.date_stop))
-                        planned_amount = float(self.cr.fetchone()[0] or 0)
-                        print '(jool) planned_amount: ', planned_amount
-                        planned_amounts += planned_amount
-                        if int(period.code[0:2]) not in planned_months:
-                            planned_months[int(period.code[0:2])] = planned_amount
-                        else:
-                            planned_months[int(period.code[0:2])] += planned_amount
+                    # jool1 Method to get budget
+#                     self.cr.execute(
+#                         """select sum(planned_amount) as sum_planned_amount from crossovered_budget_lines where general_budget_id in (select id from account_budget_post where name in %s) and (date_from between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))
+# and (date_to between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))""",
+#                         (child_ids_codes, period.date_start, period.date_stop, period.date_start, period.date_stop))
+#
+#                     sum_budget = float(self.cr.fetchone()[0] or 0)
 
-                print '(jool) planned_months: ', planned_months
+                    ### HACK by BT-mgerecke
+                    # Budgets are monthly but may be any timespan.
+                    # Attention! For Valaiscom the account code is stored in column name not in column code.
+                    # Get all touched budgets of periode
+                    self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
+                                    " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE name in %s)"
+                                    " AND ((date_from between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))"
+                                    "   OR (date_to between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')))",
+                                    (child_ids_codes, date_lower, date_upper, date_lower, date_upper))
+                    budgets_raw = self.cr.fetchall()
+                    # Jump to next iteration if no budget was found.
+                    if not budgets_raw:
+                        planned_months[int(period.code[0:2])] = 0
+                        continue
+                    elif isinstance(budgets_raw, tuple):
+                        planned_months[int(period.code[0:2])] = 0
+                        continue
+                    elif not budgets_raw[0]:
+                        planned_months[int(period.code[0:2])] = 0
+                        continue
+
+                    datetime_lower = datetime.strptime(date_lower, date_format)
+                    datetime_upper = datetime.strptime(date_upper, date_format)
+                    sum_budget = 0.0
+                    # Check each budget if it can be fully or partly added.
+                    for bgt in budgets_raw:
+                        datetime_bgt_lower = datetime.strptime(bgt[1], date_format)
+                        datetime_bgt_upper = datetime.strptime(bgt[2], date_format)
+                        # Calculate timespan of budget in days
+                        bgt_days = (datetime_bgt_upper - datetime_bgt_lower).days + 1.0
+                        bgt_days_real = bgt_days
+                        # Calculate how many days of the budget are outside the choosen timespan.
+                        bgt_days_l_diff = (datetime_bgt_lower - datetime_lower).days
+                        bgt_days_u_diff = (datetime_upper - datetime_bgt_upper).days
+                        # Remove budget days outside of choosen timespan (before and after).
+                        for days_remove in (bgt_days_l_diff, bgt_days_u_diff):
+                            if days_remove < 0:
+                                bgt_days_real += days_remove
+                        # Calculate budget part based on the remaining days and sum it up.
+                        bgt_real = bgt[0] * (bgt_days_real / bgt_days)
+                        sum_budget += bgt_real
+
+                    planned_amounts += sum_budget
+                    if int(period.code[0:2]) not in planned_months:
+                        planned_months[int(period.code[0:2])] = sum_budget
+                    else:
+                        planned_months[int(period.code[0:2])] += sum_budget
+
                 account['budget'] = planned_months
                 account['budget_total'] = planned_amounts
             accounts_by_id[account['id']] = account
-        print '(jool) accounts_by_id: ', accounts_by_id
         return accounts_by_id
 
     def _get_comparison_details(self, data, account_ids, target_move,
@@ -278,52 +311,14 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
         return start_period, stop_period, start, stop
 
     def get_lines(self, data, main_filter, use_period_ids):
-        print 'report_account_common get_lines'
         lines = []
         account_obj = self.pool.get('account.account')
-        currency_obj = self.pool.get('res.currency')
         ids2 = self.pool.get('account.financial.report')._get_children_by_order(self.cr, self.uid, [
             data['form']['account_report_id'][0]], context=data['form']['used_context'])
         all_account_ids = []
         report_account_ids = dict()
-        print '(jool) data[form][used_context]: ', data['form']['used_context']
-        print '(jool) ids2: ', ids2
         for report in self.pool.get('account.financial.report').browse(self.cr, self.uid, ids2,
                                                                        context=data['form']['used_context']):
-            print '(jool) report.name: ', report.name
-            print '(jool) report.sign: ', report.sign
-            value_c = 0.00
-            value_d = 0.00
-            value_e = 0.00
-            # HACK: 04.08.17 09:44: jool1: get value previous year
-            #{u'lang': u'de_DE', u'chart_account_id': 1, u'period_to': 4, u'journal_ids': [2, 3, 4, 248, 245, 246, 244, 5, 6, 249, 242, 1, 9, 253, 10, 11, 116, 7, 252, 247], u'period_from': 2, u'state': u'posted', u'fiscalyear': 1}
-
-            ctx_previous_year = data['form']['used_context'].copy()
-            if use_period_ids:
-                fiscalyear_obj = self.pool.get('account.fiscalyear')
-                actual_fiscalyear = fiscalyear_obj.browse(self.cr, self.uid, data['form']['used_context']['fiscalyear'])
-                last_fiscalyear_id = fiscalyear_obj.search(self.cr, self.uid,
-                                                            [('code', '=', int(actual_fiscalyear.code) - 1)])
-                print '(jool) last_fiscalyear_id: ', last_fiscalyear_id
-                last_fiscalyear = fiscalyear_obj.browse(self.cr, self.uid, last_fiscalyear_id[0])
-                last_fiscalyear_period_ids = self.exclude_opening_periods(last_fiscalyear.period_ids.ids)
-
-                data['form']['comp0_period_from'] = last_fiscalyear_period_ids[0]  # 15
-                data['form']['comp0_period_to'] = last_fiscalyear_period_ids[len(last_fiscalyear_period_ids) - 1]  # 26
-                ctx_previous_year['period_from'] = last_fiscalyear_period_ids[0]  # 15
-                ctx_previous_year['period_to'] = last_fiscalyear_period_ids[len(last_fiscalyear_period_ids) - 1]  # 26
-                ctx_previous_year['fiscalyear'] = last_fiscalyear.id
-            elif main_filter == 'filter_date':
-                # TODO: 10.08.17 13:21: jool1: set context for date filter
-                print 'filter_date'
-                print '(jool) data[form]: ', data['form']
-                ctx_previous_year['date_from'] = '2016-01-01'
-                ctx_previous_year['date_to'] = '2016-12-31'
-            report_previous_year = self.pool.get('account.financial.report').browse(self.cr, self.uid, report.id,
-                                                                 context=ctx_previous_year)
-            value_g = report_previous_year.balance * report_previous_year.sign or 0.0
-            value_i = 0.00
-            # all_account_ids += [x.id for x in report]
             vals = {
                 'code': len(report.account_ids) == 1 and report.account_ids.code or '',
                 'name': report.name,
@@ -334,27 +329,14 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                 # 'account_id': False,
                 'account_id': len(report.account_ids) == 1 and report.account_ids.id or '',
                 'child_consol_ids': [],
-            # used to underline the financial report balances
-                'c_rechnung_actual_year': value_c,
-                'd_rechnung_actual_year_percent': value_d,
-                'e_budget_actual_year': value_e,
-                'f_rechung_budget_actual_year_diff': value_c - value_e,
-                'g_rechnung_previous_year': value_g,
-                'h_rechnung_previous_actual_year_diff': value_c - value_g,
-                'i_forecast_previous_quarter': value_i,
-                'j_forecast_previous_quarter_actual_year_diff': value_c - value_i,
+                # used to underline the financial report balances
+                'c_rechnung_actual_year': 0,
+                'e_budget_actual_year': 0,
+                'g_rechnung_previous_year': 0,
+                'i_forecast_previous_quarter': 0,
                 'report_id': report.id,
                 'values_need_to_be_updated': True,
             }
-            # if data['form']['debit_credit']:
-            #     vals['debit'] = report.debit
-            #     vals['credit'] = report.credit
-            # if data['form']['enable_filter']:
-            #     vals['balance_cmp'] = self.pool.get('account.financial.report').browse(self.cr, self.uid, report.id,
-            #                                                                            context=data['form'][
-            #                                                                                'comparison_context']).balance * report.sign or 0.0
-            print '(jool) data[form][account_report_id][1]: ', data['form']['account_report_id'][1]
-            print '(jool) report.name: ', report.name
             # do not append ERFOLGSRECHNUNG as first line
             if data['form']['account_report_id'][1] != report.name:
                 lines.append(vals)
@@ -380,16 +362,8 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             elif report.type == 'account_type' and report.account_type_ids:
                 account_ids = account_obj.search(self.cr, self.uid,
                                                  [('user_type', 'in', [x.id for x in report.account_type_ids])])
-            print '(jool) report.name: ', report.name
-            print '(jool) account_ids: ', account_ids
             if account_ids:
                 all_account_ids += account_ids
-
-                # # get levels
-                # accounts_by_ids = self._get_account_details(
-                #     account_ids, target_move, fiscalyear, main_filter, start, stop,
-                #     initial_balance_mode)
-                # print '(jool) accounts_by_ids: ', accounts_by_ids
 
                 for account in account_obj.browse(self.cr, self.uid, account_ids,
                                                   context=data['form']['used_context']):
@@ -399,21 +373,6 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                     if report.display_detail == 'detail_flat' and account.type == 'view':
                         continue
                     flag = False
-                    # vals = {
-                    #     'name': account.code + ' ' + account.name,
-                    #     'balance':  account.balance != 0 and account.balance * report.sign or account.balance,
-                    #     'type': 'account',
-                    #     'level': report.display_detail == 'detail_with_hierarchy' and min(account.level + 1,6) or 6, #account.level + 1
-                    #     'account_type': account.type,
-                    # }
-                    value_c = 1.00
-                    value_d = 2.00
-                    value_e = 3.00
-                    value_g = 4.00
-                    value_i = 5.00
-                    # print '(jool) accounts_by_ids[account.id][level]: ', accounts_by_ids[account.id]['level']
-                    print '(jool) account.balance: ', account.balance
-                    print '(jool) report.sign: ', report.sign
                     vals = {
                         'code': account.code,
                         # 'name': account.code + ' ' + account.name,
@@ -422,21 +381,16 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                         'type': 'account',
                         # 'level': report.display_detail == 'detail_with_hierarchy' and min(account.level + 1,
                         #                                                                   6) or 6,
-                        # account.level + 1
                         'level': account.level,
                         # 'level': accounts_by_ids[account.id]['level'],
                         'account_type': account.type,
                         # 'account_type': 'other',
                         'child_consol_ids': account.child_consol_ids,
                         'account_id': account.id,
-                        'c_rechnung_actual_year': value_c,
-                        'd_rechnung_actual_year_percent': value_d,
-                        'e_budget_actual_year': value_e,
-                        'f_rechung_budget_actual_year_diff': value_c - value_e,
-                        'g_rechnung_previous_year': value_g,
-                        'h_rechnung_previous_actual_year_diff': value_c - value_g,
-                        'i_forecast_previous_quarter': value_i,
-                        'j_forecast_previous_quarter_actual_year_diff': value_c - value_i,
+                        'c_rechnung_actual_year': 0,
+                        'e_budget_actual_year': 0,
+                        'g_rechnung_previous_year': 0,
+                        'i_forecast_previous_quarter': 0,
                         'report_id': report.id,
                         'values_need_to_be_updated': False,
                     }
@@ -447,33 +401,10 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                         else:
                             report_account_ids[report.id] = [account.id]
 
-                    # if data['form']['debit_credit']:
-                    #     vals['debit'] = account.debit
-                    #     vals['credit'] = account.credit
-                    # TODO: 04.08.17 11:51: jool1: is this if really needed??
-                    # if not currency_obj.is_zero(self.cr, self.uid, account.company_id.currency_id, vals['balance']):
-                    #     flag = True
-                    # if data['form']['enable_filter']:
-                    #     vals['balance_cmp'] = account_obj.browse(self.cr, self.uid, account.id,
-                    #                                              context=data['form'][
-                    #                                                  'comparison_context']).balance * report.sign or 0.0
-                    #     if not currency_obj.is_zero(self.cr, self.uid, account.company_id.currency_id,
-                    #                                 vals['balance_cmp']):
-                    #         flag = True
-                    # TODO: 04.08.17 11:51: jool1: is this if really needed??
-                    # if flag:
                     lines.append(vals)
-            # if count == 0:
-            #     all_account_ids += [97]
-            #     count += 1
-        # return lines
-        print '(jool) lines: ', lines
-        # print test
         return all_account_ids, lines, report_account_ids
 
     def compute_balance_data_er_detail(self, data, filter_report_type=None):
-        print '(jool) data: ', data
-        # print test
         new_ids = data['form']['account_ids'] or data[
             'form']['chart_account_id']
         max_comparison = self._get_form_param(
@@ -506,129 +437,70 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             self._get_start_stop_for_filter(main_filter, fiscalyear,
                                             start_date, stop_date,
                                             start_period, stop_period)
-        print '(jool) start_period: ', start_period
-        print '(jool) stop_period: ', stop_period
-        print '(jool) start: ', start
-        print '(jool) stop: ', stop
-        print '(jool) start_date: ', start_date
-        print '(jool) stop_date: ', stop_date
-        print '(jool) fiscalyear: ', fiscalyear
-
-        # print test
         init_balance = self.is_initial_balance_enabled(main_filter)
         initial_balance_mode = init_balance and self._get_initial_balance_mode(
             start) or False
-        # data = {u'model': u'ir.ui.menu', u'ids': [], u'form': {u'period_to_cmp': False, u'chart_account_id': 1, u'period_from_cmp': False, u'account_report_id': [36, u'ERFOLGSRECHNUNG'], u'period_to': 2, u'date_to_cmp': False, u'fiscalyear_id': 1, u'periods': [], u'id': 113, u'fiscalyear_id_cmp': False, u'date_from': False, u'used_context': {u'lang': u'de_DE', u'chart_account_id': 1, u'period_to': 2, u'journal_ids': [2, 3, 4, 248, 245, 246, 244, 5, 6, 249, 242, 1, 9, 253, 10, 11, 116, 7, 252, 247], u'period_from': 2, u'state': u'posted', u'fiscalyear': 1}, u'period_from': 2, u'label_filter': False, u'filter_cmp': u'filter_no', u'enable_filter': False, u'journal_ids': [2, 3, 4, 248, 245, 246, 244, 5, 6, 249, 242, 1, 9, 253, 10, 11, 116, 7, 252, 247], u'date_to': False, u'comparison_context': {u'state': u'posted', u'chart_account_id': 1, u'journal_ids': [2, 3, 4, 248, 245, 246, 244, 5, 6, 249, 242, 1, 9, 253, 10, 11, 116, 7, 252, 247], u'fiscalyear': False}, u'filter': u'filter_period', u'date_from_cmp': False, u'debit_credit': False, u'target_move': u'posted'}}
-        print '(jool) data: ', data
-        # print test
         # TODO: 04.08.17 10:41: jool1: get id of "ERFOLGSRECHNUNG Detail"
-        # data['form']['account_report_id'] = [131, u'ERFOLGSRECHNUNG Detail TEST']
         data['form']['account_report_id'] = [104, u'ERFOLGSRECHNUNG Detail']
         account_ids, lines, report_account_ids = self.get_lines(data, main_filter, use_period_ids)
-        print '(jool) account_ids: ', account_ids
-        print '(jool) report_account_ids: ', report_account_ids
-        print '(jool) lines: ', lines
-        # Retrieving accounts
-        # account_ids = self.get_all_accounts(
-        #     new_ids, only_type=filter_report_type)
 
         # get details for each accounts, total of debit / credit / balance
         accounts_by_ids = self._get_account_details(
             account_ids, target_move, fiscalyear, main_filter, start, stop,
             initial_balance_mode, True)
-        print '(jool) accounts_by_ids: ', accounts_by_ids
 
         # HACK: 04.08.17 14:04: jool1: accounts_forecast_by_ids (stop minus 3 months)
         accounts_forecast_by_ids = []
-        lines_forecast = []
         index_forecast_stop = 0
         data_forecast = data.copy()
         if use_period_ids:
-            print '(jool) stop: ', stop.id
-            print '(jool) fiscalyear: ', fiscalyear
+            # substract 3 months
             fiscalyear_exluded_opening_period_ids = self.exclude_opening_periods(fiscalyear.period_ids.ids)
-            print '(jool) fiscalyear_exluded_opening_period_ids: ', fiscalyear_exluded_opening_period_ids
             index_stop_id = fiscalyear_exluded_opening_period_ids.index(stop.id)
-            print '(jool) index_stop_id: ', index_stop_id
             forecast_stop = index_stop_id - 3
-            print '(jool) forecast_stop: ', forecast_stop
             if forecast_stop > 0:
                 index_forecast_stop_id = fiscalyear_exluded_opening_period_ids[forecast_stop]
-                print '(jool) index_forecast_stop_id: ', index_forecast_stop_id
                 index_forecast_stop = self.pool.get('account.period').browse(self.cr, self.uid, index_forecast_stop_id)
-                print '(jool) index_forecast_stop: ', index_forecast_stop
                 data_forecast['form']['used_context']['period_to'] = index_forecast_stop_id
-                account_forecast_ids, lines_forecast, report_account_forecast_ids = self.get_lines(data_forecast,
-                                                                                                   main_filter,
-                                                                                                   use_period_ids)
                 accounts_forecast_by_ids = self._get_account_details(
                     account_ids, target_move, fiscalyear, main_filter, start, index_forecast_stop,
-                    initial_balance_mode, True)
+                    initial_balance_mode, False)
         elif main_filter == 'filter_date':
-            print '(jool) data_forecast[form][used_context]: ', data_forecast['form']['used_context']
             # substract 3 months
-            d = datetime.datetime.strptime(ustr(stop_date), "%Y-%m-%d")
-            stop_date_minus_3_months = d - relativedelta(months=3)
-            print '(jool) stop_date_minus_3_months: ', stop_date_minus_3_months
-            first_day_of_year = datetime.datetime(int(d.year), 01, 01)
-            print '(jool) first_day_of_year: ', first_day_of_year
-            if stop_date_minus_3_months < first_day_of_year:
-                print 'There is no forecast'
-                print start
-            else:
+            d = datetime.strptime(ustr(stop_date), "%Y-%m-%d")
+            d = d + relativedelta(days=1)
+            d = d - relativedelta(months=3)
+            stop_date_minus_3_months = d - relativedelta(days=1)
+            first_day_of_year = datetime(int(d.year), 01, 01)
+            if stop_date_minus_3_months >= first_day_of_year:
                 data_forecast['form']['used_context']['date_to'] = stop_date_minus_3_months
-                account_forecast_ids, lines_forecast, report_account_forecast_ids = self.get_lines(data_forecast,
-                                                                                                   main_filter,
-                                                                                                   use_period_ids)
                 accounts_forecast_by_ids = self._get_account_details(
                     account_ids, target_move, fiscalyear, main_filter, start, stop_date_minus_3_months,
-                    initial_balance_mode, True)
+                    initial_balance_mode, False)
 
-
-        print '(jool) accounts_forecast_by_ids : ', accounts_forecast_by_ids
         comparison_params = []
         comp_accounts_by_ids = []
-        # print '(jool) comp_filters: ', comp_filters
-        # for index in range(max_comparison):
-        #     print '(jool) index: ', index
-        #     if comp_filters[index] != 'filter_no':
-        #         print '(jool) comp_filters[index]: ', comp_filters[index]
-        #         comparison_result, comp_params = self._get_comparison_details(
-        #             data, account_ids, target_move, comp_filters[index], index)
-        #         print '(jool) comparison_result: ', comparison_result
-        #         print '(jool) comp_params: ', comp_params
-        #         comparison_params.append(comp_params)
-        #         comp_accounts_by_ids.append(comparison_result)
         # set hardcoded and ignore all manual entries in wizard
         index = 0
         data['form']['comp0_fiscalyear_id'] = False
         fiscalyear_obj = self.pool.get('account.fiscalyear')
         last_fiscalyear_id = fiscalyear_obj.search(self.cr, self.uid,
                                                    [('code', '=', int(fiscalyear.code) - 1)])
-        print '(jool) last_fiscalyear_id: ', last_fiscalyear_id
         last_fiscalyear = fiscalyear_obj.browse(self.cr, self.uid, last_fiscalyear_id[0])
         if use_period_ids:
             data['form']['comp0_filter'] = 'filter_period'
             last_fiscalyear_period_ids = self.exclude_opening_periods(last_fiscalyear.period_ids.ids)
             data['form']['comp0_period_from'] = last_fiscalyear_period_ids[0] #15
             data['form']['comp0_period_to'] = last_fiscalyear_period_ids[len(last_fiscalyear_period_ids)-1] #26
-            print '(jool) data: ', data
-            print '(jool) index: ', index
-            print '(jool) comp_filters: ', comp_filters
-            print '(jool) comp_filters[index]: ', comp_filters[index]
         elif main_filter == 'filter_date':
             data['form']['comp0_filter'] = 'filter_date'
             data['form']['comp0_date_from'] = last_fiscalyear.date_start
             data['form']['comp0_date_to'] = last_fiscalyear.date_stop
 
-
         comparison_result, comp_params = self._get_comparison_details(
             data, account_ids, target_move, comp_filters[index], index)
-        print '(jool) comparison_result: ', comparison_result
-        print '(jool) comp_params: ', comp_params
         comparison_params.append(comp_params)
         comp_accounts_by_ids.append(comparison_result)
-        print '(jool) comp_accounts_by_ids: ', comp_accounts_by_ids
 
         objects = self.pool.get('account.account').browse(
             self.cursor,
@@ -645,10 +517,7 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
         budget_accounts = dict.fromkeys(account_ids, False)
         balance_forecast_accounts = dict.fromkeys(account_ids, False)
 
-        print '(jool) objects: ', objects
         for account in objects:
-            print '(jool) account: ', account
-            print '(jool) account.type: ', account.type
             if account.type == 'consolidation':
                 to_display_accounts.update(
                     dict([(a.id, False) for a in account.child_consol_ids]))
@@ -660,29 +529,23 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             credit_accounts[account.id] = \
                 accounts_by_ids[account.id]['credit']
             balance_accounts[account.id] = \
-                accounts_by_ids[account.id]['balance'] * -1
+                accounts_by_ids[account.id]['balance']
             if account.id in accounts_forecast_by_ids:
                 balance_forecast_accounts[account.id] = \
-                    accounts_forecast_by_ids[account.id]['balance'] * -1
+                    accounts_forecast_by_ids[account.id]['balance']
             # budget_accounts add budget for rest of months
             budget_until_end_of_year = 0
             budget_until_end_of_year_minus_3_months = 0
             if use_period_ids:
-                dt = datetime.datetime.strptime(stop.date_start, '%Y-%m-%d')
+                dt = datetime.strptime(stop.date_start, '%Y-%m-%d')
             else:
-                dt = datetime.datetime.strptime(stop_date, '%Y-%m-%d')
+                dt = datetime.strptime(stop_date, '%Y-%m-%d')
             for budget_month in accounts_by_ids[account.id]['budget']:
-                print '(jool) budget_month: ', budget_month
-                print '(jool) accounts_by_ids[account.id][budget][budget_month]: ', accounts_by_ids[account.id]['budget'][budget_month]
-                print '(jool) dt.month: ', dt.month
                 if budget_month > dt.month:
                     budget_until_end_of_year += accounts_by_ids[account.id]['budget'][budget_month]
                 if budget_month > dt.month-3:
                     budget_until_end_of_year_minus_3_months += accounts_by_ids[account.id]['budget'][budget_month]
 
-            # if account.id == 149:
-            print '(jool) budget_until_end_of_year: ', budget_until_end_of_year
-            print '(jool) budget_until_end_of_year_minus_3_months: ', budget_until_end_of_year_minus_3_months
             balance_accounts[account.id] += budget_until_end_of_year
             budget_accounts[account.id] = \
                 accounts_by_ids[account.id]['budget_total']
@@ -694,28 +557,13 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             # if any amount is != 0 in comparisons, we have to display the
             # whole account
             display_account = False
-            comp_accounts = []
             for comp_account_by_id in comp_accounts_by_ids:
                 values = comp_account_by_id.get(account.id)
-                print '(jool) account.code: ', account.code
-                # print '(jool) values: ', values
-                # print '(jool) account.balance: ', account.balance
-                # print '(jool) values[balance]: ', values['balance']
                 values.update(
                     self._get_diff(balance_accounts[account.id], values['balance']))
-                # values.update(
-                #     self._get_diff(account.balance, values['balance']))
-                if values['balance'] != 0:
-                    values['balance'] = values['balance'] * -1
-                display_account = any((values.get('credit', 0.0),
-                                       values.get('debit', 0.0),
-                                       values.get('balance', 0.0),
-                                       values.get('init_balance', 0.0)))
-                print '(jool) values1: ', values
-                comp_accounts.append(values)
-            # if account.code == '30000':
-            #     print test
-            comparisons_accounts[account.id] = comp_accounts
+                display_account = values.get('balance', 0.0) != 0
+                comparisons_accounts[account.id] = \
+                    values.get('balance', 0.0)
             # we have to display the account if a comparison as an amount or
             # if we have an amount in the main column
             # we set it as a property to let the data in the report if someone
@@ -727,25 +575,20 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                                       budget_accounts[account.id],
                                       balance_forecast_accounts[account.id],
                                       init_balance_accounts[account.id]))
-            print '(jool) display_account: ', display_account
-            if not display_account:
-                print '(jool) account.code no display: ', account.code
             to_display_accounts.update(
                 {account.id: display_account and
                              to_display_accounts[account.id]})
 
+        # set balance_totals_per_report_id
         balance_totals_per_report_id = dict()
         for report_account_id in report_account_ids:
             sum_per_report_account_id = 0
             for balance_account in balance_accounts:
                 if balance_account in report_account_ids[report_account_id]:
                     sum_per_report_account_id += balance_accounts[balance_account]
-                    balance_totals_per_report_id[report_account_id] = sum_per_report_account_id
+            balance_totals_per_report_id[report_account_id] = sum_per_report_account_id
 
-        print '(jool) to_display_accounts: ', to_display_accounts
-        print '(jool) budget_accounts: ', budget_accounts
-        print '(jool) balance_forecast_accounts: ', balance_forecast_accounts
-        print '(jool) report_account_ids: ', report_account_ids
+        # set budgets_totals_per_report_id
         budgets_totals_per_report_id = dict()
         for report_account_id in report_account_ids:
             sum_per_report_account_id = 0
@@ -754,37 +597,43 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                     sum_per_report_account_id += budget_accounts[budget_account]
             budgets_totals_per_report_id[report_account_id] = sum_per_report_account_id
 
-        print '(jool) budgets_totals_per_report_id: ', budgets_totals_per_report_id
+        # set comparisons_totals_per_report_id
+        comparisons_totals_per_report_id = dict()
+        for report_account_id in report_account_ids:
+            sum_per_report_account_id = 0
+            for comparisons_account in comparisons_accounts:
+                if comparisons_account in report_account_ids[report_account_id]:
+                    sum_per_report_account_id += comparisons_accounts[comparisons_account]
+            comparisons_totals_per_report_id[report_account_id] = sum_per_report_account_id
 
-        # for budget_totals_per_report_id in budgets_totals_per_report_id:
-        #     budget_accounts[budget_totals_per_report_id] = budgets_totals_per_report_id[budget_totals_per_report_id]
-        # print '(jool) budget_accounts: ', budget_accounts
+        # set balance_forecast_accounts_totals_per_report_id
+        balance_forecast_accounts_totals_per_report_id = dict()
+        for report_account_id in report_account_ids:
+            sum_per_report_account_id = 0
+            for balance_forecast_account in balance_forecast_accounts:
+                if balance_forecast_account in report_account_ids[report_account_id]:
+                    sum_per_report_account_id += balance_forecast_accounts[balance_forecast_account]
+            balance_forecast_accounts_totals_per_report_id[report_account_id] = sum_per_report_account_id
 
-        print '(jool) lines: ', lines
-        print '(jool) lines_forecast: ', lines_forecast
+        # update values for total lines (line like BRUTTOGEWINN)
         for line_to_update in lines:
             if line_to_update['values_need_to_be_updated'] and line_to_update['report_id'] in balance_totals_per_report_id:
                 line_to_update['c_rechnung_actual_year'] = balance_totals_per_report_id[line_to_update['report_id']]
             if line_to_update['values_need_to_be_updated'] and line_to_update['report_id'] in budgets_totals_per_report_id:
                 line_to_update['e_budget_actual_year'] = budgets_totals_per_report_id[line_to_update['report_id']]
-            if line_to_update['values_need_to_be_updated'] and line_to_update['account_id'] in comparisons_accounts:
-                line_to_update['g_rechnung_previous_year'] = comparisons_accounts[line_to_update['account_id']]
-            count = 0
-            for line_forecast in lines_forecast:
-                if line_forecast['report_id'] == line_to_update['report_id'] and line_forecast['code'] == \
-                        line_to_update['code'] and line_forecast['account_id'] == line_to_update['account_id']:
-                    count += 1
-                    line_to_update['i_forecast_previous_quarter'] = line_forecast['balance']
-            print '(jool) count: ', count
-        # print test
-        # set column d_rechnung_actual_year_percent
+            if line_to_update['values_need_to_be_updated'] and line_to_update['report_id'] in comparisons_totals_per_report_id:
+                line_to_update['g_rechnung_previous_year'] = comparisons_totals_per_report_id[line_to_update['report_id']]
+            if line_to_update['values_need_to_be_updated'] and line_to_update['report_id'] in balance_forecast_accounts_totals_per_report_id:
+                line_to_update['i_forecast_previous_quarter'] = balance_forecast_accounts_totals_per_report_id[line_to_update['report_id']]
+
+        # set d_rechnung_actual_year_percent
         account_obj = self.pool.get('account.account')
         betriebsertrag_account_id = account_obj.search(self.cr, self.uid, [('code', '=', 3)])
         amount_betriebsertrag = balance_accounts[betriebsertrag_account_id[0]]
-
         balance_accounts_percent = dict.fromkeys(account_ids, False)
         for balance_account in balance_accounts:
             balance_accounts_percent[balance_account] = balance_accounts[balance_account] / amount_betriebsertrag * 100
+
         context_report_values = {
             'fiscalyear': fiscalyear,
             'start_date': start_date,
@@ -809,12 +658,6 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             'balance_forecast_accounts': balance_forecast_accounts,
             'amount_betriebsertrag': amount_betriebsertrag, # help field to calculate percentage in the report when account.id is missing
         }
-        for line in context_report_values['lines']:
-            print '(jool) line: ', line
-        print '(jool) objects: ', objects
-        print '(jool) new_ids: ', new_ids
-        print '(jool) context_report_values: ', context_report_values
-        print '(jool) balance_accounts_percent: ', balance_accounts_percent
         return objects, new_ids, context_report_values
 
     def compute_balance_data(self, data, filter_report_type=None):
