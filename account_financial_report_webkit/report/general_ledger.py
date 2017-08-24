@@ -155,67 +155,46 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             ### HACK by BT-mgerecke
             # Budgets are monthly but may be any timespan.
             # Attention! For Valaiscom the account code is stored in column name not in column code.
-            # Get first and maybe partly budget of periode
+            # Get all touched budgets of periode
             self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
                             " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE name = %s)"
-                            " AND (to_date(%s,'yyyy-mm-dd') between date_from AND date_to)",
-                            (account['code'], date_lower, ))
-            bgt_first = self.cr.fetchone()
-
-            # Get sum of all intermediate and complete budgets
-            self.cr.execute("SELECT SUM(planned_amount) FROM crossovered_budget_lines"
-                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE name = %s)"
-                            " AND date_from > to_date(%s,'yyyy-mm-dd') AND date_to < to_date(%s,'yyyy-mm-dd')",
-                            (account['code'], date_lower, date_upper, ))
-            bgt_inter = self.cr.fetchone()
-            if isinstance(bgt_inter, tuple):
-                bgt_inter = bgt_inter[0]
-
-            # Get last and maybe partly budget of periode
-            self.cr.execute("SELECT planned_amount,date_from,date_to,id FROM crossovered_budget_lines"
-                            " WHERE general_budget_id IN (SELECT id FROM account_budget_post WHERE name = %s)"
-                            " AND (to_date(%s,'yyyy-mm-dd') between date_from AND date_to)",
-                            (account['code'], date_upper, ))
-            bgt_last = self.cr.fetchone()
-
+                            " AND ((date_from between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))"
+                            "   OR (date_to between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')))",
+                            (account['code'], date_lower, date_upper, date_lower, date_upper))
+            budgets_raw = self.cr.fetchall()
             # Jump to next iteration if no budget was found.
-            if (not bgt_first) and (not bgt_inter) and (not bgt_last):
+            if not budgets_raw:
+                budgets[account.id] = None
+                continue
+            elif isinstance(budgets_raw, tuple):
+                budgets[account.id] = None
+                continue
+            elif not budgets_raw[0]:
                 budgets[account.id] = None
                 continue
 
-            # Get budget from first/last budget if it was found
-            if bgt_first:
-                datetime_bgt_f_lower = datetime.strptime(bgt_first[1], date_format)
-                datetime_bgt_f_upper = datetime.strptime(bgt_first[2], date_format)
-                bgt_f_days = (datetime_bgt_f_upper - datetime_bgt_f_lower).days + 1.0
-
-            if bgt_last:
-                datetime_bgt_l_lower = datetime.strptime(bgt_last[1], date_format)
-                datetime_bgt_l_upper = datetime.strptime(bgt_last[2], date_format)
-                bgt_l_days = (datetime_bgt_l_upper - datetime_bgt_l_lower).days + 1.0
-
-            # Check if budget ids are identical, this indicates that selected period only touches one single budget.
-            bgt_first_part = 1.0
-            bgt_last_part = 1.0
-            if bgt_first and bgt_last:
-                datetime_lower = datetime.strptime(date_lower, date_format)
-                datetime_upper = datetime.strptime(date_upper, date_format)
-                if bgt_first[3] == bgt_last[3]:
-                    bgt_first_part = ((datetime_upper - datetime_lower).days + 1) / bgt_f_days
-                    # Second budget needs to be ignored because it is the same budget.
-                    bgt_last_part = 0.0
-                else:
-                    bgt_first_part = ((datetime_bgt_f_upper - datetime_lower).days + 1) / bgt_f_days
-                    bgt_last_part = ((datetime_upper - datetime_bgt_l_lower).days + 1) / bgt_l_days
-
+            datetime_lower = datetime.strptime(date_lower, date_format)
+            datetime_upper = datetime.strptime(date_upper, date_format)
             sum_budget = 0.0
-            if bgt_first:
-                sum_budget += bgt_first[0] * bgt_first_part
-            if bgt_inter:
-                sum_budget += bgt_inter
-            if bgt_last:
-                sum_budget += bgt_last[0] * bgt_last_part
+            # Check each budget if it can be fully or partly added.
+            for bgt in budgets_raw:
+                datetime_bgt_lower = datetime.strptime(bgt[1], date_format)
+                datetime_bgt_upper = datetime.strptime(bgt[2], date_format)
+                # Calculate timespan of budget in days
+                bgt_days = (datetime_bgt_upper - datetime_bgt_lower).days + 1.0
+                bgt_days_real = bgt_days
+                # Calculate how many days of the budget are outside the choosen timespan.
+                bgt_days_l_diff = (datetime_bgt_lower - datetime_lower).days
+                bgt_days_u_diff = (datetime_upper - datetime_bgt_upper).days
+                # Remove budget days outside of choosen timespan (before and after).
+                for days_remove in (bgt_days_l_diff, bgt_days_u_diff):
+                    if days_remove < 0:
+                        bgt_days_real += days_remove
+                # Calculate budget part based on the remaining days and sum it up.
+                bgt_real = bgt[0] * (bgt_days_real / bgt_days)
+                sum_budget += bgt_real
 
+            # Invert algebraic sign of budget if flag is set for this account.
             if account.negative_notation:
                 budgets[account.id] = -1.0 * sum_budget
             else:
