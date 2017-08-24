@@ -151,39 +151,6 @@
                     <div class="act_as_cell amount" style="width: 20px;">${_('Betrag')}</div>
                     ## j_forecast_previous_quarter_actual_year_diff
                     <div class="act_as_cell amount" style="width: 20px;">${_('Abw. CHF')}</div>
-##                     %if comparison_mode == 'no_comparison':
-##                         %if initial_balance_mode:
-##                             ## initial balance
-##                             <div class="act_as_cell amount" style="width: 30px;">${_('Initial Balance')}</div>
-##                         %endif
-##                         ## debit
-##                         <div class="act_as_cell amount" style="width: 30px;">${_('Debit')}</div>
-##                         ## credit
-##                         <div class="act_as_cell amount" style="width: 30px;">${_('Credit')}</div>
-##                     %endif
-                    ## balance
-##                     <div class="act_as_cell amount" style="width: 30px;">
-##                     %if comparison_mode == 'no_comparison' or not fiscalyear:
-##                         ${_('Balance')}
-##                     %else:
-##                         ${_('Balance %s') % (fiscalyear.name,)}
-##                     %endif
-##                     </div>
-##                     %if comparison_mode in ('single', 'multiple'):
-##                         %for index in range(nb_comparison):
-##                             <div class="act_as_cell amount" style="width: 30px;">
-##                                 %if comp_params[index]['comparison_filter'] == 'filter_year' and comp_params[index].get('fiscalyear', False):
-##                                     ${_('Balance %s') % (comp_params[index]['fiscalyear'].name,)}
-##                                 %else:
-##                                     ${_('Balance C%s') % (index + 1,)}
-##                                 %endif
-##                             </div>
-##                             %if comparison_mode == 'single':  ## no diff in multiple comparisons because it shows too data
-##                                 <div class="act_as_cell amount" style="width: 30px;">${_('Difference')}</div>
-##                                 <div class="act_as_cell amount" style="width: 30px;">${_('% Difference')}</div>
-##                             %endif
-##                         %endfor
-##                     %endif
                 </div>
             </div>
 
@@ -192,25 +159,11 @@
                 last_child_consol_ids = []
                 last_level = False
                 %>
-##                 %for current_account in objects:
-##                     <%
-##                     print '<------'
-##                     print current_account.code
-##                     print current_account.level
-##                     print '------>'
-##                     %>
-##                 %endfor
                 %for current_account in lines:
                     <%
-## ##                     print current_account
-## ##                     print current_account['account_id']
-## ##                     print current_account['account_type']
-##                     print "%s_account_type" % (current_account['account_type'], )
                     if current_account['account_id']:
                         if not to_display_accounts[current_account['account_id']]:
                             continue
-
-                        comparisons = comparisons_accounts[current_account['account_id']]
 
                     if not current_account['account_id']:
                         level = last_level
@@ -226,8 +179,6 @@
                         level_class = "account_level_%s" % (level,)
                         last_child_consol_ids = [child_consol_id.id for child_consol_id in current_account['child_consol_ids']]
                         last_level = current_account['level']
-                    print current_account['code']
-                    print level_class
                     %>
                     <div class="act_as_row lines ${level_class} ${"%s_account_type" % (current_account['account_type'],)}">
                         ## code
@@ -251,6 +202,7 @@
                            ${round(balance_accounts_percent[current_account['account_id']],1) | amount} &#37;
                         %endif
                         </div>
+
                         ## e_budget_actual_year
                         <%
                         e_budget_actual_year = 0
@@ -262,79 +214,30 @@
                         <div class="act_as_cell amount">${formatLang(e_budget_actual_year) | amount}</div>
                         ## f_rechung_budget_actual_year_diff
                         <div class="act_as_cell amount">${formatLang(c_rechnung_actual_year_value - e_budget_actual_year) | amount}</div>
+
                         ## g_rechnung_previous_year
-                        %if current_account['account_id']:
-                            %if comparison_mode in ('single', 'multiple'):
-                                %for comp_account in comparisons:
-                                    <%
-                                        g_rechnung_previous_year = comp_account['balance']
-                                    %>
-                                    <div class="act_as_cell amount">${formatLang(g_rechnung_previous_year) | amount}</div>
-##                                     %if comparison_mode == 'single':  ## no diff in multiple comparisons because it shows too data
-##                                         <div class="act_as_cell amount">${formatLang(comp_account['diff']) | amount}</div>
-##                                         <div class="act_as_cell amount">
-##                                         %if comp_account['percent_diff'] is False:
-##                                          ${ '-' }
-##                                         %else:
-##                                            ${int(round(comp_account['percent_diff'])) | amount} &#37;
-##                                         %endif
-##                                         </div>
-##                                     %endif
-                                %endfor
-                            %endif
-                        %else:
-                            <div class="act_as_cell amount">${formatLang(current_account['g_rechnung_previous_year']) | amount}</div>
-                        %endif
+                        <%
+                        g_rechnung_previous_year= 0
+                        if current_account['account_id']:
+                            g_rechnung_previous_year = comparisons_accounts[current_account['account_id']]
+                        else:
+                            g_rechnung_previous_year = current_account['g_rechnung_previous_year']
+                        %>
+                        <div class="act_as_cell amount">${formatLang(g_rechnung_previous_year) | amount}</div>
                         ## h_rechnung_previous_actual_year_diff
                         <div class="act_as_cell amount">${formatLang(c_rechnung_actual_year_value - g_rechnung_previous_year) | amount}</div>
+
                         ## i_forecast_previous_quarter
                         <%
                         i_forecast_previous_quarter= 0
                         if current_account['account_id']:
                             i_forecast_previous_quarter = balance_forecast_accounts[current_account['account_id']]
                         else:
-
                             i_forecast_previous_quarter = current_account['i_forecast_previous_quarter']
                         %>
                         <div class="act_as_cell amount">${formatLang(i_forecast_previous_quarter) | amount}</div>
                         ## j_forecast_previous_quarter_actual_year_diff
                         <div class="act_as_cell amount">${formatLang(c_rechnung_actual_year_value - i_forecast_previous_quarter) | amount}</div>
-
-
-
-##                         %if comparison_mode == 'no_comparison':
-##                             %if initial_balance_mode and current_account['account_id']:
-##                                 ## opening balance
-##                                 <div class="act_as_cell amount">${formatLang(init_balance_accounts[current_account['account_id']]) | amount}</div>
-##                             %endif
-##                             ## debit
-##                             %if current_account['account_id']:
-##                                 <div class="act_as_cell amount">${formatLang(debit_accounts[current_account['account_id']]) | amount}</div>
-##                                 ## credit
-##                                 <div class="act_as_cell amount">${formatLang(credit_accounts[current_account['account_id']]) | amount}</div>
-##                             %endif
-##                         %endif
-##                         ## balance
-##                         %if current_account['account_id']:
-##                             <div class="act_as_cell amount">${formatLang(balance_accounts[current_account['account_id']]) | amount}</div>
-##                         %else:
-##                             <div class="act_as_cell amount">${formatLang(current_account['balance']) | amount}</div>
-##                         %endif
-##                         %if comparison_mode in ('single', 'multiple'):
-##                             %for comp_account in comparisons:
-##                                 <div class="act_as_cell amount">${formatLang(comp_account['balance']) | amount}</div>
-##                                 %if comparison_mode == 'single':  ## no diff in multiple comparisons because it shows too data
-##                                     <div class="act_as_cell amount">${formatLang(comp_account['diff']) | amount}</div>
-##                                     <div class="act_as_cell amount">
-##                                     %if comp_account['percent_diff'] is False:
-##                                      ${ '-' }
-##                                     %else:
-##                                        ${int(round(comp_account['percent_diff'])) | amount} &#37;
-##                                     %endif
-##                                     </div>
-##                                 %endif
-##                             %endfor
-##                         %endif
                     </div>
                 %endfor
             </div>
