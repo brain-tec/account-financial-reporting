@@ -164,6 +164,8 @@
                     if current_account['account_id']:
                         if not to_display_accounts[current_account['account_id']]:
                             continue
+                    if current_account['name'].startswith('XXX'):
+                        continue
 
                     if not current_account['account_id']:
                         level = last_level
@@ -189,15 +191,15 @@
                         <%
                         c_rechnung_actual_year_value = 0
                         if not current_account['values_need_to_be_updated']:
-                            c_rechnung_actual_year_value = balance_accounts[current_account['account_id']]
+                            c_rechnung_actual_year_value = balance_accounts[current_account['account_id']]*-1
                         else:
-                            c_rechnung_actual_year_value = current_account['c_rechnung_actual_year']
+                            c_rechnung_actual_year_value = current_account['c_rechnung_actual_year']*-1
                         %>
                         <div class="act_as_cell amount">${formatLang(c_rechnung_actual_year_value) | amount}</div>
                         ## d_rechnung_actual_year_percent
                         <div class="act_as_cell amount">
                         %if not current_account['account_id'] or balance_accounts_percent[current_account['account_id']] is False:
-                           ${round(c_rechnung_actual_year_value / amount_betriebsertrag * 100,1) | amount} &#37;
+                           ${round(c_rechnung_actual_year_value / (amount_betriebsertrag*-1) * 100,1) | amount} &#37;
                         %else:
                            ${round(balance_accounts_percent[current_account['account_id']],1) | amount} &#37;
                         %endif
@@ -207,9 +209,9 @@
                         <%
                         e_budget_actual_year = 0
                         if not current_account['values_need_to_be_updated']:
-                            e_budget_actual_year = budget_accounts[current_account['account_id']]
+                            e_budget_actual_year = budget_accounts[current_account['account_id']]*-1
                         else:
-                            e_budget_actual_year = current_account['e_budget_actual_year']
+                            e_budget_actual_year = current_account['e_budget_actual_year']*-1
                         %>
                         <div class="act_as_cell amount">${formatLang(e_budget_actual_year) | amount}</div>
                         ## f_rechung_budget_actual_year_diff
@@ -219,9 +221,9 @@
                         <%
                         g_rechnung_previous_year= 0
                         if current_account['account_id']:
-                            g_rechnung_previous_year = comparisons_accounts[current_account['account_id']]
+                            g_rechnung_previous_year = comparisons_accounts[current_account['account_id']]*-1
                         else:
-                            g_rechnung_previous_year = current_account['g_rechnung_previous_year']
+                            g_rechnung_previous_year = current_account['g_rechnung_previous_year']*-1
                         %>
                         <div class="act_as_cell amount">${formatLang(g_rechnung_previous_year) | amount}</div>
                         ## h_rechnung_previous_actual_year_diff
@@ -231,9 +233,9 @@
                         <%
                         i_forecast_previous_quarter= 0
                         if current_account['account_id']:
-                            i_forecast_previous_quarter = balance_forecast_accounts[current_account['account_id']]
+                            i_forecast_previous_quarter = balance_forecast_accounts[current_account['account_id']]*-1
                         else:
-                            i_forecast_previous_quarter = current_account['i_forecast_previous_quarter']
+                            i_forecast_previous_quarter = current_account['i_forecast_previous_quarter']*-1
                         %>
                         <div class="act_as_cell amount">${formatLang(i_forecast_previous_quarter) | amount}</div>
                         ## j_forecast_previous_quarter_actual_year_diff
