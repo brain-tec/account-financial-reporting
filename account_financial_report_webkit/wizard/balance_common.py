@@ -96,6 +96,11 @@ class AccountBalanceCommonWizard(orm.TransientModel):
             help='Filter by date: no opening balance will be displayed. '
             '(opening balance can only be computed based on period to be \
             correct).'),
+        # Set statically because of the impossibility of changing the selection
+        # field when changing chart_account_id
+        'account_level': fields.selection(
+            [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'),
+             ('6', '6')], string="Account level"),
     }
 
     for index in range(COMPARISON_LEVEL):
@@ -387,14 +392,14 @@ class AccountBalanceCommonWizard(orm.TransientModel):
 
     def pre_print_report(self, cr, uid, ids, data, context=None):
         data = super(AccountBalanceCommonWizard, self).pre_print_report(
-            cr, uid, ids, data, context)
+            cr, uid, ids, data, context=context)
         if context is None:
             context = {}
 
         # will be used to attach the report on the main account
         data['ids'] = [data['form']['chart_account_id']]
 
-        fields_to_read = ['account_ids', ]
+        fields_to_read = ['account_ids', 'account_level']
         fields_to_read += self.DYNAMIC_FIELDS
         vals = self.read(cr, uid, ids, fields_to_read, context=context)[0]
 

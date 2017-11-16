@@ -22,7 +22,7 @@
 
 from datetime import datetime
 
-from openerp import pooler
+from openerp.modules.registry import RegistryManager
 from openerp.report import report_sxw
 from openerp.tools.translate import _
 from .common_partner_balance_reports \
@@ -36,7 +36,7 @@ class PartnerBalanceWebkit(report_sxw.rml_parse,
     def __init__(self, cursor, uid, name, context):
         super(PartnerBalanceWebkit, self).__init__(
             cursor, uid, name, context=context)
-        self.pool = pooler.get_pool(self.cr.dbname)
+        self.pool = RegistryManager.get(self.cr.dbname)
         self.cursor = self.cr
 
         company = self.pool.get('res.users').browse(
@@ -92,6 +92,7 @@ class PartnerBalanceWebkit(report_sxw.rml_parse,
         self.localcontext.update(context_report_values)
         return super(PartnerBalanceWebkit, self).set_context(
             objects, data, new_ids, report_type=report_type)
+
 
 HeaderFooterTextWebKitParser(
     'report.account.account_report_partner_balance_webkit',

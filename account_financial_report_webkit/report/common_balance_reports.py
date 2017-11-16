@@ -23,6 +23,7 @@
 from operator import add
 
 from .common_reports import CommonReportHeaderWebkit
+from openerp import tools
 
 
 class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
@@ -88,6 +89,12 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             ctx.update({'date_from': start,
                         'date_to': stop})
 
+        # in tests (when installing and testing at the same time),
+        # the read below might fail because it relies on the order
+        # given by parent_store
+        if tools.config['test_enable']:
+            account_obj._parent_store_compute(self.cursor)
+
         accounts = account_obj.read(
             self.cursor,
             self.uid,
@@ -117,7 +124,7 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
         return accounts_by_id
 
     def _get_comparison_details(self, data, account_ids, target_move,
-                                comparison_filter, index):
+                                comparison_filter, index, context=None):
         """
 
         @param data: data of the wizard form
@@ -154,7 +161,7 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                 and self._get_initial_balance_mode(start) or False
             accounts_by_ids = self._get_account_details(
                 account_ids, target_move, fiscalyear, details_filter,
-                start, stop, initial_balance_mode)
+                start, stop, initial_balance_mode, context=context)
             comp_params = {
                 'comparison_filter': comparison_filter,
                 'fiscalyear': fiscalyear,
@@ -230,8 +237,10 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
         return start_period, stop_period, start, stop
 
     def compute_balance_data(self, data, filter_report_type=None):
-        new_ids = data['form']['account_ids'] or data[
-            'form']['chart_account_id']
+        lang = self.localcontext.get('lang')
+        lang_ctx = lang and {'lang': lang} or {}
+        new_ids = (data['form']['account_ids'] or
+                   [data['form']['chart_account_id']])
         max_comparison = self._get_form_param(
             'max_comparison', data, default=0)
         main_filter = self._get_form_param('filter', data, default='filter_no')
@@ -259,28 +268,32 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             start) or False
 
         # Retrieving accounts
+        ctx = {}
+        if data['form'].get('account_level'):
+            # Filter by account level
+            ctx['account_level'] = int(data['form']['account_level'])
         account_ids = self.get_all_accounts(
-            new_ids, only_type=filter_report_type)
+            new_ids, only_type=filter_report_type, context=ctx)
 
-        # get details for each accounts, total of debit / credit / balance
+        # get details for each account, total of debit / credit / balance
         accounts_by_ids = self._get_account_details(
             account_ids, target_move, fiscalyear, main_filter, start, stop,
-            initial_balance_mode)
+            initial_balance_mode, context=lang_ctx)
 
         comparison_params = []
         comp_accounts_by_ids = []
         for index in range(max_comparison):
             if comp_filters[index] != 'filter_no':
                 comparison_result, comp_params = self._get_comparison_details(
-                    data, account_ids, target_move, comp_filters[index], index)
+                    data, account_ids, target_move, comp_filters[index], index,
+                    context=lang_ctx)
                 comparison_params.append(comp_params)
                 comp_accounts_by_ids.append(comparison_result)
 
-        objects = self.pool.get('account.account').browse(
-            self.cursor,
-            self.uid,
-            account_ids,
-            context=self.localcontext)
+        objects = self.pool.get('account.account').browse(self.cursor,
+                                                          self.uid,
+                                                          account_ids,
+                                                          context=lang_ctx)
 
         to_display_accounts = dict.fromkeys(account_ids, True)
         init_balance_accounts = dict.fromkeys(account_ids, False)
@@ -312,7 +325,8 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             for comp_account_by_id in comp_accounts_by_ids:
                 values = comp_account_by_id.get(account.id)
                 values.update(
-                    self._get_diff(account.balance, values['balance']))
+                    self._get_diff(balance_accounts[account.id],
+                                   values['balance']))
                 display_account = any((values.get('credit', 0.0),
                                        values.get('debit', 0.0),
                                        values.get('balance', 0.0),

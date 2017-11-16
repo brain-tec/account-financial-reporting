@@ -1,25 +1,6 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#
-#    Copyright (c) 2013 Noviat nv/sa (www.noviat.com). All rights reserved.
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-
+# -*- coding: utf-8 -*-
+# Copyright 2009-2016 Noviat
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import xlwt
 from datetime import datetime
 from openerp.addons.report_xls.report_xls import report_xls
@@ -37,6 +18,7 @@ _column_sizes = [
     ('journal', 12),
     ('account_code', 12),
     ('partner', 30),
+    ('ref', 30),
     ('label', 45),
     ('counterpart', 30),
     ('debit', 15),
@@ -165,6 +147,7 @@ class general_ledger_xls(report_xls):
             ('account_code', 1, 0, 'text',
              _('Account'), None, c_hdr_cell_style),
             ('partner', 1, 0, 'text', _('Partner'), None, c_hdr_cell_style),
+            ('ref', 1, 0, 'text', _('Reference'), None, c_hdr_cell_style),
             ('label', 1, 0, 'text', _('Label'), None, c_hdr_cell_style),
             ('counterpart', 1, 0, 'text',
              _('Counterpart'), None, c_hdr_cell_style),
@@ -230,7 +213,7 @@ class general_ledger_xls(report_xls):
                     cumul_balance_curr = init_balance.get(
                         'init_balance_currency') or 0.0
                     c_specs = [('empty%s' % x, 1, 0, 'text', None)
-                               for x in range(6)]
+                               for x in range(7)]
                     c_specs += [
                         ('init_bal', 1, 0, 'text', _('Initial Balance')),
                         ('counterpart', 1, 0, 'text', None),
@@ -282,6 +265,7 @@ class general_ledger_xls(report_xls):
                         ('account_code', 1, 0, 'text', account.code),
                         ('partner', 1, 0, 'text',
                          line.get('partner_name') or ''),
+                        ('ref', 1, 0, 'text', line.get('lref')),
                         ('label', 1, 0, 'text', label),
                         ('counterpart', 1, 0, 'text',
                          line.get('counterparts') or ''),
@@ -306,17 +290,17 @@ class general_ledger_xls(report_xls):
                     row_pos = self.xls_write_row(
                         ws, row_pos, row_data, ll_cell_style)
 
-                debit_start = rowcol_to_cell(row_start, 8)
-                debit_end = rowcol_to_cell(row_pos - 1, 8)
+                debit_start = rowcol_to_cell(row_start, 9)
+                debit_end = rowcol_to_cell(row_pos - 1, 9)
                 debit_formula = 'SUM(' + debit_start + ':' + debit_end + ')'
-                credit_start = rowcol_to_cell(row_start, 9)
-                credit_end = rowcol_to_cell(row_pos - 1, 9)
+                credit_start = rowcol_to_cell(row_start, 10)
+                credit_end = rowcol_to_cell(row_pos - 1, 10)
                 credit_formula = 'SUM(' + credit_start + ':' + credit_end + ')'
-                balance_debit = rowcol_to_cell(row_pos, 8)
-                balance_credit = rowcol_to_cell(row_pos, 9)
+                balance_debit = rowcol_to_cell(row_pos, 9)
+                balance_credit = rowcol_to_cell(row_pos, 10)
                 balance_formula = balance_debit + '-' + balance_credit
                 c_specs = [
-                    ('acc_title', 7, 0, 'text',
+                    ('acc_title', 8, 0, 'text',
                      ' - '.join([account.code, account.name])),
                     ('cum_bal', 1, 0, 'text',
                      _('Cumulated Balance on Account'),
@@ -341,6 +325,7 @@ class general_ledger_xls(report_xls):
                 row_pos = self.xls_write_row(
                     ws, row_pos, row_data, c_hdr_cell_style)
                 row_pos += 1
+
 
 general_ledger_xls('report.account.account_report_general_ledger_xls',
                    'account.account',
