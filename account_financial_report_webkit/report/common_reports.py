@@ -529,10 +529,12 @@ SELECT l.id AS id,
             j.type AS jtype,
             l.currency_id,
             l.account_id,
+            aa.code AS analytic_account,
             l.amount_currency,
             l.ref AS lref,
             l.name AS lname,
             COALESCE(l.debit, 0.0) - COALESCE(l.credit, 0.0) AS balance,
+            tc.code as tax_code,
             l.debit,
             l.credit,
             l.period_id AS lperiod_id,
@@ -556,6 +558,8 @@ FROM account_move_line l
         on (l.reconcile_partial_id = partialrec.id)
     LEFT JOIN account_move_reconcile fullrec on (l.reconcile_id = fullrec.id)
     LEFT JOIN res_partner p on (l.partner_id=p.id)
+    LEFT JOIN account_analytic_account aa on (l.analytic_account_id=aa.id)
+    LEFT JOIN account_tax_code tc on (l.tax_code_id=tc.id)
     LEFT JOIN account_invoice i on (m.id =i.move_id)
     LEFT JOIN account_period per on (per.id=l.period_id)
     JOIN account_journal j on (l.journal_id=j.id)

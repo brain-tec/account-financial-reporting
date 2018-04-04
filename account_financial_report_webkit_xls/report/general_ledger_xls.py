@@ -17,6 +17,8 @@ _column_sizes = [
     ('move', 20),
     ('journal', 12),
     ('account_code', 12),
+    ('analytic_account_code', 18),
+    ('tax', 15),
     ('partner', 30),
     ('ref', 30),
     ('label', 45),
@@ -146,6 +148,9 @@ class general_ledger_xls(report_xls):
             ('journal', 1, 0, 'text', _('Journal'), None, c_hdr_cell_style),
             ('account_code', 1, 0, 'text',
              _('Account'), None, c_hdr_cell_style),
+            ('analytic_account_code', 1, 0, 'text',
+             _('Analytic Account'), None, c_hdr_cell_style),
+            ('tax', 1, 0, 'text', _('Tax'), None, c_hdr_cell_style),
             ('partner', 1, 0, 'text', _('Partner'), None, c_hdr_cell_style),
             ('ref', 1, 0, 'text', _('Reference'), None, c_hdr_cell_style),
             ('label', 1, 0, 'text', _('Label'), None, c_hdr_cell_style),
@@ -213,7 +218,7 @@ class general_ledger_xls(report_xls):
                     cumul_balance_curr = init_balance.get(
                         'init_balance_currency') or 0.0
                     c_specs = [('empty%s' % x, 1, 0, 'text', None)
-                               for x in range(7)]
+                               for x in range(8)]
                     c_specs += [
                         ('init_bal', 1, 0, 'text', _('Initial Balance')),
                         ('counterpart', 1, 0, 'text', None),
@@ -263,6 +268,8 @@ class general_ledger_xls(report_xls):
                         ('move', 1, 0, 'text', line.get('move_name') or ''),
                         ('journal', 1, 0, 'text', line.get('jcode') or ''),
                         ('account_code', 1, 0, 'text', account.code),
+                        ('analytic_account_code', 1, 0, 'text', line.get('analytic_account')),
+                        ('tax', 1, 0, 'text', line.get('tax_code')),
                         ('partner', 1, 0, 'text',
                          line.get('partner_name') or ''),
                         ('ref', 1, 0, 'text', line.get('lref')),
@@ -290,17 +297,17 @@ class general_ledger_xls(report_xls):
                     row_pos = self.xls_write_row(
                         ws, row_pos, row_data, ll_cell_style)
 
-                debit_start = rowcol_to_cell(row_start, 9)
-                debit_end = rowcol_to_cell(row_pos - 1, 9)
+                debit_start = rowcol_to_cell(row_start, 10)
+                debit_end = rowcol_to_cell(row_pos - 1, 10)
                 debit_formula = 'SUM(' + debit_start + ':' + debit_end + ')'
-                credit_start = rowcol_to_cell(row_start, 10)
-                credit_end = rowcol_to_cell(row_pos - 1, 10)
+                credit_start = rowcol_to_cell(row_start, 11)
+                credit_end = rowcol_to_cell(row_pos - 1, 11)
                 credit_formula = 'SUM(' + credit_start + ':' + credit_end + ')'
-                balance_debit = rowcol_to_cell(row_pos, 9)
-                balance_credit = rowcol_to_cell(row_pos, 10)
+                balance_debit = rowcol_to_cell(row_pos, 10)
+                balance_credit = rowcol_to_cell(row_pos, 11)
                 balance_formula = balance_debit + '-' + balance_credit
                 c_specs = [
-                    ('acc_title', 8, 0, 'text',
+                    ('acc_title', 9, 0, 'text',
                      ' - '.join([account.code, account.name])),
                     ('cum_bal', 1, 0, 'text',
                      _('Cumulated Balance on Account'),
