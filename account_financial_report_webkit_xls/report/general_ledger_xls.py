@@ -297,17 +297,17 @@ class general_ledger_xls(report_xls):
                     row_pos = self.xls_write_row(
                         ws, row_pos, row_data, ll_cell_style)
 
-                debit_start = rowcol_to_cell(row_start, 10)
-                debit_end = rowcol_to_cell(row_pos - 1, 10)
+                debit_start = rowcol_to_cell(row_start, 11)
+                debit_end = rowcol_to_cell(row_pos - 1, 11)
                 debit_formula = 'SUM(' + debit_start + ':' + debit_end + ')'
-                credit_start = rowcol_to_cell(row_start, 11)
-                credit_end = rowcol_to_cell(row_pos - 1, 11)
+                credit_start = rowcol_to_cell(row_start, 12)
+                credit_end = rowcol_to_cell(row_pos - 1, 12)
                 credit_formula = 'SUM(' + credit_start + ':' + credit_end + ')'
-                balance_debit = rowcol_to_cell(row_pos, 10)
-                balance_credit = rowcol_to_cell(row_pos, 11)
+                balance_debit = rowcol_to_cell(row_pos, 11)
+                balance_credit = rowcol_to_cell(row_pos, 12)
                 balance_formula = balance_debit + '-' + balance_credit
                 c_specs = [
-                    ('acc_title', 9, 0, 'text',
+                    ('acc_title', 10, 0, 'text',
                      ' - '.join([account.code, account.name])),
                     ('cum_bal', 1, 0, 'text',
                      _('Cumulated Balance on Account'),
