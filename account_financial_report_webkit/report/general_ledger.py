@@ -92,8 +92,10 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         stop_period = self.get_end_period_br(data)
         fiscalyear = self.get_fiscalyear_br(data)
         chart_account = self._get_chart_account_id_br(data)
+        journal_ids = self._get_form_param('journal_ids', data)
 
         self.localcontext.update({'remove_zero_lines': remove_zero_lines, })
+        self.localcontext.update({'journal_ids': journal_ids, })
 
         if main_filter == 'filter_no':
             start_period = self.get_first_fiscalyear_period(fiscalyear)
