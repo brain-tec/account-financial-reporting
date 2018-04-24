@@ -102,10 +102,12 @@
                         <div class="act_as_cell" style="width: 70px;">${_('Journal')}</div>
                         ## account code
                         <div class="act_as_cell" style="width: 65px;">${_('Account')}</div>
+                        ## analytic account code
+                        <div class="act_as_cell" style="width: 100px;">${_('Analytic Account')}</div>
+                        ## tax code
+                        <div class="act_as_cell" style="width: 150px;">${_('Tax')}</div>
                         ## partner
                         <div class="act_as_cell" style="width: 140px;">${_('Partner')}</div>
-                        ## move reference
-                        <div class="act_as_cell" style="width: 140px;">${_('Reference')}</div>
                         ## label
                         <div class="act_as_cell" style="width: 160px;">${_('Label')}</div>
                         ## counterpart
@@ -144,9 +146,11 @@
                           <div class="act_as_cell"></div>
                           ## account code
                           <div class="act_as_cell"></div>
-                          ## partner
+                            ## analytic account code
                           <div class="act_as_cell"></div>
-                          ## move reference
+                            ## tax code
+                          <div class="act_as_cell"></div>
+                          ## partner
                           <div class="act_as_cell"></div>
                           ## label
                           <div class="act_as_cell">${_('Initial Balance')}</div>
@@ -190,10 +194,12 @@
                           <div class="act_as_cell">${line.get('jcode') or ''}</div>
                           ## account code
                           <div class="act_as_cell">${account.code}</div>
+                          ## analytic account code
+                          <div class="act_as_cell">${line.get('analytic_account') or ''}</div>
+                          ## tax code
+                          <div class="act_as_cell">${line.get('tax_code') or ''}</div>
                           ## partner
                           <div class="act_as_cell overflow_ellipsis">${line.get('partner_name') or ''}</div>
-                          ## move reference
-                          <div class="act_as_cell">${line.get('lref') or ''}</div>
                           ## label
                           <div class="act_as_cell">${label | h}</div>
                           ## counterpart
@@ -216,7 +222,7 @@
                 <div class="act_as_table list_table">
                     <div class="act_as_row labels" style="font-weight: bold;">
                         ## date
-                        <div class="act_as_cell first_column" style="width: 615px;">${account.code} - ${account.name}</div>
+                        <div class="act_as_cell first_column" style="width: 770px;">${account.code} - ${account.name}</div>
                         <div class="act_as_cell" style="width: 260px;">${_("Cumulated Balance on Account")}</div>
                         ## debit
                         <div class="act_as_cell amount" style="width: 75px;">${ formatLang(cumul_debit) | amount }</div>
