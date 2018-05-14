@@ -365,15 +365,27 @@ class CommonReportHeaderWebkit(common_report_header):
         if not default_values:
             if not account_id or not period_ids:
                 raise Exception('Missing account or period_ids')
+            journal_ids = self.localcontext.get('journal_ids', [])
             try:
-                self.cursor.execute("SELECT sum(debit) AS debit, "
-                                    " sum(credit) AS credit, "
-                                    " sum(debit)-sum(credit) AS balance, "
-                                    " sum(amount_currency) AS curr_balance"
-                                    " FROM account_move_line"
-                                    " WHERE period_id in %s"
-                                    " AND account_id = %s",
-                                    (tuple(period_ids), account_id))
+                if not journal_ids:
+                    self.cursor.execute("SELECT sum(debit) AS debit, "
+                                        " sum(credit) AS credit, "
+                                        " sum(debit)-sum(credit) AS balance, "
+                                        " sum(amount_currency) AS curr_balance"
+                                        " FROM account_move_line"
+                                        " WHERE period_id in %s"
+                                        " AND account_id = %s",
+                                        (tuple(period_ids), account_id))
+                else:
+                    self.cursor.execute("SELECT sum(debit) AS debit, "
+                                        " sum(credit) AS credit, "
+                                        " sum(debit)-sum(credit) AS balance, "
+                                        " sum(amount_currency) AS curr_balance"
+                                        " FROM account_move_line"
+                                        " WHERE period_id in %s"
+                                        " AND account_id = %s"
+                                        " AND journal_id in %s",
+                                        (tuple(period_ids), account_id, tuple(journal_ids)))
                 res = self.cursor.dictfetchone()
 
             except Exception:
@@ -454,6 +466,9 @@ class CommonReportHeaderWebkit(common_report_header):
             ('period_id', 'in', periods), ('account_id', '=', account_id)]
         if target_move == 'posted':
             search += [('move_id.state', '=', 'posted')]
+
+        if self.localcontext and self.localcontext.get('journal_ids', []):
+            search += [('journal_id', 'in', self.localcontext['journal_ids'])]
         return move_line_obj.search(self.cursor, self.uid, search)
 
     def _get_move_ids_from_dates(self, account_id, date_start, date_stop,
@@ -473,6 +488,9 @@ class CommonReportHeaderWebkit(common_report_header):
 
         if target_move == 'posted':
             search_period += [('move_id.state', '=', 'posted')]
+
+        if self.localcontext and self.localcontext.get('journal_ids', []):
+            search_period += [('journal_id', 'in', self.localcontext['journal_ids'])]
 
         return move_line_obj.search(self.cursor, self.uid, search_period)
 

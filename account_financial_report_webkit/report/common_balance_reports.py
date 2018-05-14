@@ -231,11 +231,12 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
             if comparison_filter == 'filter_year':
                 details_filter = 'filter_no'
 
+            ctx = {'journal_ids': data['form']['used_context']['journal_ids']}
             initial_balance_mode = init_balance \
                 and self._get_initial_balance_mode(start) or False
             accounts_by_ids = self._get_account_details(
                 account_ids, target_move, fiscalyear, details_filter,
-                start, stop, initial_balance_mode)
+                start, stop, initial_balance_mode, context=ctx)
             comp_params = {
                 'comparison_filter': comparison_filter,
                 'fiscalyear': fiscalyear,
@@ -444,10 +445,11 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
         data['form']['account_report_id'] = [104, u'ERFOLGSRECHNUNG Detail']
         account_ids, lines, report_account_ids = self.get_lines(data, main_filter, use_period_ids)
 
+        ctx = {'journal_ids': data['form']['used_context']['journal_ids']}
         # get details for each accounts, total of debit / credit / balance
         accounts_by_ids = self._get_account_details(
             account_ids, target_move, fiscalyear, main_filter, start, stop,
-            initial_balance_mode, True)
+            initial_balance_mode, True, context=ctx)
 
         # HACK: 04.08.17 14:04: jool1: accounts_forecast_by_ids (stop minus 3 months)
         accounts_forecast_by_ids = []
@@ -464,7 +466,7 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                 data_forecast['form']['used_context']['period_to'] = index_forecast_stop_id
                 accounts_forecast_by_ids = self._get_account_details(
                     account_ids, target_move, fiscalyear, main_filter, start, index_forecast_stop,
-                    initial_balance_mode, False)
+                    initial_balance_mode, False, context=ctx)
         elif main_filter == 'filter_date':
             # substract 3 months
             d = datetime.strptime(ustr(stop_date), "%Y-%m-%d")
@@ -476,7 +478,7 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                 data_forecast['form']['used_context']['date_to'] = stop_date_minus_3_months
                 accounts_forecast_by_ids = self._get_account_details(
                     account_ids, target_move, fiscalyear, main_filter, start, stop_date_minus_3_months,
-                    initial_balance_mode, False)
+                    initial_balance_mode, False, context=ctx)
 
         comparison_params = []
         comp_accounts_by_ids = []
@@ -693,10 +695,11 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
         account_ids = self.get_all_accounts(
             new_ids, only_type=filter_report_type)
 
+        ctx = {'journal_ids': data['form']['used_context']['journal_ids']}
         # get details for each accounts, total of debit / credit / balance
         accounts_by_ids = self._get_account_details(
             account_ids, target_move, fiscalyear, main_filter, start, stop,
-            initial_balance_mode)
+            initial_balance_mode, context=ctx)
 
         comparison_params = []
         comp_accounts_by_ids = []
