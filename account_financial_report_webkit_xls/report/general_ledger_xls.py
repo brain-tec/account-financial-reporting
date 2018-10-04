@@ -54,6 +54,8 @@ class general_ledger_xls(report_xls):
 
     def generate_xls_report(self, _p, _xs, data, objects, wb):
 
+        self.env = objects.env # FIX to make translations working # by sisc
+
         ws = wb.add_sheet(_p.report_name[:31])
         ws.panes_frozen = True
         ws.remove_splits = True
