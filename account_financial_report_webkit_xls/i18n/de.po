@@ -95,7 +95,7 @@ msgstr "Budget"
 #: code:addons/account_financial_report_webkit_xls/report/general_ledger_xls.py:400
 #, python-format
 msgid "Budget Deviation"
-msgstr "Budget Abweichung"
+msgstr "Abweichung zum Budget"
 
 #. module: account_financial_report_webkit_xls
 #: code:addons/account_financial_report_webkit_xls/report/general_ledger_xls.py:98

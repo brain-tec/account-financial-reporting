@@ -389,7 +389,7 @@ class general_ledger_xls(report_xls):
 
 
 
-                diff = (budget or 0.0) - cumul_balance
+                diff = cumul_balance - (budget or 0.0)
                 if account.negative_notation:
                     diff*=-1
                 diff_p = (diff / budget) if budget else 0.0
