@@ -54,6 +54,8 @@ class general_ledger_xls(report_xls):
 
     def generate_xls_report(self, _p, _xs, data, objects, wb):
 
+        self.env = objects.env # FIX to make translations working # by sisc
+
         ws = wb.add_sheet(_p.report_name[:31])
         ws.panes_frozen = True
         ws.remove_splits = True
@@ -364,7 +366,51 @@ class general_ledger_xls(report_xls):
                     c_specs, [x[0] for x in c_specs])
                 row_pos = self.xls_write_row(
                     ws, row_pos, row_data, c_hdr_cell_style)
-                row_pos += 1
+
+
+
+
+                # add budget lines like in account_general_ledger.mako
+                # HACK:sisc
+
+                budget = _p['budget'][account.id]
+
+                c_specs = [
+                    ('title', 12, 0, 'text',
+                     _('Budget')),
+                    ('budget', 1, 0, 'number', budget or 0.0, None, c_hdr_cell_style_decimal)
+                ]
+
+                row_data = self.xls_row_template(
+                    c_specs, [x[0] for x in c_specs])
+                row_pos = self.xls_write_row(
+                    ws, row_pos, row_data, c_hdr_cell_style)
+
+
+
+
+                diff = cumul_balance - (budget or 0.0)
+                if account.negative_notation:
+                    diff*=-1
+                diff_p = (diff / budget) if budget else 0.0
+
+                cell_format = _xs['bold'] + _xs['fill'] + _xs['borders_all']
+                style_percent = xlwt.easyxf(cell_format, num_format_str='0.00%')
+
+                c_specs = [
+                    ('title', 11, 0, 'text',
+                     _("Budget Deviation")),
+                    ('diff_p', 1, 0, 'number', diff_p or 0, None,style_percent),
+                    ('diff', 1, 0, 'number', diff or 0, None, c_hdr_cell_style_decimal),
+                ]
+
+                row_data = self.xls_row_template(
+                    c_specs, [x[0] for x in c_specs])
+                row_pos = self.xls_write_row(
+                    ws, row_pos, row_data, c_hdr_cell_style)
+
+                row_pos+=1
+
 
 general_ledger_xls('report.account.account_report_general_ledger_xls',
                    'account.account',
