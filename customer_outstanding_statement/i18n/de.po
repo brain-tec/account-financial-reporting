@@ -10,15 +10,26 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-28 10:11+0000\n"
-"PO-Revision-Date: 2018-08-24 13:24+0000\n"
-"Last-Translator: Rudolf Schnapka <rs@techno-flex.de>\n"
+"PO-Revision-Date: 2018-11-21 18:09+0000\n"
+"Last-Translator: Peter Schubert <psc@saco.info>\n"
 "Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.2.2\n"
+
+#. module: customer_outstanding_statement
+#: model:ir.ui.view,arch_db:customer_outstanding_statement.statement_document
+#, fuzzy
+msgid "+                                Customer Outstanding Statement at"
+msgstr "Kunden-Offene Posten-Bericht"
+
+#. module: customer_outstanding_statement
+#: model:ir.ui.view,arch_db:customer_outstanding_statement.statement_document
+msgid "+                                Supplier Outstanding Statement at"
+msgstr ""
 
 #. module: customer_outstanding_statement
 #: model:ir.ui.view,arch_db:customer_outstanding_statement.statement_document
@@ -38,7 +49,7 @@ msgstr "30-60 Tage fällig"
 #. module: customer_outstanding_statement
 #: model:ir.ui.view,arch_db:customer_outstanding_statement.statement_document
 msgid "60-90 Days Due"
-msgstr ""
+msgstr "60-90 Tage fällig"
 
 #. module: customer_outstanding_statement
 #: model:ir.ui.view,arch_db:customer_outstanding_statement.statement_document
@@ -51,16 +62,22 @@ msgid "<strong>The partner doesn't have due entries.</strong>"
 msgstr "<strong>Der Partner hat keine offenen Posten.</strong>"
 
 #. module: customer_outstanding_statement
+#: model:ir.model.fields,field_description:customer_outstanding_statement.field_customer_outstanding_statement_wizard_account_type
+msgid "Account type"
+msgstr ""
+
+#. module: customer_outstanding_statement
 #: model:ir.ui.view,arch_db:customer_outstanding_statement.statement_document
 msgid "Aging Report at"
 msgstr "Fälligkeiten Bericht zu"
 
 #. module: customer_outstanding_statement
 #: model:ir.ui.view,arch_db:customer_outstanding_statement.customer_outstanding_statement_wizard_view
+#, fuzzy
 msgid ""
 "Aging details can be shown in the report, expressed in aging                 "
-"buckets (30 days due, ...), so the customer can review how much is open, due "
-"or overdue."
+"buckets (30 days due, ...), so the customer or vendor can review how much is "
+"open, due or overdue."
 msgstr ""
 "Die einzelnen Fälligkeiten können im Bericht, nach Altersgruppen (30 Tage "
 "fällig,....) gegliedert, ausgewertet werden, so dass der Kunde überprüfen "
@@ -100,11 +117,6 @@ msgstr "Angelegt am"
 #: model:ir.ui.view,arch_db:customer_outstanding_statement.statement_document
 msgid "Current Due"
 msgstr "Aktuell fällig"
-
-#. module: customer_outstanding_statement
-#: model:ir.actions.act_window,name:customer_outstanding_statement.customer_outstanding_statement_wizard_action
-msgid "Customer Outstanding Statement"
-msgstr "Kunden-Offene Posten-Bericht"
 
 #. module: customer_outstanding_statement
 #: model:ir.model,name:customer_outstanding_statement.model_customer_outstanding_statement_wizard
@@ -205,14 +217,25 @@ msgid "Outstanding Statement"
 msgstr "Offene Posten-Bericht"
 
 #. module: customer_outstanding_statement
-#: model:ir.ui.view,arch_db:customer_outstanding_statement.statement_document
-msgid "Outstanding Statement at"
-msgstr "Offene Posten zum"
+#: model:ir.actions.act_window,name:customer_outstanding_statement.customer_outstanding_statement_wizard_action
+#, fuzzy
+msgid "Partner Outstanding Statement"
+msgstr "Kunden-Offene Posten-Bericht"
 
 #. module: customer_outstanding_statement
 #: model:ir.ui.view,arch_db:customer_outstanding_statement.statement_document
 msgid "Partner ref:"
 msgstr "Partner-Ref.:"
+
+#. module: customer_outstanding_statement
+#: selection:customer.outstanding.statement.wizard,account_type:0
+msgid "Payable"
+msgstr ""
+
+#. module: customer_outstanding_statement
+#: selection:customer.outstanding.statement.wizard,account_type:0
+msgid "Receivable"
+msgstr ""
 
 #. module: customer_outstanding_statement
 #: model:ir.ui.view,arch_db:customer_outstanding_statement.statement_document
@@ -226,11 +249,13 @@ msgstr "Berichtsaktion zu PDF"
 
 #. module: customer_outstanding_statement
 #: model:ir.ui.view,arch_db:customer_outstanding_statement.customer_outstanding_statement_wizard_view
+#, fuzzy
 msgid ""
-"The outstanding statement provides details of all outstanding         "
-"customer receivables up to a particular date. This includes all unpaid "
-"invoices, unclaimed         refunds and outstanding payments. The list is "
-"displayed in chronological order and is         split by currencies."
+"The outstanding statement provides details of all partner's "
+"outstanding         receivables and payables up to a particular date. This "
+"includes all unpaid invoices, unclaimed         refunds and outstanding "
+"payments. The list is displayed in chronological order and is         split "
+"by currencies."
 msgstr ""
 "Der offene Posten-Bericht gibt Auskunft über alle offenen Kundenforderungen "
 "bis zu einem bestimmten Datum. Dazu gehören alle unbezahlten Rechnungen, "
@@ -252,3 +277,6 @@ msgstr "oder"
 #: model:ir.model,name:customer_outstanding_statement.model_report_customer_outstanding_statement_statement
 msgid "report.customer_outstanding_statement.statement"
 msgstr "report.customer_outstanding_statement.statement"
+
+#~ msgid "Outstanding Statement at"
+#~ msgstr "Offene Posten zum"
