@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-23 15:26+0000\n"
-"PO-Revision-Date: 2018-10-15 15:16+0000\n"
+"PO-Revision-Date: 2018-12-16 18:58+0000\n"
 "Last-Translator: Pedro Castro Silva <pedrocs@exo.pt>\n"
 "Language-Team: Portuguese (https://www.transifex.com/oca/teams/23907/pt/)\n"
 "Language: pt\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 3.2.1\n"
+"X-Generator: Weblate 3.3\n"
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_lines_header
@@ -61,11 +61,11 @@ msgid "<span class=\"fa fa-print\"/> Print"
 msgstr "<span class=\"fa fa-print\"/> Imprimir"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:72
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:27
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:36
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:26
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:25
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:73
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:28
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:37
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:27
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:26
 #: model:ir.model,name:account_financial_report_qweb.model_account_account
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_move_line_account
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_move_line_account
@@ -81,21 +81,21 @@ msgid "Account"
 msgstr "Conta"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:44
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:45
 #, python-format
 msgid "Account Name"
 msgstr "Nome da Conta"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:113
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:114
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_qweb_filters
-#, fuzzy, python-format
+#, python-format
 msgid "Account at 0 filter"
 msgstr "Filtro de conta com saldo 0"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:91
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:65
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:92
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:66
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_filters
 #, python-format
@@ -109,9 +109,8 @@ msgstr "Código da conta"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_account_account_group_id
-#, fuzzy
 msgid "Account group id"
-msgstr "Id de Conta"
+msgstr "Id de grupo de conta"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_account_id
@@ -138,9 +137,8 @@ msgstr "Tipo de conta"
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_account_child_account_ids
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_account_compute_account_ids
-#, fuzzy
 msgid "Accounts"
-msgstr "Conta"
+msgstr "Contas"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_general_ledger_report_wizard_centralize
@@ -151,25 +149,25 @@ msgstr "Ativar centralização"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_line_age_120_days
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_move_line_age_120_days
 msgid "Age 120 days"
-msgstr "Idade 120 dias"
+msgstr "Antig. 120 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_line_age_30_days
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_move_line_age_30_days
 msgid "Age 30 days"
-msgstr "Idade 30 dias"
+msgstr "Antig. 30 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_line_age_60_days
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_move_line_age_60_days
 msgid "Age 60 days"
-msgstr "Idade 60 dias"
+msgstr "Antig. 60 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_line_age_90_days
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_move_line_age_90_days
 msgid "Age 90 days"
-msgstr "Idade 90 dias"
+msgstr "Antig. 90 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_move_lines
@@ -177,15 +175,15 @@ msgid ""
 "Age ≤ 120\n"
 "                        d."
 msgstr ""
-"Antiguidade ≤ 120\n"
+"Antig. ≤ 120\n"
 "                        d."
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:54
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:110
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:55
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:111
 #, python-format
 msgid "Age ≤ 120 d."
-msgstr "Antiguidade ≤ 120 d."
+msgstr "Antig. ≤ 120 d."
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_move_lines
@@ -193,15 +191,15 @@ msgid ""
 "Age ≤ 30\n"
 "                        d."
 msgstr ""
-"Antiguidade ≤ 30\n"
+"Antig. ≤ 30\n"
 "                        d."
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:36
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:89
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:37
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:90
 #, python-format
 msgid "Age ≤ 30 d."
-msgstr "Antiguidade ≤ 30 d."
+msgstr "Antig. ≤ 30 d."
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_move_lines
@@ -209,15 +207,15 @@ msgid ""
 "Age ≤ 60\n"
 "                        d."
 msgstr ""
-"Antiguidade ≤ 60\n"
+"Antig. ≤ 60\n"
 "                        d."
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:42
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:96
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:43
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:97
 #, python-format
 msgid "Age ≤ 60 d."
-msgstr "Antiguidade ≤ 60 d."
+msgstr "Antig. ≤ 60 d."
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_move_lines
@@ -225,26 +223,35 @@ msgid ""
 "Age ≤ 90\n"
 "                        d."
 msgstr ""
-"Antiguidade ≤ 90\n"
+"Antig. ≤ 90\n"
 "                        d."
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:48
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:103
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:49
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:104
 #, python-format
 msgid "Age ≤ 90 d."
-msgstr "Antiguidade ≤ 90 d."
+msgstr "Antig. ≤ 90 d."
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:19
 #: model:ir.actions.act_window,name:account_financial_report_qweb.action_aged_partner_balance_wizard
 #: model:ir.actions.client,name:account_financial_report_qweb.action_report_aged_partner_balance
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_aged_partner_balance_html
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_aged_partner_balance_qweb
 #: model:ir.ui.menu,name:account_financial_report_qweb.menu_aged_partner_balance_wizard
-#: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_base
-#, python-format
 msgid "Aged Partner Balance"
+msgstr "Antiguidade de Saldo de Parceiros"
+
+#. module: account_financial_report_qweb
+#: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_base
+#, fuzzy
+msgid "Aged Partner Balance -"
+msgstr "Antiguidade de Saldo de Parceiros"
+
+#. module: account_financial_report_qweb
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:19
+#, fuzzy, python-format
+msgid "Aged Partner Balance - %s - %s"
 msgstr "Antiguidade de Saldo de Parceiros"
 
 #. module: account_financial_report_qweb
@@ -258,7 +265,7 @@ msgid "Aged Partner Balance XLSX"
 msgstr "Antiguidade de Saldo do Parceiro XLSX"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:66
+#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:62
 #, python-format
 msgid "All"
 msgstr "Todos"
@@ -269,7 +276,7 @@ msgstr "Todos"
 #: selection:open.items.report.wizard,target_move:0
 #: selection:trial.balance.report.wizard,target_move:0
 msgid "All Entries"
-msgstr "Todos os lançamentos"
+msgstr "Todos os Lançamentos"
 
 #. module: account_financial_report_qweb
 #: selection:aged.partner.balance.wizard,target_move:0
@@ -277,13 +284,13 @@ msgstr "Todos os lançamentos"
 #: selection:open.items.report.wizard,target_move:0
 #: selection:trial.balance.report.wizard,target_move:0
 msgid "All Posted Entries"
-msgstr "Todos os lançamentos publicados"
+msgstr "Todos os Lançamentos Publicados"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:131
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:88
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:63
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:112
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:132
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:89
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:64
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:113
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_filters
@@ -293,10 +300,10 @@ msgid "All entries"
 msgstr "Todos os lançamentos"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:130
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:87
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:63
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:111
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:131
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:88
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:64
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:112
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_filters
@@ -306,13 +313,13 @@ msgid "All posted entries"
 msgstr "Todos os lançamentos publicados"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:82
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:83
 #, python-format
 msgid "Amount Currency"
-msgstr "Valor na moeda"
+msgstr "Valor na Moeda"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:68
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:69
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_lines
 #, python-format
 msgid "Amount cur."
@@ -356,25 +363,25 @@ msgstr "Saldo"
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_journal_qweb_all_taxes
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_journal_qweb_journal_taxes
 msgid "Base Amount"
-msgstr "Valor base"
+msgstr "Valor Base"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:124
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:125
 #, python-format
 msgid "Base Balance"
-msgstr "Saldo da base"
+msgstr "Saldo Base"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:118
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:119
 #, python-format
 msgid "Base Credit"
-msgstr "Crédito base"
+msgstr "Crédito Base"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:112
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:113
 #, python-format
 msgid "Base Debit"
-msgstr "Débito base"
+msgstr "Débito Base"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_journal_tax_line_base_balance
@@ -409,11 +416,11 @@ msgid "Centralize"
 msgstr "Centralizar"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:95
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:96
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #, python-format
 msgid "Centralize filter"
-msgstr "Centralizar filtro"
+msgstr "Filtro de centralização"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_account_account_centralized
@@ -429,12 +436,11 @@ msgstr "Lançamentos Centralizados"
 #. module: account_financial_report_qweb
 #: selection:report_trial_balance_qweb,hierarchy_on:0
 #: selection:trial.balance.report.wizard,hierarchy_on:0
-#, fuzzy
 msgid "Child Accounts"
-msgstr "Filtros de contas"
+msgstr "Contas Descendentes"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:24
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:25
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_code
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_account_code
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_journal_code
@@ -446,7 +452,7 @@ msgid "Code"
 msgstr "Código"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:170
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:171
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_aged_partner_balance_wizard_company_id
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_general_ledger_report_wizard_company_id
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_journal_report_wizard_company_id
@@ -476,9 +482,8 @@ msgstr "Id da empresa"
 #. module: account_financial_report_qweb
 #: selection:report_trial_balance_qweb,hierarchy_on:0
 #: selection:trial.balance.report.wizard,hierarchy_on:0
-#, fuzzy
 msgid "Computed Accounts"
-msgstr "Filtros de contas"
+msgstr "Contas Calculadas"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,help:account_financial_report_qweb.field_report_trial_balance_qweb_hierarchy_on
@@ -493,6 +498,15 @@ msgid ""
 "grouping.\n"
 "        "
 msgstr ""
+"Contas Calculadas: Usar quando o grupo de contas tem códigos\n"
+"        que representam prefixos das contas efetivas.\n"
+"\n"
+"        Contas Descendentes: Usar quando os seus grupos de contas são "
+"hierárquicos.\n"
+"\n"
+"        Sem hierarquia: Usar para apresentar apenas as contas sem qualquer "
+"agrupamento.\n"
+"        "
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_lines
@@ -502,7 +516,7 @@ msgid ""
 msgstr "Centro de custo"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:33
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:34
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_move_line_cost_center
 #, python-format
 msgid "Cost center"
@@ -571,10 +585,10 @@ msgid "Created on"
 msgstr "Criado em"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:47
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:72
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:34
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:75
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:48
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:73
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:35
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:76
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_move_line_credit
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_journal_credit
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_move_line_credit
@@ -592,22 +606,22 @@ msgstr "Crédito"
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_cumul_age_120_days
 msgid "Cumul age 120 days"
-msgstr "Idade acumulada 120 dias"
+msgstr "Antig. acum. 120 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_cumul_age_30_days
 msgid "Cumul age 30 days"
-msgstr "Idade acumulada 30 dias"
+msgstr "Ant. acum. 30 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_cumul_age_60_days
 msgid "Cumul age 60 days"
-msgstr "Idade acumulada 60 dias"
+msgstr "Antig. acum. 60 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_cumul_age_90_days
 msgid "Cumul age 90 days"
-msgstr "Idade acumulada 90 dias"
+msgstr "Antig. acum. 90 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_cumul_amount_residual
@@ -630,17 +644,17 @@ msgid "Cumul older"
 msgstr "Acumulado antigo"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:54
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:55
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_lines
 #, python-format
 msgid "Cumul. Bal."
 msgstr "Saldo Acum."
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:63
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:42
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:49
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:90
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:64
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:43
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:50
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:91
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_lines
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_lines
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_qweb_lines_header
@@ -649,21 +663,21 @@ msgid "Cur."
 msgstr "Moeda"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:45
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:46
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_lines
 #, python-format
 msgid "Cur. Original"
-msgstr "Moeda original"
+msgstr "Moeda Original"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:50
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:51
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_lines
 #, python-format
 msgid "Cur. Residual"
-msgstr "Moeda do valor em aberto"
+msgstr "Moeda do Valor em Aberto"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:88
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:89
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_journal_qweb_journal_table_header
 #, python-format
 msgid "Currency"
@@ -689,8 +703,8 @@ msgid "Currency name"
 msgstr "Nome da moeda"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:30
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:82
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:31
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:83
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_line_current
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_move_line_current
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_move_lines
@@ -699,11 +713,11 @@ msgid "Current"
 msgstr "Corrente"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:69
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:24
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:31
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:23
-#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:75
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:70
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:25
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:32
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:24
+#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:71
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_move_line_date
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_move_line_date
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_move_line_date
@@ -725,8 +739,8 @@ msgid "Date at"
 msgstr "Data em"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:128
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:61
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:129
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:62
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_filters
 #, python-format
@@ -756,14 +770,14 @@ msgid "Date range"
 msgstr "Período"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:82
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:174
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:108
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:83
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:175
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:109
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_qweb_filters
 #, python-format
 msgid "Date range filter"
-msgstr "Filtro de intervalo de data"
+msgstr "Filtro de período"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_general_ledger_report_wizard_date_to
@@ -775,10 +789,10 @@ msgid "Date to"
 msgstr "Data até"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:40
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:66
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:30
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:71
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:41
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:67
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:31
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:72
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_move_line_debit
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_journal_debit
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_move_line_debit
@@ -794,7 +808,7 @@ msgid "Debit"
 msgstr "Débito"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:107
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:108
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_journal_qweb_all_taxes
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_journal_qweb_journal_taxes
 #, python-format
@@ -831,7 +845,7 @@ msgstr "Descrição"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_partner_display_name
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_display_name
 msgid "Display Name"
-msgstr "Exibir nome"
+msgstr "Nome a Exibir"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,help:account_financial_report_qweb.field_general_ledger_report_wizard_foreign_currency
@@ -855,8 +869,8 @@ msgid ""
 msgstr "Data de vencimento"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:75
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:29
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:76
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:30
 #, python-format
 msgid "Due date"
 msgstr "Data de vencimento"
@@ -874,12 +888,12 @@ msgid ""
 msgstr "Saldo final"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:186
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:121
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:42
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:57
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:83
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:98
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:187
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:122
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:43
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:58
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:84
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:99
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_ending_cumul
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_qweb_lines_header
 #, python-format
@@ -892,16 +906,16 @@ msgid "Ending blance cur."
 msgstr "Saldo final mda."
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:182
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:183
 #, python-format
 msgid "Entries sorted by"
 msgstr "Lançamentos ordenados por"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:70
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:25
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:26
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:24
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:71
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:26
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:27
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:25
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_move_line_entry
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_move_line_entry
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_move_line_entry
@@ -915,7 +929,7 @@ msgid "Entry"
 msgstr "Lançamento"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:74
+#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:70
 #, python-format
 msgid "Entry number"
 msgstr "Número de lançamento"
@@ -944,7 +958,7 @@ msgstr "Exportar XLSX"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_open_items_qweb_filter_account_ids
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_filter_account_ids
 msgid "Filter account ids"
-msgstr "Ids de filtro de conta"
+msgstr "Filtro de ids de contas"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_aged_partner_balance_wizard_account_ids
@@ -954,24 +968,22 @@ msgstr "Ids de filtro de conta"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_account_ids
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.general_ledger_wizard
 msgid "Filter accounts"
-msgstr "Filtros de contas"
+msgstr "Filtro de contas"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_filter_analytic_tag_ids
-#, fuzzy
 msgid "Filter analytic tag ids"
-msgstr "Ids de filtro de conta"
+msgstr "Filtro de ids de etiq. analíticas"
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.general_ledger_wizard
-#, fuzzy
 msgid "Filter analytic tags"
-msgstr "Ids de filtro de conta"
+msgstr "Filtro de etiq. analíticas"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_filter_cost_center_ids
 msgid "Filter cost center ids"
-msgstr "Ids de filtro de centro de custo"
+msgstr "Filtro de ids de centros de custo"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_general_ledger_report_wizard_cost_center_ids
@@ -982,16 +994,14 @@ msgstr "Filtro de centros de custo"
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_filter_journal_ids
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_filter_journal_ids
-#, fuzzy
 msgid "Filter journal ids"
-msgstr "Ids. de relatórios de Diário"
+msgstr "Filtro de ids de diários"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_general_ledger_report_wizard_journal_ids
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_journal_ids
-#, fuzzy
 msgid "Filter journals"
-msgstr "Filtros de contas"
+msgstr "Filtro de diários"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_filter_partner_ids
@@ -999,7 +1009,7 @@ msgstr "Filtros de contas"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_open_items_qweb_filter_partner_ids
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_filter_partner_ids
 msgid "Filter partner ids"
-msgstr "Ids de filtro de parceiro"
+msgstr "Filtro de ids de parceiros"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_aged_partner_balance_wizard_partner_ids
@@ -1078,9 +1088,9 @@ msgid "From:"
 msgstr "De:"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:83
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:175
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:109
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:84
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:176
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:110
 #, python-format
 msgid "From: %s To: %s"
 msgstr "De: %s Até: %s"
@@ -1094,15 +1104,24 @@ msgid "Fy start date"
 msgstr "Data de início do ano fiscal"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:20
 #: model:ir.actions.act_window,name:account_financial_report_qweb.action_general_ledger_wizard
 #: model:ir.actions.client,name:account_financial_report_qweb.action_report_general_ledger
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_general_ledger_html
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_general_ledger_qweb
 #: model:ir.ui.menu,name:account_financial_report_qweb.menu_general_ledger_wizard
-#: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_base
-#, python-format
 msgid "General Ledger"
+msgstr "Extrato geral das contas"
+
+#. module: account_financial_report_qweb
+#: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_base
+#, fuzzy
+msgid "General Ledger -"
+msgstr "Extrato geral das contas"
+
+#. module: account_financial_report_qweb
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:20
+#, fuzzy, python-format
+msgid "General Ledger - %s - %s"
 msgstr "Extrato geral das contas"
 
 #. module: account_financial_report_qweb
@@ -1113,7 +1132,7 @@ msgstr "Assistente ao relatório extrato geral das contas"
 #. module: account_financial_report_qweb
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_general_ledger_xlsx
 msgid "General Ledger XLSX"
-msgstr "Extrato geral das contas  XLSX"
+msgstr "Extrato geral das contas XLSX"
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.general_ledger_wizard
@@ -1121,7 +1140,7 @@ msgid ""
 "General Ledger can be computed only if selected company have only one "
 "unaffected earnings account."
 msgstr ""
-"O Extrato geral das contas apenas pode ser calculado, se a empresa "
+"O Extrato geral das contas apenas pode ser calculado se a empresa "
 "seleccionada só tiver uma conta de lucros não distribuídos."
 
 #. module: account_financial_report_qweb
@@ -1140,9 +1159,9 @@ msgid "Group option"
 msgstr "Opções de agrupar por"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:92
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:66
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:114
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:93
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:67
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:115
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_qweb_filters
@@ -1154,7 +1173,6 @@ msgstr "Ocultar"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_hide_account_at_0
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_open_items_qweb_hide_account_at_0
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_hide_account_at_0
-#, fuzzy
 msgid "Hide account at 0"
 msgstr "Ocultar conta com saldo zero"
 
@@ -1166,27 +1184,25 @@ msgstr "Ocultar conta com saldo final zero"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_hide_account_at_0
-#, fuzzy
 msgid "Hide accounts at 0"
 msgstr "Ocultar conta com saldo zero"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_account_hide_line
-#, fuzzy
 msgid "Hide line"
-msgstr "Ocultar"
+msgstr "Ocultar linha"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_show_hierarchy_level
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_show_hierarchy_level
 msgid "Hierarchy Levels to display"
-msgstr ""
+msgstr "Níveis Hierárquicos a Apresentar"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_hierarchy_on
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_hierarchy_on
 msgid "Hierarchy On"
-msgstr ""
+msgstr "Ativar Hierarquia"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_aged_partner_balance_wizard_id
@@ -1218,7 +1234,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_partner_id
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,help:account_financial_report_qweb.field_account_account_centralized
@@ -1239,11 +1255,11 @@ msgstr ""
 "                    inicial"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:174
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:26
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:53
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:67
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:94
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:175
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:27
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:54
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:68
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:95
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_account_initial_balance
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_partner_initial_balance
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_account_initial_balance
@@ -1284,11 +1300,10 @@ msgid "Is partner account"
 msgstr "É conta de parceiro"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:71
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:26
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:21
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:25
-#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:81
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:72
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:27
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:26
+#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:77
 #: model:ir.actions.client,name:account_financial_report_qweb.action_report_journal_ledger
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_journal_html
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_journal_qweb
@@ -1303,9 +1318,26 @@ msgid "Journal"
 msgstr "Diário"
 
 #. module: account_financial_report_qweb
+#: model:ir.model,name:account_financial_report_qweb.model_account_move_line
+#, fuzzy
+msgid "Journal Item"
+msgstr "Diário"
+
+#. module: account_financial_report_qweb
 #: model:ir.ui.menu,name:account_financial_report_qweb.journal_report_wizard_menu
-#: model:ir.ui.view,arch_db:account_financial_report_qweb.report_journal_qweb_base
 msgid "Journal Ledger"
+msgstr "Extrato de diário"
+
+#. module: account_financial_report_qweb
+#: model:ir.ui.view,arch_db:account_financial_report_qweb.report_journal_qweb_base
+#, fuzzy
+msgid "Journal Ledger -"
+msgstr "Extrato de diário"
+
+#. module: account_financial_report_qweb
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:21
+#, fuzzy, python-format
+msgid "Journal Ledger - %s - %s"
 msgstr "Extrato de diário"
 
 #. module: account_financial_report_qweb
@@ -1329,7 +1361,7 @@ msgid "Journal ids"
 msgstr "Ids Diário"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:186
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:187
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_journal_report_wizard_journal_ids
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.journal_report_wizard_form_view
 #, python-format
@@ -1374,7 +1406,7 @@ msgstr "Rótulo"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_partner___last_update
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard___last_update
 msgid "Last Modified on"
-msgstr "Última modificação em"
+msgstr "Última Modificação em"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_aged_partner_balance_wizard_write_uid
@@ -1405,7 +1437,7 @@ msgstr "Última modificação em"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_write_uid
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_write_uid
 msgid "Last Updated by"
-msgstr "Última atualização em"
+msgstr "Última Atualização por"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_aged_partner_balance_wizard_write_date
@@ -1436,7 +1468,7 @@ msgstr "Última atualização em"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_write_date
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_write_date
 msgid "Last Updated on"
-msgstr "Última atualização por"
+msgstr "Última Atualização em"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_account_level
@@ -1445,24 +1477,24 @@ msgid "Level"
 msgstr "Nível"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:118
-#, fuzzy, python-format
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:119
+#, python-format
 msgid "Level %s"
-msgstr "Nível"
+msgstr "Nível %s"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:117
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:118
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_limit_hierarchy_level
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_limit_hierarchy_level
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_qweb_filters
 #, python-format
 msgid "Limit hierarchy levels"
-msgstr ""
+msgstr "Limitar níveis hierárquicos"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_partner_line_ids
 msgid "Line ids"
-msgstr "Ids de Linha"
+msgstr "Ids de linha"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_move_line_matching_number
@@ -1502,7 +1534,7 @@ msgid "Moves"
 msgstr "Movimentos"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:102
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:103
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_name
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_partner_name
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_account_name
@@ -1520,18 +1552,18 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:96
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:100
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:104
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:68
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:116
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:97
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:101
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:105
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:69
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:117
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #, python-format
 msgid "No"
 msgstr "Não"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:82
+#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:78
 #, python-format
 msgid "No group"
 msgstr "Não agrupar"
@@ -1540,14 +1572,14 @@ msgstr "Não agrupar"
 #: selection:report_trial_balance_qweb,hierarchy_on:0
 #: selection:trial.balance.report.wizard,hierarchy_on:0
 msgid "No hierarchy"
-msgstr ""
+msgstr "Sem hierarquia"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:119
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:120
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_qweb_filters
 #, python-format
 msgid "No limit"
-msgstr ""
+msgstr "Sem limite"
 
 #. module: account_financial_report_qweb
 #: code:addons/account_financial_report_qweb/report/general_ledger.py:756
@@ -1559,7 +1591,7 @@ msgid "No partner allocated"
 msgstr "Nenhum parceiro atribuído"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:68
+#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:64
 #, python-format
 msgid "Not Posted"
 msgstr "Não publicado"
@@ -1581,8 +1613,8 @@ msgid "OCA accounting reports"
 msgstr "Relatórios de contabilidade OCA"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:60
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:117
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:61
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:118
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_line_older
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_move_line_older
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_move_lines
@@ -1599,31 +1631,40 @@ msgid "Only posted moves"
 msgstr "Apenas movimentos publicados"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:19
 #: model:ir.actions.act_window,name:account_financial_report_qweb.action_open_items_wizard
 #: model:ir.actions.client,name:account_financial_report_qweb.action_report_open_items
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_open_items_html
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_open_items_qweb
 #: model:ir.ui.menu,name:account_financial_report_qweb.menu_open_items_wizard
-#: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_base
-#, python-format
 msgid "Open Items"
+msgstr "Balancete de auditoria de parceiros"
+
+#. module: account_financial_report_qweb
+#: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_base
+#, fuzzy
+msgid "Open Items -"
+msgstr "Balancete de auditoria de parceiros"
+
+#. module: account_financial_report_qweb
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:19
+#, fuzzy, python-format
+msgid "Open Items - %s - %s"
 msgstr "Balancete de auditoria de parceiros"
 
 #. module: account_financial_report_qweb
 #: model:ir.model,name:account_financial_report_qweb.model_open_items_report_wizard
 msgid "Open Items Report Wizard"
-msgstr "Ajuda ao relatório de Balancete de auditoria de parceiros"
+msgstr "Assistente de Balancete de Auditoria de Parceiros"
 
 #. module: account_financial_report_qweb
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_open_items_xlsx
 msgid "Open Items XLSX"
-msgstr "Items em aberto XLSX"
+msgstr "Items em Aberto XLSX"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_open_items_id
 msgid "Open items id"
-msgstr "Id de Items em aberto"
+msgstr "Id de items em aberto"
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.journal_report_wizard_form_view
@@ -1631,7 +1672,7 @@ msgid "Options"
 msgstr "Opções"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:30
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:31
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_lines
 #, python-format
 msgid "Original"
@@ -1639,17 +1680,16 @@ msgstr "Total"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_account_parent_id
-#, fuzzy
 msgid "Parent id"
-msgstr "Percentagem antiga"
+msgstr "Id do ascendente"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:24
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:73
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:31
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:51
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:27
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:66
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:25
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:74
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:32
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:52
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:28
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:67
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_line_partner
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_move_line_partner
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_move_line_partner
@@ -1673,20 +1713,20 @@ msgid ""
 msgstr "Saldo acumulado de antiguidade de parceiro"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:171
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:172
 #, python-format
 msgid "Partner Initial balance"
-msgstr "Saldo inicial de parceiro"
+msgstr "Saldo Inicial de parceiro"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:230
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:231
 #, python-format
 msgid "Partner cumul aged balance"
-msgstr "Idade acumulada do saldo do parceiro"
+msgstr "Saldo de antig. acumul. do parceiro"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:183
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:117
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:184
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:118
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_ending_cumul
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_ending_cumul
 #, python-format
@@ -1721,50 +1761,50 @@ msgstr "Apenas contas a pagar"
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_percent_age_120_days
 msgid "Percent age 120 days"
-msgstr "Percentagem a 120 dias"
+msgstr "Percent. antig. 120 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_percent_age_30_days
 msgid "Percent age 30 days"
-msgstr "Percentagem a 30 dias"
+msgstr "Percent. antig. 30 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_percent_age_60_days
 msgid "Percent age 60 days"
-msgstr "Percentagem a 60 dias"
+msgstr "Percent. antig. 60 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_percent_age_90_days
 msgid "Percent age 90 days"
-msgstr "Percentagem a 90 dias"
+msgstr "Percent. antig. 90 dias"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_percent_current
 msgid "Percent current"
-msgstr "Percentagem corrente"
+msgstr "Percent. corrente"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_account_percent_older
 msgid "Percent older"
-msgstr "Percentagem antiga"
+msgstr "Percent. mais antiga"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:173
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:215
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:174
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:216
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_account_ending_cumul
 #, python-format
 msgid "Percents"
 msgstr "Percentagens"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:38
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:79
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:39
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:80
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_account_period_balance
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_trial_balance_qweb_partner_period_balance
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_qweb_lines_header
-#, fuzzy, python-format
+#, python-format
 msgid "Period balance"
-msgstr "Saldo base"
+msgstr "Saldo do período"
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.journal_report_wizard_form_view
@@ -1772,13 +1812,13 @@ msgid "Periods"
 msgstr "Periodos"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:67
+#: code:addons/account_financial_report_qweb/wizard/journal_report_wizard.py:63
 #, python-format
 msgid "Posted"
 msgstr "Publicado"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:39
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:40
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_lines
 #, python-format
 msgid "Rec."
@@ -1799,17 +1839,19 @@ msgstr "Apenas conta a receber"
 msgid ""
 "Ref -\n"
 "                        Label"
-msgstr "Rótulo"
+msgstr ""
+"Ref -\n"
+"                        Rótulo"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:74
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:32
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:56
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:28
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:75
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:33
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:57
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:29
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_journal_qweb_journal_table_header
 #, python-format
 msgid "Ref - Label"
-msgstr "Rótulo"
+msgstr "Ref - Rótulo"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_partner_report_account_id
@@ -1865,7 +1907,7 @@ msgstr "Ids. de relatórios de movimento"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_move_report_move_line_ids
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_report_move_line_ids
 msgid "Report move line ids"
-msgstr "Ids. de relatórios das linhas de movimento"
+msgstr "Ids. das linhas de movimento do relatório"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_aged_partner_balance_qweb_line_report_partner_id
@@ -1879,12 +1921,12 @@ msgstr "Id do relatório do parceiro"
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_journal_report_tax_line_ids
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_journal_qweb_report_tax_line_ids
 msgid "Report tax line ids"
-msgstr "Ids linhas do relatório de imposto"
+msgstr "Ids das linhas de imposto do relatório"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:25
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:76
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:34
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:26
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:77
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:35
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_lines_header
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_move_lines
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_lines
@@ -1898,9 +1940,9 @@ msgid "Sequence"
 msgstr "Sequência"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:92
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:66
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:114
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:93
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:67
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:115
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_qweb_filters
@@ -1909,13 +1951,13 @@ msgid "Show"
 msgstr "Mostrar"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:99
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:100
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_general_ledger_report_wizard_show_analytic_tags
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_show_analytic_tags
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #, python-format
 msgid "Show analytic tags"
-msgstr ""
+msgstr "Mostrar etiquetas analíticas"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_show_cost_center
@@ -1923,9 +1965,9 @@ msgid "Show cost center"
 msgstr "Mostrar centro de custo"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:103
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:67
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:115
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:104
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:68
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:116
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_general_ledger_report_wizard_foreign_currency
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_open_items_report_wizard_foreign_currency
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_foreign_currency
@@ -1961,12 +2003,12 @@ msgid "Start date"
 msgstr "Data inicial"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:36
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:37
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_report_general_ledger_qweb_move_line_tags
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_lines
 #, python-format
 msgid "Tags"
-msgstr ""
+msgstr "Etiquetas"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_aged_partner_balance_wizard_target_move
@@ -1974,14 +2016,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_open_items_report_wizard_target_move
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_trial_balance_report_wizard_target_move
 msgid "Target Moves"
-msgstr "Movimentos alvo"
+msgstr "Movimentos Alvo"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:129
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:86
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:178
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:62
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:110
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:130
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:87
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:179
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:63
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:111
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_open_items_qweb_filters
@@ -1997,19 +2039,19 @@ msgid "Tax Amount"
 msgstr "Valor do Imposto"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:142
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:143
 #, python-format
 msgid "Tax Balance"
 msgstr "Saldo de impostos"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:136
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:137
 #, python-format
 msgid "Tax Credit"
 msgstr "Crédito de imposto"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:130
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:131
 #, python-format
 msgid "Tax Debit"
 msgstr "Débito de imposto"
@@ -2052,8 +2094,8 @@ msgid "Tax name"
 msgstr "Nome do imposto"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:28
-#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:61
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:29
+#: code:addons/account_financial_report_qweb/report/journal_report_xlsx.py:62
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_lines
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_journal_qweb_journal_table_header
 #, python-format
@@ -2067,10 +2109,26 @@ msgid "Taxes description"
 msgstr "Descrição dos impostos"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/wizard/trial_balance_wizard.py:91
+#: code:addons/account_financial_report_qweb/wizard/general_ledger_wizard.py:157
+#, python-format
+msgid ""
+"The Company in the General Ledger Report Wizard and in Date Range must be "
+"the same."
+msgstr ""
+
+#. module: account_financial_report_qweb
+#: code:addons/account_financial_report_qweb/wizard/trial_balance_wizard.py:162
+#, python-format
+msgid ""
+"The Company in the Trial Balance Report Wizard and in Date Range must be the "
+"same."
+msgstr ""
+
+#. module: account_financial_report_qweb
+#: code:addons/account_financial_report_qweb/wizard/trial_balance_wizard.py:92
 #, python-format
 msgid "The hierarchy level to filter on must be greater than 0."
-msgstr ""
+msgstr "O nível hierárquico a filtrar tem que ser superior a 0."
 
 #. module: account_financial_report_qweb
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
@@ -2079,23 +2137,32 @@ msgid "To:"
 msgstr "Para:"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:166
-#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:208
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:167
+#: code:addons/account_financial_report_qweb/report/aged_partner_balance_xlsx.py:209
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_aged_partner_balance_account_ending_cumul
 #, python-format
 msgid "Total"
 msgstr "Total"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:19
 #: model:ir.actions.act_window,name:account_financial_report_qweb.action_trial_balance_wizard
 #: model:ir.actions.client,name:account_financial_report_qweb.action_report_trial_balance
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_trial_balance_html
 #: model:ir.actions.report.xml,name:account_financial_report_qweb.action_report_trial_balance_qweb
 #: model:ir.ui.menu,name:account_financial_report_qweb.menu_trial_balance_wizard
-#: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_base
-#, python-format
 msgid "Trial Balance"
+msgstr "Balancete de verificação"
+
+#. module: account_financial_report_qweb
+#: model:ir.ui.view,arch_db:account_financial_report_qweb.report_trial_balance_base
+#, fuzzy
+msgid "Trial Balance -"
+msgstr "Balancete de verificação"
+
+#. module: account_financial_report_qweb
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:19
+#, fuzzy, python-format
+msgid "Trial Balance - %s - %s"
 msgstr "Balancete de verificação"
 
 #. module: account_financial_report_qweb
@@ -2114,7 +2181,7 @@ msgid ""
 "Trial Balance can be computed only if selected company have only one "
 "unaffected earnings account."
 msgstr ""
-"O Balancete de verificação apenas pode ser calculado, se a empresa "
+"O Balancete de verificação apenas pode ser calculado se a empresa "
 "seleccionada só tiver uma conta de lucros não distribuídos."
 
 #. module: account_financial_report_qweb
@@ -2154,6 +2221,8 @@ msgid ""
 "When this option is enabled, the trial balance will not display accounts "
 "that have initial balance = debit = credit = end balance = 0"
 msgstr ""
+"Quando esta opção é ativada, o balancete não mostrará contas cujo saldo "
+"inicial = débito = crédito = saldo final = 0"
 
 #. module: account_financial_report_qweb
 #: model:ir.model.fields,field_description:account_financial_report_qweb.field_journal_report_wizard_with_account_name
@@ -2162,11 +2231,11 @@ msgid "With account name"
 msgstr "Com nome de conta"
 
 #. module: account_financial_report_qweb
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:96
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:100
-#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:104
-#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:68
-#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:116
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:97
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:101
+#: code:addons/account_financial_report_qweb/report/general_ledger_xlsx.py:105
+#: code:addons/account_financial_report_qweb/report/open_items_xlsx.py:69
+#: code:addons/account_financial_report_qweb/report/trial_balance_xlsx.py:117
 #: model:ir.ui.view,arch_db:account_financial_report_qweb.report_general_ledger_filters
 #, python-format
 msgid "Yes"

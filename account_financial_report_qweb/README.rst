@@ -50,6 +50,15 @@ currency balances are not available.
 Changelog
 =========
 
+10.0.3.0.0 (2019-01-09)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Improve multicompany related usability.
+* Improve performance in the General Ledger.
+* The reports now display an improved title that includes report name,
+  company and currency.
+
+
 10.0.2.0.0 (2018-11-29)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -101,6 +110,7 @@ Contributors
 * Alexis de Lattre <alexis@via.ecp.fr>
 * Mihai Fekete <feketemihai@gmail.com>
 * Benjamin Willig <benjamin.willig@acsone.eu>
+* Miquel Raïch <miquel.raich@eficent.com>
 
 Much of the work in this module was done at a sprint in Sorrento, Italy in
 April 2016.
