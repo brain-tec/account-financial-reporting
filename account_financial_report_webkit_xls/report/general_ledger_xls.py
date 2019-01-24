@@ -367,7 +367,7 @@ class general_ledger_xls(report_xls):
                     balance_credit = rowcol_to_cell(row_pos, 12)
                     balance_formula = balance_debit + '-' + balance_credit
                     c_specs = [
-                        ('acc_title', 10, 0, 'text', _('Sum of asset category')+' '+line.get('asset_category','')),
+                        ('acc_title', 10, 0, 'text', _('Sum of asset category')+' '+ (line.get('asset_category') or '')),
                         ('cum_bal', 1, 0, 'text',
                          _('Cumulated Balance on Asset Category'),
                          None, c_hdr_cell_style_right),
