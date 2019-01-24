@@ -516,3 +516,21 @@ msgstr "Art"
 #, python-format
 msgid "Unallocated"
 msgstr "Nicht zugeordnet"
+
+#. module: account_financial_report_webkit_xls
+#: code:addons/account_financial_report_webkit_xls/report/general_ledger_xls.py:372
+#, python-format
+msgid "Cumulated Balance on Asset Category"
+msgstr "Kumulierter Saldo der Anlagekategorie"
+
+#. module: account_financial_report_webkit_xls
+#: code:addons/account_financial_report_webkit_xls/report/general_ledger_xls.py:370
+#, python-format
+msgid "Sum of asset category"
+msgstr "Summe Anlagekategorie"
+
+#. module: account_financial_report_webkit_xls
+#: code:addons/account_financial_report_webkit_xls/report/general_ledger_xls.py:174
+#, python-format
+msgid "Asset Category"
+msgstr "Anlagekategorie"
