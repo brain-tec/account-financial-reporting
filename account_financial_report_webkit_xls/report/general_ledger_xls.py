@@ -270,7 +270,7 @@ class general_ledger_xls(report_xls):
                     asset.append(l)
 
 
-                for asset in asset_categories.itervalues():
+                for _tmp, asset in sorted(asset_categories.items(), key=lambda x: x[0]):
                     asset_row_start = row_pos
 
                     for line in asset:
