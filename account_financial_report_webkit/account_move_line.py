@@ -20,7 +20,8 @@
 ##############################################################################
 
 from openerp.osv import fields, orm
-
+from logging import getLogger
+_logger = getLogger(__name__)
 
 class AccountMoveLine(orm.Model):
 
@@ -75,3 +76,32 @@ class AccountMoveLine(orm.Model):
             help="the date of the last reconciliation (full or partial) \
                   account move line"),
     }
+
+
+from openerp import fields as newFields, models, api
+
+class AccountMoveLine(models.Model):
+    """
+    Add a relation from account.move.line to the former invoiceline
+    """
+    _inherit = 'account.move.line'
+
+    invoice_line_id = newFields.Many2one('account.invoice.line', store=True)
+
+
+class AccInvLine(models.Model):
+    _inherit = "account.invoice.line"
+
+    def move_line_get_item(self, line):
+        res = super(AccInvLine, self).move_line_get_item(line)
+        res['invoice_line_id'] = line.id
+        return res
+
+
+class Inv(models.Model):
+    _inherit = "account.invoice"
+
+    def line_get_convert(self, line, part, date):
+        res = super(Inv, self).line_get_convert(line,part,date)
+        res['invoice_line_id']=line.get('invoice_line_id')
+        return res

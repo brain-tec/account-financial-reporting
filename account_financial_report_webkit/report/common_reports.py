@@ -556,7 +556,9 @@ SELECT l.id AS id,
             i.id AS invoice_id,
             i.type AS invoice_type,
             i.number AS invoice_number,
-            l.date_maturity
+            l.date_maturity,
+            l.asset_id as asset_id,
+            ac.name as asset_category
 FROM account_move_line l
     JOIN account_move m on (l.move_id=m.id)
     LEFT JOIN res_currency c on (l.currency_id=c.id)
@@ -567,6 +569,10 @@ FROM account_move_line l
     LEFT JOIN account_invoice i on (m.id =i.move_id)
     LEFT JOIN account_period per on (per.id=l.period_id)
     JOIN account_journal j on (l.journal_id=j.id)
+    left join account_asset_asset aaa on aaa.id = l.asset_id
+    left join account_asset_category aac on aaa.category_id = aac.id
+    left join account_invoice_line il on il.id = l.invoice_line_id
+    left join account_asset_category ac on ac.id = il.asset_category_id
     WHERE l.id in %s"""
         monster += (" ORDER BY %s" % (order,))
         try:

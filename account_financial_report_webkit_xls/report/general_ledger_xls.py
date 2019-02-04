@@ -170,6 +170,8 @@ class general_ledger_xls(report_xls):
             ('journal', 1, 0, 'text', _('Journal'), None, c_hdr_cell_style),
             ('account_code', 1, 0, 'text',
              _('Account'), None, c_hdr_cell_style),
+            ('asset_category', 1, 0, 'text',
+             _('Asset Category'), None, c_hdr_cell_style),
             ('partner', 1, 0, 'text', _('Partner'), None, c_hdr_cell_style),
             ('label', 1, 0, 'text', _('Label'), None, c_hdr_cell_style),
             ('counterpart', 1, 0, 'text',
@@ -227,7 +229,7 @@ class general_ledger_xls(report_xls):
                     ws, row_pos, row_data, c_title_cell_style)
                 row_pos = self.xls_write_row(ws, row_pos, c_hdr_data)
                 row_start = row_pos
-
+                asset_total_rows = []
                 if display_initial_balance:
                     init_balance = _p['init_balance'][account.id]
                     cumul_debit = init_balance.get('debit') or 0.0
@@ -236,7 +238,7 @@ class general_ledger_xls(report_xls):
                     cumul_balance_curr = init_balance.get(
                         'init_balance_currency') or 0.0
                     c_specs = [('empty%s' % x, 1, 0, 'text', None)
-                               for x in range(8)]
+                               for x in range(9)]
                     c_specs += [
                         ('init_bal', 1, 0, 'text', _('Initial Balance')),
                         ('counterpart', 1, 0, 'text', None),
@@ -257,92 +259,147 @@ class general_ledger_xls(report_xls):
                         c_specs, [x[0] for x in c_specs])
                     row_pos = self.xls_write_row(
                         ws, row_pos, row_data, c_init_cell_style)
+                    asset_total_rows.append(row_pos - 1)
 
-                for line in _p['ledger_lines'][account.id]:
+                lines = _p['ledger_lines'][account.id]
+                lines = sorted(lines,key=lambda l:l.get('asset_category'))
+                # group lines by asset category
+                asset_categories = {}
+                for l in lines:
+                    asset = asset_categories.setdefault(l.get('asset_category'),[])
+                    asset.append(l)
 
-                    cumul_debit += line.get('debit') or 0.0
-                    cumul_credit += line.get('credit') or 0.0
-                    cumul_balance_curr += line.get('amount_currency') or 0.0
-                    cumul_balance += line.get('balance') or 0.0
-                    label_elements = [line.get('lname') or '']
-                    if line.get('invoice_number'):
-                        label_elements.append(
-                            "(%s)" % (line['invoice_number'],))
-                    label = ' '.join(label_elements)
 
-                    if line.get('ldate'):
-                        c_specs = [
-                            ('ldate', 1, 0, 'date', datetime.strptime(
-                                line['ldate'], '%Y-%m-%d'), None,
-                             ll_cell_style_date),
-                        ]
-                    else:
-                        c_specs = [
-                            ('ldate', 1, 0, 'text', None),
-                        ]
-                    if line.get('sdate'):
+                for _tmp, asset in sorted(asset_categories.items(), key=lambda x: x[0]):
+                    asset_row_start = row_pos
+
+                    for line in asset:
+
+                        cumul_debit += line.get('debit') or 0.0
+                        cumul_credit += line.get('credit') or 0.0
+                        cumul_balance_curr += line.get('amount_currency') or 0.0
+                        cumul_balance += line.get('balance') or 0.0
+                        label_elements = [line.get('lname') or '']
+                        if line.get('invoice_number'):
+                            label_elements.append(
+                                "(%s)" % (line['invoice_number'],))
+                        label = ' '.join(label_elements)
+
+                        # try:
+                        #     l=objects.env['account.move.line'].browse(line['id'])
+                        #     inv_line = l.invoice.invoice_line[
+                        #         len(l.move_id.line_id) -1 - l.move_id.line_id.ids.index(l.id)]
+                        # except:
+                        #     raise
+
+                        if line.get('ldate'):
+                            c_specs = [
+                                ('ldate', 1, 0, 'date', datetime.strptime(
+                                    line['ldate'], '%Y-%m-%d'), None,
+                                 ll_cell_style_date),
+                            ]
+                        else:
+                            c_specs = [
+                                ('ldate', 1, 0, 'text', None),
+                            ]
+                        if line.get('sdate'):
+                            c_specs += [
+                                ('sdate', 1, 0, 'date', datetime.strptime(
+                                    line['sdate'], '%Y-%m-%d'), None,
+                                 ll_cell_style_date),
+                            ]
+                        else:
+                            c_specs += [
+                                ('sdate', 1, 0, 'text', None),
+                            ]
+                        if line.get('edate'):
+                            c_specs += [
+                                ('edate', 1, 0, 'date', datetime.strptime(
+                                    line['edate'], '%Y-%m-%d'), None,
+                                 ll_cell_style_date),
+                            ]
+                        else:
+                            c_specs += [
+                                ('edate', 1, 0, 'text', None),
+                            ]
                         c_specs += [
-                            ('sdate', 1, 0, 'date', datetime.strptime(
-                                line['sdate'], '%Y-%m-%d'), None,
-                             ll_cell_style_date),
+                            ('period', 1, 0, 'text',
+                             line.get('period_code') or ''),
+                            ('move', 1, 0, 'text', line.get('move_name') or ''),
+                            ('journal', 1, 0, 'text', line.get('jcode') or ''),
+                            ('account_code', 1, 0, 'text', account.code),
+                            #('asset_category', 1, 0, 'text', inv_line.asset_category_id.name or ''),
+                            ('asset_category', 1, 0, 'text',line.get('asset_category') or ''),
+                            ('partner', 1, 0, 'text',
+                             line.get('partner_name') or ''),
+                            ('label', 1, 0, 'text', label),
+                            ('counterpart', 1, 0, 'text',
+                             line.get('counterparts') or ''),
+                            ('debit', 1, 0, 'number', line.get('debit', 0.0),
+                             None, ll_cell_style_decimal),
+                            ('credit', 1, 0, 'number', line.get('credit', 0.0),
+                             None, ll_cell_style_decimal),
+                            ('cumul_bal', 1, 0, 'number', cumul_balance,
+                             None, ll_cell_style_decimal),
                         ]
-                    else:
-                        c_specs += [
-                            ('sdate', 1, 0, 'text', None),
-                        ]
-                    if line.get('edate'):
-                        c_specs += [
-                            ('edate', 1, 0, 'date', datetime.strptime(
-                                line['edate'], '%Y-%m-%d'), None,
-                             ll_cell_style_date),
-                        ]
-                    else:
-                        c_specs += [
-                            ('edate', 1, 0, 'text', None),
-                        ]
-                    c_specs += [
-                        ('period', 1, 0, 'text',
-                         line.get('period_code') or ''),
-                        ('move', 1, 0, 'text', line.get('move_name') or ''),
-                        ('journal', 1, 0, 'text', line.get('jcode') or ''),
-                        ('account_code', 1, 0, 'text', account.code),
-                        ('partner', 1, 0, 'text',
-                         line.get('partner_name') or ''),
-                        ('label', 1, 0, 'text', label),
-                        ('counterpart', 1, 0, 'text',
-                         line.get('counterparts') or ''),
-                        ('debit', 1, 0, 'number', line.get('debit', 0.0),
-                         None, ll_cell_style_decimal),
-                        ('credit', 1, 0, 'number', line.get('credit', 0.0),
-                         None, ll_cell_style_decimal),
-                        ('cumul_bal', 1, 0, 'number', cumul_balance,
-                         None, ll_cell_style_decimal),
+                        if _p.amount_currency(data):
+                            c_specs += [
+                                ('curr_bal', 1, 0, 'number', line.get(
+                                    'amount_currency') or 0.0, None,
+                                 ll_cell_style_decimal),
+                                ('curr_code', 1, 0, 'text', line.get(
+                                    'currency_code') or '', None,
+                                 ll_cell_style_center),
+                            ]
+                        row_data = self.xls_row_template(
+                            c_specs, [x[0] for x in c_specs])
+                        row_pos = self.xls_write_row(
+                            ws, row_pos, row_data, ll_cell_style)
+
+                    asset_total_rows.append(row_pos)
+                    debit_start = rowcol_to_cell(asset_row_start, 11)
+                    debit_end = rowcol_to_cell(row_pos - 1, 11)
+                    debit_formula = 'SUM(' + debit_start + ':' + debit_end + ')'
+                    credit_start = rowcol_to_cell(asset_row_start, 12)
+                    credit_end = rowcol_to_cell(row_pos - 1, 12)
+                    credit_formula = 'SUM(' + credit_start + ':' + credit_end + ')'
+                    balance_debit = rowcol_to_cell(row_pos, 11)
+                    balance_credit = rowcol_to_cell(row_pos, 12)
+                    balance_formula = balance_debit + '-' + balance_credit
+                    c_specs = [
+                        ('acc_title', 10, 0, 'text', _('Sum of asset category')+' '+ (line.get('asset_category') or '')),
+                        ('cum_bal', 1, 0, 'text',
+                         _('Cumulated Balance on Asset Category'),
+                         None, c_hdr_cell_style_right),
+                        ('debit', 1, 0, 'number', None,
+                         debit_formula, c_hdr_cell_style_decimal),
+                        ('credit', 1, 0, 'number', None,
+                         credit_formula, c_hdr_cell_style_decimal),
+                        ('balance', 1, 0, 'number', None,
+                         balance_formula, c_hdr_cell_style_decimal),
                     ]
                     if _p.amount_currency(data):
-                        c_specs += [
-                            ('curr_bal', 1, 0, 'number', line.get(
-                                'amount_currency') or 0.0, None,
-                             ll_cell_style_decimal),
-                            ('curr_code', 1, 0, 'text', line.get(
-                                'currency_code') or '', None,
-                             ll_cell_style_center),
-                        ]
+                        if account.currency_id:
+                            c_specs += [('curr_bal', 1, 0, 'number',
+                                         cumul_balance_curr, None,
+                                         c_hdr_cell_style_decimal)]
+                        else:
+                            c_specs += [('curr_bal', 1, 0, 'text', None)]
+                        c_specs += [('curr_code', 1, 0, 'text', None)]
                     row_data = self.xls_row_template(
                         c_specs, [x[0] for x in c_specs])
                     row_pos = self.xls_write_row(
-                        ws, row_pos, row_data, ll_cell_style)
+                        ws, row_pos, row_data, c_hdr_cell_style)
 
-                debit_start = rowcol_to_cell(row_start, 10)
-                debit_end = rowcol_to_cell(row_pos - 1, 10)
-                debit_formula = 'SUM(' + debit_start + ':' + debit_end + ')'
-                credit_start = rowcol_to_cell(row_start, 11)
-                credit_end = rowcol_to_cell(row_pos - 1, 11)
-                credit_formula = 'SUM(' + credit_start + ':' + credit_end + ')'
-                balance_debit = rowcol_to_cell(row_pos, 10)
-                balance_credit = rowcol_to_cell(row_pos, 11)
+
+
+                debit_formula = 'SUM('+ ';'.join([rowcol_to_cell(r,11) for r in asset_total_rows]) +')'
+                credit_formula =  'SUM('+ ';'.join([rowcol_to_cell(r,12) for r in asset_total_rows]) +')'
+                balance_debit = rowcol_to_cell(row_pos, 11)
+                balance_credit = rowcol_to_cell(row_pos, 12)
                 balance_formula = balance_debit + '-' + balance_credit
                 c_specs = [
-                    ('acc_title', 9, 0, 'text',
+                    ('acc_title', 10, 0, 'text',
                      ' - '.join([account.code, account.name])),
                     ('cum_bal', 1, 0, 'text',
                      _('Cumulated Balance on Account'),
@@ -368,15 +425,13 @@ class general_ledger_xls(report_xls):
                     ws, row_pos, row_data, c_hdr_cell_style)
 
 
-
-
                 # add budget lines like in account_general_ledger.mako
                 # HACK:sisc
 
                 budget = _p['budget'][account.id]
 
                 c_specs = [
-                    ('title', 12, 0, 'text',
+                    ('title', 13, 0, 'text',
                      _('Budget')),
                     ('budget', 1, 0, 'number', budget or 0.0, None, c_hdr_cell_style_decimal)
                 ]
@@ -398,7 +453,7 @@ class general_ledger_xls(report_xls):
                 style_percent = xlwt.easyxf(cell_format, num_format_str='0.00%')
 
                 c_specs = [
-                    ('title', 11, 0, 'text',
+                    ('title', 12, 0, 'text',
                      _("Budget Deviation")),
                     ('diff_p', 1, 0, 'number', diff_p or 0, None,style_percent),
                     ('diff', 1, 0, 'number', diff or 0, None, c_hdr_cell_style_decimal),
