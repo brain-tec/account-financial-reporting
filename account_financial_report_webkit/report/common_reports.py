@@ -602,7 +602,10 @@ FROM account_move
             on (account_move_line.move_id = account_move.id)
         JOIN account_account
             on (account_move_line.account_id = account_account.id)
-WHERE move_id in %s"""
+        Join account_journal
+            on (account_move_line.journal_id = account_journal.id)
+WHERE move_id in %s
+AND account_journal.code != 'EJ'"""
 
         try:
             self.cursor.execute(sql, (account_id, limit, tuple(move_ids)))
