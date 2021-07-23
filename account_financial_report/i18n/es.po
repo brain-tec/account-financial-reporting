@@ -10,16 +10,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-30 23:14+0000\n"
-"PO-Revision-Date: 2021-01-13 20:13+0000\n"
-"Last-Translator: Carles Antoli <carlesantoli@hotmail.com>\n"
+"POT-Creation-Date: 2018-05-18 22:19+0000\n"
+"PO-Revision-Date: 2019-07-23 01:43+0000\n"
+"Last-Translator: Josep M <jmyepes@mac.com>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 3.7.1\n"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_aged_partner_balance_lines_header
@@ -131,11 +131,6 @@ msgstr "Cuenta"
 #: model:ir.model.fields,field_description:account_financial_report.field_report_journal_ledger_move_line__account_type
 msgid "Account Type"
 msgstr "Tipo de Cuenta"
-
-#. module: account_financial_report
-#: model:ir.model.fields,field_description:account_financial_report.field_general_ledger_report_wizard__account_type_ids
-msgid "Account Types"
-msgstr "Tipos de cuenta"
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/trial_balance_xlsx.py:109
@@ -252,12 +247,12 @@ msgstr "Tiempo ≤ 90 d."
 #: model:ir.ui.menu,name:account_financial_report.menu_aged_partner_balance_wizard
 #, python-format
 msgid "Aged Partner Balance"
-msgstr "Saldos de empresa por antigüedad"
+msgstr "Saldo vencidos de empresa"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_aged_partner_balance_base
 msgid "Aged Partner Balance -"
-msgstr "Saldos de empresa por antigüedad -"
+msgstr "Balance Empresa Vencido"
 
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_aged_partner_balance_wizard
@@ -267,7 +262,7 @@ msgstr "Asistente Calidad de la deuda de las empresas"
 #. module: account_financial_report
 #: model:ir.actions.report,name:account_financial_report.action_report_aged_partner_balance_xlsx
 msgid "Aged Partner Balance XLSX"
-msgstr "Saldos de empresa por antigüedad XLSX"
+msgstr "Saldo vencidos de empresa XLSX"
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/wizard/journal_ledger_wizard.py:64
@@ -363,7 +358,7 @@ msgstr "Total Act."
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_all_taxes
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_ledger_journal_taxes
 msgid "Balance"
-msgstr "Balance"
+msgstr "Saldo"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_all_taxes
@@ -436,7 +431,7 @@ msgid "Centralized"
 msgstr "Centralizado"
 
 #. module: account_financial_report
-#: code:addons/account_financial_report/report/general_ledger.py:1451
+#: code:addons/account_financial_report/report/general_ledger.py:1433
 #, python-format
 msgid "Centralized Entries"
 msgstr "Centralizar las entradas"
@@ -663,7 +658,7 @@ msgstr "Acumulado a 90 días"
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_report_aged_partner_balance_account__cumul_amount_residual
 msgid "Cumul Amount Residual"
-msgstr "Cantidad residual acumulada"
+msgstr "Cantidad Residual Acumulada"
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_report_general_ledger_move_line__cumul_balance
@@ -1333,14 +1328,6 @@ msgstr ""
 "webkit), solo importes centralizados por período."
 
 #. module: account_financial_report
-#: model:ir.model.fields,help:account_financial_report.field_general_ledger_report_wizard__partner_ungrouped
-#: model:ir.model.fields,help:account_financial_report.field_report_general_ledger__partner_ungrouped
-msgid "If set moves are not grouped by partner in any case"
-msgstr ""
-"Si esta establecido los movimientos aparecerán agrupados por empresa en "
-"ningún caso"
-
-#. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_trial_balance_lines_header
 msgid ""
 "Initial\n"
@@ -1699,8 +1686,8 @@ msgid "No limit"
 msgstr "Sin límite"
 
 #. module: account_financial_report
-#: code:addons/account_financial_report/report/general_ledger.py:776
-#: code:addons/account_financial_report/report/general_ledger.py:1155
+#: code:addons/account_financial_report/report/general_ledger.py:758
+#: code:addons/account_financial_report/report/general_ledger.py:1137
 #: code:addons/account_financial_report/report/open_items.py:307
 #: code:addons/account_financial_report/report/open_items.py:556
 #, python-format
@@ -1792,11 +1779,6 @@ msgid "Original"
 msgstr "Inicial"
 
 #. module: account_financial_report
-#: model_terms:ir.ui.view,arch_db:account_financial_report.general_ledger_wizard
-msgid "Other options"
-msgstr "Otras opciones"
-
-#. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_report_trial_balance_account__parent_id
 msgid "Parent"
 msgstr "Padre"
@@ -1865,13 +1847,8 @@ msgid "Partner ending balance"
 msgstr "Saldo final de empresa"
 
 #. module: account_financial_report
-#: model:ir.model.fields,field_description:account_financial_report.field_general_ledger_report_wizard__partner_ungrouped
-#: model:ir.model.fields,field_description:account_financial_report.field_report_general_ledger__partner_ungrouped
-msgid "Partner ungrouped"
-msgstr "No agrupar por empresa"
-
-#. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_aged_partner_balance_wizard__payable_accounts_only
+#: model:ir.model.fields,field_description:account_financial_report.field_general_ledger_report_wizard__payable_accounts_only
 #: model:ir.model.fields,field_description:account_financial_report.field_open_items_report_wizard__payable_accounts_only
 #: model:ir.model.fields,field_description:account_financial_report.field_trial_balance_report_wizard__payable_accounts_only
 msgid "Payable Accounts Only"
@@ -1949,6 +1926,7 @@ msgstr "Num."
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_aged_partner_balance_wizard__receivable_accounts_only
+#: model:ir.model.fields,field_description:account_financial_report.field_general_ledger_report_wizard__receivable_accounts_only
 #: model:ir.model.fields,field_description:account_financial_report.field_open_items_report_wizard__receivable_accounts_only
 #: model:ir.model.fields,field_description:account_financial_report.field_trial_balance_report_wizard__receivable_accounts_only
 msgid "Receivable Accounts Only"
@@ -2267,7 +2245,7 @@ msgid "Taxtags"
 msgstr "Etiquetas de impuestos"
 
 #. module: account_financial_report
-#: code:addons/account_financial_report/wizard/general_ledger_wizard.py:187
+#: code:addons/account_financial_report/wizard/general_ledger_wizard.py:180
 #, python-format
 msgid ""
 "The Company in the General Ledger Report Wizard and in Date Range must be "
@@ -2447,7 +2425,7 @@ msgstr "o"
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_report_a_f_r_report_aged_partner_balance_xlsx
 msgid "report.a_f_r.report_aged_partner_balance_xlsx"
-msgstr "informe.a_f_r.informe_saldos_empresa_por_antigüedad_xlxs"
+msgstr "informe.a_f_r.reporte_vencidos_de_empresa_xlxs"
 
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_report_a_f_r_report_general_ledger_xlsx
@@ -2482,27 +2460,27 @@ msgstr "informe.informes_de_contabilidad.informe_abstracto_xlsx"
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_report_aged_partner_balance
 msgid "report_aged_partner_balance"
-msgstr "informe_saldos_empresa_por_antigüedad"
+msgstr "informe_saldos_vencidos_empresa"
 
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_report_aged_partner_balance_account
 msgid "report_aged_partner_balance_account"
-msgstr "informe_saldos_empresa_por_antigüedad"
+msgstr "informe_saldos_vencidos_empresa"
 
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_report_aged_partner_balance_line
 msgid "report_aged_partner_balance_line"
-msgstr "informe_linea_saldos_empresa_por_antigüedad"
+msgstr "informe_linea_saldos_vencidos_empresa"
 
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_report_aged_partner_balance_move_line
 msgid "report_aged_partner_balance_move_line"
-msgstr "informe_linea_de_asiento_saldos_empresa_por_antigüedad"
+msgstr "informe_linea_de_asiento_saldos_vencidos_empresa"
 
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_report_aged_partner_balance_partner
 msgid "report_aged_partner_balance_partner"
-msgstr "informe_saldo_empresa_por_antigüedad"
+msgstr "informe_saldo_vencido_empresa"
 
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_report_general_ledger
@@ -2628,3 +2606,33 @@ msgstr "ancho: 38.92%;"
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_ledger_journal_table_header
 msgid "width: 8.11%;"
 msgstr "ancho: 8.11%;"
+
+#~ msgid "account.group"
+#~ msgstr "cuenta.grupo"
+
+#~ msgid "account_financial_report_abstract"
+#~ msgstr "'account_financial_report_abstract'"
+
+#~ msgid "vat.report.wizard"
+#~ msgstr "asistente.reporte.impuestos"
+
+#~ msgid "Aged Partner Balance - %s - %s"
+#~ msgstr "Balance vencido empresa - %s - %s"
+
+#~ msgid "General Ledger - %s - %s"
+#~ msgstr "Libro mayor - %s - %s"
+
+#~ msgid "Journal Ledger - %s - %s"
+#~ msgstr "Libro diario - %s - %s"
+
+#~ msgid "Open Items - %s - %s"
+#~ msgstr "Partidas abiertas - %s - %s"
+
+#~ msgid "Trial Balance - %s - %s"
+#~ msgstr "Balance de Sumas y Saldos - %s - %s"
+
+#~ msgid "VAT Report - %s - %s"
+#~ msgstr "Informe de impuestos - %s - %s"
+
+#~ msgid "Hide Account Balance At 0"
+#~ msgstr "Ocultar saldos con valor a 0"

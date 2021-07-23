@@ -7,7 +7,7 @@
           <t t-raw="0" />
         </div>
 
-        <div class="footer">
+        <div class="footer" style="font-size:6px;">
             <div class="row">
                 <div class="col-6 custom_footer">
                     <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>

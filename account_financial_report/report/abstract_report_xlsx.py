@@ -2,10 +2,8 @@
 # Author: Julien Coux
 # Copyright 2016 Camptocamp SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from odoo import models
+from odoo import models, fields
 import datetime
-
-from odoo.tools import format_date
 
 
 class AbstractReportXslx(models.AbstractModel):
@@ -192,7 +190,7 @@ class AbstractReportXslx(models.AbstractModel):
         for col_pos, column in self.columns.items():
             value = getattr(line_object, column['field'])
             if isinstance(value, datetime.date):
-                value = format_date(self.env, value)
+                value = fields.Date.to_string(value)
             cell_type = column.get('type', 'string')
             if cell_type == 'many2one':
                 self.sheet.write_string(

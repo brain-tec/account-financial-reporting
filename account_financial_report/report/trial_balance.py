@@ -391,9 +391,6 @@ AND ra.report_id = %s
 
     def _inject_account_group_values(self):
         """Inject report values for report_trial_balance_account"""
-        allowed_groups = self.env["account.group"].search([])
-        if not allowed_groups:
-            return
         query_inject_account_group = """
 INSERT INTO
     report_trial_balance_account
@@ -419,14 +416,10 @@ SELECT
     accgroup.code_prefix,
     accgroup.level
 FROM
-    account_group accgroup
-WHERE
-    accgroup.id in %s
-    """
+    account_group accgroup"""
         query_inject_account_params = (
             self.id,
             self.env.uid,
-            tuple(allowed_groups.ids),
         )
         self.env.cr.execute(query_inject_account_group,
                             query_inject_account_params)
