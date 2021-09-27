@@ -697,7 +697,9 @@ WITH
                 ra.id,
                 a.id,
                 p.id,
-                at.include_initial_balance
+                at.include_initial_balance,
+                p.name,
+                p.ref
         ),
     initial_sum_amounts AS ( """ + init_subquery + """ ),
     final_sum_amounts AS ( """ + final_subquery + """ )
@@ -1159,6 +1161,14 @@ WHERE
     ra.report_id = %s
 AND
     (a.centralized IS NOT NULL AND a.centralized = TRUE)
+GROUP BY
+    ra.id,
+    ml.date,
+    a.code,
+    ml.debit,
+    ml.credit,
+    ml.balance,
+    ra.initial_balance
 ORDER BY
     a.code, ml.date
         """
@@ -1385,7 +1395,8 @@ WHERE id = %s
                         ra.report_id = %s
                     AND ra.account_id = %s
                     GROUP BY
-                        ra.id
+                        ra.id,
+                        ra.initial_balance
                 )
         UPDATE
             report_general_ledger_qweb_account ra

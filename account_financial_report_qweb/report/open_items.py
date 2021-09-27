@@ -306,7 +306,9 @@ WITH
                 ra.id,
                 a.id,
                 p.id,
-                at.include_initial_balance
+                at.include_initial_balance,
+                p.name,
+                p.ref
         )
 INSERT INTO
     report_open_items_qweb_partner
