@@ -15,7 +15,8 @@ class StockMove(models.Model):
                 move.currency_id = move.purchase_line_id.currency_id
             else:
                 non_purchase_move |= move
-        return super(StockMove, non_purchase_move)._compute_currency_id()
+        if non_purchase_move:
+            return super(StockMove, non_purchase_move)._compute_currency_id()
 
     def get_quantity_invoiced(self, invoice_lines):
         if self.purchase_line_id:
