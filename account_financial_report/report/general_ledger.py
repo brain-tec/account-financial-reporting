@@ -856,6 +856,8 @@ class GeneralLedgerReport(models.AbstractModel):
         # Set the bal_curr of the initial balance to 0 if it does not correspond
         # (reducing the corresponding of the bal_curr of the initial balance).
         for gl_item in general_ledger:
+            if not foreign_currency:
+                continue
             if (
                 not gl_item["currency_id"]
                 or gl_item["currency_id"] != company.currency_id
@@ -874,7 +876,7 @@ class GeneralLedgerReport(models.AbstractModel):
         for gl_item in general_ledger:
             fin_bal_currency_ids = []
             fin_bal_currency_id = gl_item["currency_id"]
-            if gl_item["currency_id"]:
+            if gl_item["currency_id"] or not foreign_currency:
                 continue
             gl_item["fin_bal"]["bal_curr"] = gl_item["init_bal"]["bal_curr"]
             if "move_lines" in gl_item:
