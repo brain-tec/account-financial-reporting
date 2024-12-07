@@ -17,7 +17,11 @@ account-financial-reporting
 
 [//]: # (addons)
 
-This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+Available addons
+----------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[account_financial_report](account_financial_report/) | 18.0.1.0.0 |  | OCA Financial Reports
 
 [//]: # (end addons)
 
