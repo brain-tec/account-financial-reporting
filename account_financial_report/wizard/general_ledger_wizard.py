@@ -48,6 +48,10 @@ class GeneralLedgerReportWizard(models.TransientModel):
     )
     receivable_accounts_only = fields.Boolean()
     payable_accounts_only = fields.Boolean()
+    account_type_ids = fields.Many2many(
+        comodel_name="account.account.type",
+        string="Account Types",
+    )
     partner_ids = fields.Many2many(
         comodel_name="res.partner",
         string="Filter partners",
@@ -120,6 +124,18 @@ class GeneralLedgerReportWizard(models.TransientModel):
                     lambda a: a.company_id == self.company_id
                 )
 
+    @api.onchange("account_type_ids")
+    def _onchange_account_type_ids(self):
+        if self.account_type_ids:
+            self.account_ids = self.env["account.account"].search(
+                [
+                    ("company_id", "=", self.company_id.id),
+                    ("user_type_id", "in", self.account_type_ids.ids),
+                ]
+            )
+        else:
+            self.account_ids = None
+
     def _init_date_from(self):
         """set start date to begin of current year if fiscal year running"""
         today = fields.Date.context_today(self)
@@ -184,6 +200,8 @@ class GeneralLedgerReportWizard(models.TransientModel):
                 self.account_ids = self.account_ids.filtered(
                     lambda a: a.company_id == self.company_id
                 )
+        if self.company_id and self.account_type_ids:
+            self._onchange_account_type_ids()
         if self.company_id and self.cost_center_ids:
             self.cost_center_ids = self.cost_center_ids.filtered(
                 lambda c: c.company_id == self.company_id
@@ -297,25 +315,7 @@ class GeneralLedgerReportWizard(models.TransientModel):
         self.ensure_one()
         return {
             "wizard_id": self.id,
-            "date_from": self.date_from,
-            "date_to": self.date_to,
-            "only_posted_moves": self.target_move == "posted",
-            "hide_account_at_0": self.hide_account_at_0,
-            "foreign_currency": self.foreign_currency,
-            "show_analytic_tags": self.show_analytic_tags,
-            "company_id": self.company_id.id,
-            "account_ids": self.account_ids.ids,
-            "partner_ids": self.partner_ids.ids,
-            "grouped_by": self.grouped_by,
-            "cost_center_ids": self.cost_center_ids.ids,
-            "show_cost_center": self.show_cost_center,
-            "analytic_tag_ids": self.analytic_tag_ids.ids,
-            "journal_ids": self.account_journal_ids.ids,
-            "centralize": self.centralize,
-            "fy_start_date": self.fy_start_date,
-            "unaffected_earnings_account": self.unaffected_earnings_account.id,
             "account_financial_report_lang": self.env.lang,
-            "domain": self._get_account_move_lines_domain(),
         }
 
     def _export(self, report_type):

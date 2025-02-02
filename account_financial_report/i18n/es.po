@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-21 15:15+0000\n"
-"PO-Revision-Date: 2023-10-11 11:38+0000\n"
-"Last-Translator: Víctor Martínez <victor.martinez@tecnativa.com>\n"
+"PO-Revision-Date: 2024-03-21 20:33+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -118,6 +118,11 @@ msgstr "Grupo de cuenta"
 #, python-format
 msgid "Account Name"
 msgstr "Cuenta"
+
+#. module: account_financial_report
+#: model:ir.model.fields,field_description:account_financial_report.field_general_ledger_report_wizard__account_type_ids
+msgid "Account Types"
+msgstr ""
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/trial_balance_xlsx.py:0
@@ -298,7 +303,7 @@ msgstr "Todos los asientos asentados"
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_ledger_journal_table_header
 msgid "Amount Cur."
-msgstr "Importe moneda"
+msgstr "Importe Div."
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/journal_ledger_xlsx.py:0
@@ -311,7 +316,7 @@ msgstr "Importe moneda"
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_general_ledger_lines
 #, python-format
 msgid "Amount cur."
-msgstr "Importe moneda"
+msgstr "Importe div."
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/general_ledger_xlsx.py:0
@@ -454,7 +459,7 @@ msgstr "Haber"
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_general_ledger_lines
 #, python-format
 msgid "Cumul cur."
-msgstr "Acumulado moneda"
+msgstr "Acumulado div."
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/general_ledger_xlsx.py:0
@@ -715,7 +720,7 @@ msgid ""
 "                        cur."
 msgstr ""
 "Balance Final\n"
-"                        moneda"
+"                        div."
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/journal_ledger_xlsx.py:0
@@ -893,8 +898,9 @@ msgid ""
 "General Ledger can be computed only if selected company have\n"
 "                        only one unaffected earnings account."
 msgstr ""
-"El Libro mayor solo se puede calcular si la empresa seleccionada tiene solo "
-"una cuenta de resultados no afectados."
+"El Libro mayor solo se puede calcular si la empresa seleccionada tiene \n"
+"                                                                solo una "
+"cuenta de resultados no afectados."
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_journal_ledger_report_wizard__group_option
@@ -978,7 +984,7 @@ msgid ""
 "                        balance cur."
 msgstr ""
 "Balance\n"
-"                        inicial moneda"
+"                        inicial div."
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_trial_balance_lines_header
@@ -1130,6 +1136,14 @@ msgstr "Nivel %s"
 #, python-format
 msgid "Limit hierarchy levels"
 msgstr "Limitar niveles de jerarquía"
+
+#. module: account_financial_report
+#: code:addons/account_financial_report/report/general_ledger.py:0
+#: code:addons/account_financial_report/report/open_items.py:0
+#: code:addons/account_financial_report/report/trial_balance.py:0
+#, python-format
+msgid "Missing Partner"
+msgstr "Falta el Socio"
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_journal_ledger_report_wizard__move_target
@@ -1287,7 +1301,9 @@ msgstr "Empresa"
 msgid ""
 "Partner\n"
 "                    cumul aged balance"
-msgstr "Saldo Acumulado de Empresa"
+msgstr ""
+"Socio\n"
+"                    saldo acumulado"
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/general_ledger_xlsx.py:0
@@ -1379,7 +1395,9 @@ msgstr "Sólo cuentas a cobrar"
 msgid ""
 "Ref -\n"
 "                        Label"
-msgstr "Referencia"
+msgstr ""
+"Ref-\n"
+"                                      Etiqueta"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_open_items_lines_header
@@ -1476,7 +1494,7 @@ msgstr "Mostrar Moneda Extranjera"
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_trial_balance_report_wizard__show_hierarchy
 msgid "Show hierarchy"
-msgstr ""
+msgstr "Mostrar jerarquía"
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_journal_ledger_report_wizard__sort_option
@@ -1703,7 +1721,9 @@ msgid ""
 "                        one unaffected earnings account."
 msgstr ""
 "El balance de sumas y saldos solo puede calcularse si la compañía "
-"seleccionada tiene una y solo una cuenta de ganancias."
+"seleccionada tiene una y solo \n"
+"                                                          una cuenta de "
+"ganancias."
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_general_ledger_report_wizard__unaffected_earnings_account
@@ -1726,7 +1746,7 @@ msgstr ""
 #. module: account_financial_report
 #: model:ir.model.fields,help:account_financial_report.field_trial_balance_report_wizard__show_hierarchy
 msgid "Use when your account groups are hierarchical"
-msgstr ""
+msgstr "Utilizar cuando los grupos de cuentas son jerárquicos"
 
 #. module: account_financial_report
 #: model:ir.actions.act_window,name:account_financial_report.action_vat_report_wizard
@@ -1824,7 +1844,7 @@ msgstr "o"
 #. module: account_financial_report
 #: model:ir.actions.report,name:account_financial_report.action_print_journal_ledger_wizard_qweb
 msgid "ournal Ledger"
-msgstr ""
+msgstr "libro mayor"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_ledger_journal
@@ -1834,7 +1854,7 @@ msgstr "a"
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_ledger_journal_table_header
 msgid "width: 16.21%;"
-msgstr ""
+msgstr "ancho: 16.21%;"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_ledger_journal_table_header
@@ -1849,7 +1869,7 @@ msgstr "ancho: 23.78%;"
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_ledger_journal_table_header
 msgid "width: 31.35%;"
-msgstr ""
+msgstr "ancho:31.35%;"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_ledger_journal_table_header

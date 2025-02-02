@@ -54,10 +54,11 @@ class GeneralLedgerReport(models.AbstractModel):
         return ["receivable", "payable"] if grouped_by != "taxes" else ["other"]
 
     def _get_acc_prt_accounts_ids(self, company_id, grouped_by):
-        accounts_domain = [
-            ("company_id", "=", company_id),
-            ("internal_type", "in", self._get_account_internal_types(grouped_by)),
-        ]
+        accounts_domain = [("company_id", "=", company_id)]
+        if grouped_by:
+            accounts_domain += [
+                ("internal_type", "in", self._get_account_internal_types(grouped_by))
+            ]
         acc_prt_accounts = self.env["account.account"].search(accounts_domain)
         return acc_prt_accounts.ids
 
@@ -75,7 +76,7 @@ class GeneralLedgerReport(models.AbstractModel):
         domain += [("date", "<", date_from)]
         accounts = self.env["account.account"].search(accounts_domain)
         domain += [("account_id", "in", accounts.ids)]
-        if acc_prt:
+        if acc_prt and grouped_by:
             internal_types = self._get_account_internal_types(grouped_by)
             domain += [("account_id.internal_type", "in", internal_types)]
         return domain
@@ -201,7 +202,7 @@ class GeneralLedgerReport(models.AbstractModel):
             for gl in gl_initial_acc_prt:
                 if not gl["partner_id"]:
                     prt_id = 0
-                    prt_name = "Missing Partner"
+                    prt_name = _("Missing Partner")
                 else:
                     prt_id = gl["partner_id"][0]
                     prt_name = gl["partner_id"][1]
@@ -422,7 +423,7 @@ class GeneralLedgerReport(models.AbstractModel):
             item_name = (
                 move_line["partner_id"][1]
                 if move_line["partner_id"]
-                else "Missing Partner"
+                else _("Missing Partner")
             )
             res.append({"id": item_id, "name": item_name})
         elif grouped_by == "taxes":
@@ -776,21 +777,22 @@ class GeneralLedgerReport(models.AbstractModel):
 
     def _get_report_values(self, docids, data):
         wizard_id = data["wizard_id"]
-        company = self.env["res.company"].browse(data["company_id"])
-        company_id = data["company_id"]
-        date_to = data["date_to"]
-        date_from = data["date_from"]
-        partner_ids = data["partner_ids"]
-        account_ids = data["account_ids"]
-        analytic_tag_ids = data["analytic_tag_ids"]
-        cost_center_ids = data["cost_center_ids"]
-        grouped_by = data["grouped_by"]
-        hide_account_at_0 = data["hide_account_at_0"]
-        foreign_currency = data["foreign_currency"]
-        only_posted_moves = data["only_posted_moves"]
-        unaffected_earnings_account = data["unaffected_earnings_account"]
-        fy_start_date = data["fy_start_date"]
-        extra_domain = data["domain"]
+        wizard = self.env["general.ledger.report.wizard"].browse(wizard_id)
+        company_id = wizard.company_id.id
+        company = wizard.company_id
+        date_to = wizard.date_to
+        date_from = wizard.date_from
+        partner_ids = wizard.partner_ids.ids
+        account_ids = wizard.account_ids.ids
+        analytic_tag_ids = wizard.analytic_tag_ids.ids
+        cost_center_ids = wizard.cost_center_ids.ids
+        grouped_by = wizard.grouped_by
+        hide_account_at_0 = wizard.hide_account_at_0
+        foreign_currency = wizard.foreign_currency
+        only_posted_moves = wizard.target_move == "posted"
+        unaffected_earnings_account = wizard.unaffected_earnings_account.id
+        fy_start_date = wizard.fy_start_date
+        extra_domain = wizard._get_account_move_lines_domain()
         gen_ld_data = self._get_initial_balance_data(
             account_ids,
             partner_ids,
@@ -805,7 +807,7 @@ class GeneralLedgerReport(models.AbstractModel):
             extra_domain,
             grouped_by,
         )
-        centralize = data["centralize"]
+        centralize = wizard.centralize
         (
             gen_ld_data,
             accounts_data,
@@ -854,17 +856,17 @@ class GeneralLedgerReport(models.AbstractModel):
         return {
             "doc_ids": [wizard_id],
             "doc_model": "general.ledger.report.wizard",
-            "docs": self.env["general.ledger.report.wizard"].browse(wizard_id),
-            "foreign_currency": data["foreign_currency"],
+            "docs": wizard,
+            "foreign_currency": foreign_currency,
             "company_name": company.display_name,
             "company_currency": company.currency_id,
             "currency_name": company.currency_id.name,
-            "date_from": data["date_from"],
-            "date_to": data["date_to"],
-            "only_posted_moves": data["only_posted_moves"],
-            "hide_account_at_0": data["hide_account_at_0"],
-            "show_analytic_tags": data["show_analytic_tags"],
-            "show_cost_center": data["show_cost_center"],
+            "date_from": date_from,
+            "date_to": date_to,
+            "only_posted_moves": only_posted_moves,
+            "hide_account_at_0": hide_account_at_0,
+            "show_analytic_tags": wizard.show_analytic_tags,
+            "show_cost_center": wizard.show_cost_center,
             "general_ledger": general_ledger,
             "accounts_data": accounts_data,
             "journals_data": journals_data,
