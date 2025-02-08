@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[account_financial_report](account_financial_report/) | 18.0.1.0.2 |  | OCA Financial Reports
+[account_financial_report](account_financial_report/) | 18.0.1.0.3 |  | OCA Financial Reports
 
 [//]: # (end addons)
 
