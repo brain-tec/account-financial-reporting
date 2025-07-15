@@ -14,6 +14,7 @@ setuptools.setup(
         'odoo14-addon-mis_builder_cash_flow',
         'odoo14-addon-mis_template_financial_report',
         'odoo14-addon-partner_statement',
+        'odoo14-addon-portal_partner_statement',
     ],
     classifiers=[
         'Programming Language :: Python',
