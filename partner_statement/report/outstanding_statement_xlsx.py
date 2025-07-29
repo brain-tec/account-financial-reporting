@@ -54,16 +54,10 @@ class OutstandingStatementXslx(models.AbstractModel):
         ]
 
     def _get_currency_line_row_data(self, partner, currency, data, line):
-        if line.get("blocked"):
-            format_tcell_left = FORMATS["format_tcell_left_blocked"]
-            format_tcell_date_left = FORMATS["format_tcell_date_left_blocked"]
-            format_distributed = FORMATS["format_distributed_blocked"]
-            current_money_format = FORMATS["current_money_format_blocked"]
-        else:
-            format_tcell_left = FORMATS["format_tcell_left"]
-            format_tcell_date_left = FORMATS["format_tcell_date_left"]
-            format_distributed = FORMATS["format_distributed"]
-            current_money_format = FORMATS["current_money_format"]
+        format_tcell_left = FORMATS["format_tcell_left"]
+        format_tcell_date_left = FORMATS["format_tcell_date_left"]
+        format_distributed = FORMATS["format_distributed"]
+        current_money_format = FORMATS["current_money_format"]
         name_to_show = (
             line.get("name", "") == "/" or not line.get("name", "")
         ) and line.get("ref", "")
@@ -352,23 +346,6 @@ class OutstandingStatementXslx(models.AbstractModel):
                 FORMATS["current_money_format"] = workbook.add_format(
                     {"align": "right", "num_format": money_string}
                 )
-                bg_grey = "#ADB5BD"
-                FORMATS["format_tcell_left_blocked"] = copy_format(
-                    workbook, FORMATS["format_tcell_left"]
-                )
-                FORMATS["format_tcell_left_blocked"].set_bg_color(bg_grey)
-                FORMATS["format_tcell_date_left_blocked"] = copy_format(
-                    workbook, FORMATS["format_tcell_date_left"]
-                )
-                FORMATS["format_tcell_date_left_blocked"].set_bg_color(bg_grey)
-                FORMATS["format_distributed_blocked"] = copy_format(
-                    workbook, FORMATS["format_distributed"]
-                )
-                FORMATS["format_distributed_blocked"].set_bg_color(bg_grey)
-                FORMATS["current_money_format_blocked"] = copy_format(
-                    workbook, FORMATS["current_money_format"]
-                )
-                FORMATS["current_money_format_blocked"].set_bg_color(bg_grey)
                 row_pos = self._write_currency_lines(
                     row_pos, sheet, partner, currency, data
                 )
