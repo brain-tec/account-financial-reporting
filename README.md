@@ -22,7 +22,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [account_financial_report](account_financial_report/) | 18.0.1.2.3 |  | OCA Financial Reports
-[account_tax_balance](account_tax_balance/) | 18.0.1.0.0 |  | Compute tax balances based on date range
+[account_tax_balance](account_tax_balance/) | 18.0.1.0.1 |  | Compute tax balances based on date range
 [mis_template_financial_report](mis_template_financial_report/) | 18.0.2.0.0 | <a href='https://github.com/hbrunn'><img src='https://github.com/hbrunn.png' width='32' height='32' style='border-radius:50%;' alt='hbrunn'/></a> | Profit & Loss / Balance sheet MIS templates
 [partner_statement](partner_statement/) | 18.0.1.1.0 | <a href='https://github.com/MiquelRForgeFlow'><img src='https://github.com/MiquelRForgeFlow.png' width='32' height='32' style='border-radius:50%;' alt='MiquelRForgeFlow'/></a> | OCA Financial Reports
 
