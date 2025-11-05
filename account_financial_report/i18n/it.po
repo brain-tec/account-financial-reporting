@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-06-03 12:07+0000\n"
-"PO-Revision-Date: 2025-06-30 13:25+0000\n"
+"PO-Revision-Date: 2025-11-04 09:42+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -166,12 +166,12 @@ msgstr "Filtro saldo conto a 0"
 #: model:account.financial.report.column,name:account_financial_report.journal_ledger_report_wizard_column_account_code
 #: model:account.financial.report.column,name:account_financial_report.open_items_report_wizard_column_account_code
 msgid "Account code"
-msgstr ""
+msgstr "Codice conto"
 
 #. module: account_financial_report
 #: model:account.financial.report.column,name:account_financial_report.journal_ledger_report_wizard_column_account_name
 msgid "Account name"
-msgstr ""
+msgstr "Nome conto"
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_account_group__account_ids
@@ -383,12 +383,12 @@ msgstr "Distribuzione analitica"
 #. module: account_financial_report
 #: model:account.financial.report.column,name:account_financial_report.general_ledger_report_wizard_column_cost_center
 msgid "Analytic account"
-msgstr ""
+msgstr "Conto analitico"
 
 #. module: account_financial_report
 #: model:account.financial.report.column,name:account_financial_report.general_ledger_report_wizard_column_analytic_tags
 msgid "Analytic tags"
-msgstr ""
+msgstr "Etichette analitiche"
 
 #. module: account_financial_report
 #: model:account.financial.report.column,name:account_financial_report.general_ledger_report_wizard_column_balance
@@ -484,14 +484,14 @@ msgstr "Codice"
 #: model:ir.model.fields,field_description:account_financial_report.field_trial_balance_report_wizard__column_ids
 #: model:ir.model.fields,field_description:account_financial_report.field_vat_report_wizard__column_ids
 msgid "Column"
-msgstr ""
+msgstr "Colonna"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.general_ledger_wizard
 #: model_terms:ir.ui.view,arch_db:account_financial_report.journal_ledger_wizard
 #: model_terms:ir.ui.view,arch_db:account_financial_report.open_items_wizard
 msgid "Columns"
-msgstr ""
+msgstr "Colonne"
 
 #. module: account_financial_report
 #. odoo-python
@@ -674,7 +674,7 @@ msgstr "Filtro alla data"
 #. module: account_financial_report
 #: model:account.financial.report.column,name:account_financial_report.open_items_report_wizard_column_date_due
 msgid "Date due"
-msgstr ""
+msgstr "Scadenza"
 
 #. module: account_financial_report
 #. odoo-python
@@ -904,12 +904,12 @@ msgstr "Esporta XLSX"
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_account_financial_report_column__expression_label
 msgid "Expression Label"
-msgstr ""
+msgstr "Etichetta espressione"
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_account_financial_report_column__field_type
 msgid "Field Type"
-msgstr ""
+msgstr "Tipo campo"
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_aged_partner_balance_report_wizard__account_ids
@@ -948,7 +948,7 @@ msgstr "Filtro partner"
 #: model_terms:ir.ui.view,arch_db:account_financial_report.journal_ledger_wizard
 #: model_terms:ir.ui.view,arch_db:account_financial_report.open_items_wizard
 msgid "Filters"
-msgstr ""
+msgstr "Filtri"
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_journal_ledger_report_wizard__foreign_currency
@@ -960,7 +960,7 @@ msgstr "Valuta estera"
 #: model:account.financial.report.column,name:account_financial_report.journal_ledger_report_wizard_column_foreign_currency
 #: model:account.financial.report.column,name:account_financial_report.open_items_report_wizard_column_foreign_currency
 msgid "Foreign currency"
-msgstr ""
+msgstr "Valuta estera"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.aged_partner_balance_wizard
@@ -1293,7 +1293,7 @@ msgstr "Livello %s"
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_account_financial_report_column__limit
 msgid "Limit"
-msgstr ""
+msgstr "Limite"
 
 #. module: account_financial_report
 #. odoo-python
@@ -1312,12 +1312,12 @@ msgstr "Riga"
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_account_financial_report_column
 msgid "Manage column options in financial reports"
-msgstr ""
+msgstr "Gestione opzioni colonna nei resoconti finanziari"
 
 #. module: account_financial_report
 #: model:account.financial.report.column,name:account_financial_report.general_ledger_report_wizard_column_matching_number
 msgid "Matching number"
-msgstr ""
+msgstr "Numero corrispondente"
 
 #. module: account_financial_report
 #. odoo-python
@@ -1674,7 +1674,7 @@ msgstr "Azione resoconto"
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_account_financial_report_column__res_model
 msgid "Res Model"
-msgstr ""
+msgstr "Modello res"
 
 #. module: account_financial_report
 #. odoo-python
