@@ -22,6 +22,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [account_tax_balance](account_tax_balance/) | 19.0.1.0.1 |  | Compute tax balances based on date range
+[partner_statement](partner_statement/) | 19.0.1.0.0 | <a href='https://github.com/MiquelRForgeFlow'><img src='https://github.com/MiquelRForgeFlow.png' width='32' height='32' style='border-radius:50%;' alt='MiquelRForgeFlow'/></a> | OCA Financial Reports
 
 [//]: # (end addons)
 
