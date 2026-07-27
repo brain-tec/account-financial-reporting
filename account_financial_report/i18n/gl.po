@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-03-26 23:11+0000\n"
-"Last-Translator: Cándido Martínez <candido@supermercadoscooperativos.com>\n"
+"PO-Revision-Date: 2026-07-26 18:46+0000\n"
+"Last-Translator: Anxo López Rodríguez <lopezrodriguezanxo@gmail.com>\n"
 "Language-Team: none\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
@@ -1091,7 +1091,7 @@ msgstr "Ocultar contas sen actividade"
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_trial_balance_report_wizard__hide_account_at_end_0
 msgid "Hide accounts with 0 end balance"
-msgstr ""
+msgstr "Ocultar contas con saldo final 0"
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_trial_balance_report_wizard__show_hierarchy_level
@@ -1344,7 +1344,7 @@ msgstr "Falta comercial"
 #: code:addons/account_financial_report/report/trial_balance.py:0
 #, python-format
 msgid "Mode %(mode)s for removing account lines at 0 not supported"
-msgstr ""
+msgstr "Modo %(mode)s para eliminar liñas de contas en 0 non admitido"
 
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_account_age_report_configuration_line
@@ -2108,6 +2108,8 @@ msgid ""
 "When this option is enabled, the trial balance will not display accounts "
 "that have end balance = 0"
 msgstr ""
+"Cando esta opción está activada, o balance de comprobación non mostrará as "
+"contas que teñan un saldo final = 0"
 
 #. module: account_financial_report
 #: model:ir.model.fields,help:account_financial_report.field_trial_balance_report_wizard__hide_account_at_0
